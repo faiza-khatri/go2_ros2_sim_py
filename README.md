@@ -38,3 +38,11 @@ ros2 launch go1_description go1_gazebo.launch.py
 source install/local_setup.bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
+
+
+## Credits
+
+    mike4192: https://github.com/mike4192/spotMicro
+    Unitree Robotics: https://github.com/unitreerobotics/a1_ros
+    QUADRUPED ROBOTICS: https://quadruped.de
+    lnotspotl : https://github.com/lnotspotl
