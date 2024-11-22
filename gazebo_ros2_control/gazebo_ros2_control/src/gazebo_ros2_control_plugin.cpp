@@ -228,16 +228,16 @@ void GazeboRosControlPlugin::Load(gazebo::physics::ModelPtr parent, sdf::Element
     sdf = sdf->GetElement("ros");
 
     // Set namespace if tag is present
-    // if (sdf->HasElement("namespace")) {
-    //   std::string ns = sdf->GetElement("namespace")->Get<std::string>();
-    //   // prevent exception: namespace must be absolute, it must lead with a '/'
-    //   if (ns.empty() || ns[0] != '/') {
-    //     ns = '/' + ns;
-    //   }
-    //   std::string ns_arg = std::string("__ns:=") + ns;
-    //   arguments.push_back(RCL_REMAP_FLAG);
-    //   arguments.push_back(ns_arg);
-    // }
+    if (sdf->HasElement("namespace")) {
+      std::string ns = sdf->GetElement("namespace")->Get<std::string>();
+      // prevent exception: namespace must be absolute, it must lead with a '/'
+      if (ns.empty() || ns[0] != '/') {
+        ns = '/' + ns;
+      }
+      std::string ns_arg = std::string("__ns:=") + ns;
+      arguments.push_back(RCL_REMAP_FLAG);
+      arguments.push_back(ns_arg);
+    }
 
     // Get list of remapping rules from SDF
     if (sdf->HasElement("remapping")) {

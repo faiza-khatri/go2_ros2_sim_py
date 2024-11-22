@@ -9,6 +9,11 @@
 
 ### SETUP:
 
+### install deps:
+```bash
+sudo apt install ros-humble-ign-ros2-control ros-humble-tf-transformations
+```
+
 ```bash
 mkdir -p go1_sim_py/src
 cd go1_sim_py/src
