@@ -46,3 +46,13 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
     Unitree Robotics: https://github.com/unitreerobotics/a1_ros
     QUADRUPED ROBOTICS: https://quadruped.de
     lnotspotl : https://github.com/lnotspotl
+
+## TODO:
+    controller calibration
+    gazebo classic
+    add namespaces
+    multi robots
+    nav2: omni, mppi
+    go2_desctiption
+    create interface for robot control
+    aruco detection with camera
