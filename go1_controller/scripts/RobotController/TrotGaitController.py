@@ -24,11 +24,11 @@ class TrotGaitController(GaitController):
 
         z_error_constant = 0.02  # This constant determines how fast we move
                                  # toward the goal in the z direction
-        z_leg_lift = 0.15  # Увеличено с 0.14 до 0.20
+        z_leg_lift = 0.14  # Увеличено с 0.14 до 0.20
 
         super().__init__(stance_time, swing_time, time_step, contact_phases, default_stance)
 
-        self.max_x_velocity = 0.2  # [m/s]
+        self.max_x_velocity = 0.035  # [m/s]
         self.max_y_velocity = 0.08  # [m/s]
         self.max_yaw_rate = 0.5  # [rad/s]
 

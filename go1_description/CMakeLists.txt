@@ -15,7 +15,7 @@ find_package(std_msgs REQUIRED)
 install(DIRECTORY
   meshes
   config
-  urdf
+  xacro
   launch
   world
   DESTINATION share/${PROJECT_NAME}/

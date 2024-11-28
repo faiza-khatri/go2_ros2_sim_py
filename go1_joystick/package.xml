@@ -4,7 +4,7 @@
   <version>0.0.1</version>
   <description>Package for joystick control with ramping in ROS 2</description>
 
-  <maintainer email="kaisar@gmail.com">Your Name</maintainer>
+  <maintainer email="kaisar.abutalipovv@gmail.com">Your Name</maintainer>
   <license>BSD</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

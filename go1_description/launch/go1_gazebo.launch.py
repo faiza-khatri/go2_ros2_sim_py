@@ -23,7 +23,7 @@ def generate_launch_description():
     pkg_simulation = get_package_share_directory(package_name)
     
     # Путь к файлу Xacro
-    xacro_path = os.path.join(pkg_simulation, 'urdf', 'go1.urdf.xacro')
+    xacro_path = os.path.join(pkg_simulation, 'xacro', 'robot.xacro')
 
     # Генерация описания робота
     robot_description_content = Command(['xacro ', xacro_path])
@@ -46,7 +46,7 @@ def generate_launch_description():
             "-string", robot_description_content,
             "-name", "go1_description",
             "-allow_renaming", "true",
-            "-z", "0.35",  # Указываем высоту спавна
+            "-z", "0.45",  # Указываем высоту спавна
         ],
         output="screen",
     )

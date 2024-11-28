@@ -4,7 +4,7 @@
   <version>0.0.1</version>
   <description>Go1 robot controller package</description>
 
-  <maintainer email="kaisar@gmail.com">Your Name</maintainer>
+  <maintainer email="kaisar.abutalipovv@gmail.com">Your Name</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
