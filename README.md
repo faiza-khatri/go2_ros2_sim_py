@@ -19,8 +19,8 @@ colcon build
 
 ### install deps:
 ```bash
-rosdep update
 cd ~/go1_sim_py
+rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
