@@ -37,9 +37,7 @@ class CmdVelToJoy(Node):
 
         # Если скорости по нулям (остановка), устанавливаем другие кнопки
         if msg.linear.x == 0.0 and msg.angular.z == 0.0:
-            joy_msg.buttons = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # Остановка
-        else:
-            joy_msg.buttons = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # Движение
+            joy_msg.buttons = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # Остановка
 
         # Публикуем преобразованное сообщение на топик /joy_ramped
         self.publisher_.publish(joy_msg)

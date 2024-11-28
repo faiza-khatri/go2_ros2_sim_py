@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# Author: lnotspotl (adapted for ROS 2)
+# Author: lnotspotl
+#         kaisar.abutalipov (adapted for ROS 2)
 
 import rclpy
 from rclpy.node import Node
