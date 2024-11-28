@@ -9,17 +9,19 @@
 
 ### SETUP:
 
-### install deps:
-```bash
-sudo apt install ros-humble-ign-ros2-control ros-humble-tf-transformations
-```
-
 ```bash
 mkdir -p go1_sim_py/src
 cd go1_sim_py/src
-git clone https://github.com/abutalipovvv/go1_sim_py.git .
+git clone https://github.com/abutalipovvv/go1_sim.git .
 cd ..
 colcon build
+```
+
+### install deps:
+```bash
+rosdep update
+cd go1_sim_py/src
+rosdep install --from-paths src --ignore-src -r -y
 ```
 
 ### RUN SIMULATION
@@ -32,13 +34,6 @@ ros2 launch go1_description go1_gazebo.launch.py
 
 
 ### move with teleop_twist_keyboard:
-
-```bash
-cd go1_sim_py
-source install/local_setup.bash
-ros2 launch go1_description go1_gazebo.launch.py
-```
-
 ```bash
 source install/local_setup.bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
