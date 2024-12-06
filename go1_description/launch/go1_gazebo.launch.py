@@ -128,6 +128,6 @@ def generate_launch_description():
         spawn_controller,
         controller,
         imu_bridge,
-        cmd_vel_pub,
+        #cmd_vel_pub,
         #odometry_node
     ])

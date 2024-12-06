@@ -8,8 +8,8 @@ from std_msgs.msg import Float64MultiArray  # Импортируем для от
 from RobotController import RobotController
 from InverseKinematics import robot_IK
 
-USE_IMU = True
-RATE = 45
+USE_IMU = False
+RATE = 50
 
 class RobotControllerNode(Node):
     def __init__(self):
@@ -19,7 +19,7 @@ class RobotControllerNode(Node):
         body = [0.3762, 0.0935]
         legs = [0.0, 0.08, 0.213, 0.213]
 
-        self.a1_robot = RobotController.Robot(body, legs, USE_IMU)
+        self.a1_robot = RobotController.Robot(self, body, legs, USE_IMU)
         self.inverseKinematics = robot_IK.InverseKinematics(body, legs)
 
         # Публикуем в один топик для всех суставов

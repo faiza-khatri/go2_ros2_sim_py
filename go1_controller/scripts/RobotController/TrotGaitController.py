@@ -9,14 +9,17 @@ from rclpy.node import Node
 from RoboticsUtilities.Transformations import rotxyz, rotz
 from .GaitController import GaitController
 from .PIDController import PID_controller
+from geometry_msgs.msg import Twist
 
 class TrotGaitController(GaitController):
-    def __init__(self, default_stance, stance_time, swing_time, time_step, use_imu):
+    def __init__(self, node, default_stance, stance_time, swing_time, time_step, use_imu):
+        self.node = node  # Сохраняем ссылку на ноду
         self.use_imu = use_imu
         self.use_button = True
         self.autoRest = True
         self.trotNeeded = True
-
+        
+        
         contact_phases = np.array([[1, 1, 1, 0],  # 0: Leg swing
                                    [1, 0, 1, 1],  # 1: Moving stance forward
                                    [1, 0, 1, 1],  
@@ -27,6 +30,8 @@ class TrotGaitController(GaitController):
         z_leg_lift = 0.15  # Увеличено с 0.14 до 0.20
 
         super().__init__(stance_time, swing_time, time_step, contact_phases, default_stance)
+        
+        self.velocity_pub = self.node.create_publisher(Twist, "/controller_velocity", 10)  # Используем переданный node
 
         self.max_x_velocity = 0.035  # [m/s]
         self.max_y_velocity = 0.08  # [m/s]
@@ -57,6 +62,14 @@ class TrotGaitController(GaitController):
         command.velocity[0] = msg.axes[4] * self.max_x_velocity
         command.velocity[1] = msg.axes[3] * self.max_y_velocity
         command.yaw_rate = msg.axes[0] * self.max_yaw_rate
+
+        # Публикация скоростей в топик
+        velocity_msg = Twist()
+        velocity_msg.linear.x = command.velocity[0]
+        velocity_msg.linear.y = command.velocity[1]
+        # velocity_msg.angular.z = command.yaw_rate
+        self.velocity_pub.publish(velocity_msg)
+
         if self.use_button:
             if msg.buttons[7]:
                 self.use_imu = not self.use_imu
