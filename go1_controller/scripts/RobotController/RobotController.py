@@ -8,7 +8,7 @@ from .RestController import RestController
 from .TrotGaitController import TrotGaitController
 from .CrawlGaitController import CrawlGaitController
 from .StandController import StandController
-from .QuadrupedOdometryNode import QuadrupedOdometryNode  # Импортируйте одометрический узел
+# from .QuadrupedOdometryNode import QuadrupedOdometryNode  # Импортируйте одометрический узел
 
 class Robot(object):
     def __init__(self, node, body, legs, imu):
@@ -23,7 +23,7 @@ class Robot(object):
         self.default_height = 0.25
 
         # Инициализация узла одометрии
-        self.odom_node = QuadrupedOdometryNode()
+        # self.odom_node = QuadrupedOdometryNode()
 
         self.trotGaitController = TrotGaitController(self.node, self.default_stance,
             stance_time=0.04, swing_time=0.18, time_step=0.02,
@@ -105,14 +105,16 @@ class Robot(object):
         self.state.imu_pitch = rpy_angles[1]
 
     def run(self):
-        # Обновляем и запускаем одометрический узел
-        self.odom_node.velocity_x = self.command.velocity[0]
-        self.odom_node.velocity_y = self.command.velocity[1]
-        self.odom_node.angular_velocity = self.command.yaw_rate
-        self.odom_node.publish_odom()
+        # Вычисляем скорости и угловую скорость
+        v_x = self.command.velocity[0]  # Скорость по оси x из команды
+        v_y = self.command.velocity[1]  # Скорость по оси y из команды
+        omega = self.command.yaw_rate   # Угловая скорость из команды
 
+        # Публикуем данные об одометрии
+        # self.odom_node.publish_odometry()
+
+        # Возвращаем данные текущего контроллера
         return self.currentController.run(self.state, self.command)
-
     @property
     def default_stance(self):
         # FR, FL, RR, RL

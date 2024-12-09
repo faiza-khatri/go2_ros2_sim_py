@@ -16,7 +16,7 @@ install(
 # Убедитесь, что каждый скрипт в директории scripts имеет shebang (#!/usr/bin/env python3)
 install(PROGRAMS
   scripts/robot_controller_gazebo.py
-  # scripts/QuadrupedOdometryNode.py
+  scripts/QuadrupedOdometryNode.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
