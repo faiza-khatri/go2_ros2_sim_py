@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import JointState, Imu
+from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Quaternion, TransformStamped, Twist
 import tf_transformations
 import tf2_ros
 import math
 from collections import deque
-import numpy as np
-from scipy.signal import medfilt
 
 class DogOdometry(Node):
     def __init__(self):
@@ -26,82 +24,25 @@ class DogOdometry(Node):
         if self.verbose:
             self.get_logger().info(f"Publish rate: {publish_rate} Hz")
 
-        self.declare_parameter('open_loop', False)
-        self.open_loop = self.get_parameter('open_loop').get_parameter_value().bool_value
-        if self.verbose:
-            self.get_logger().info(f"Open loop: {self.open_loop}")
-
         self.declare_parameter('has_imu_heading', True)
         self.has_imu_heading = self.get_parameter('has_imu_heading').get_parameter_value().bool_value
         if self.verbose:
             self.get_logger().info(f"Has IMU heading: {self.has_imu_heading}")
-
-        self.declare_parameter('is_gazebo', False)
-        self.is_gazebo = self.get_parameter('is_gazebo').get_parameter_value().bool_value
-        if self.verbose:
-            self.get_logger().info(f"Is Gazebo: {self.is_gazebo}")
-
-        self.declare_parameter('thigh_length', 0.2)  # Примерное значение в метрах
-        thigh_length = self.get_parameter('thigh_length').get_parameter_value().double_value
-        if self.verbose:
-            self.get_logger().info(f"Thigh length: {thigh_length} m")
-
-        self.declare_parameter('base_width', 0.3)  # Примерное значение в метрах
-        base_width = self.get_parameter('base_width').get_parameter_value().double_value
-        if self.verbose:
-            self.get_logger().info(f"Base width: {base_width} m")
-
-        self.declare_parameter('encoder_resolution', 150)
-        encoder_resolution = self.get_parameter('encoder_resolution').get_parameter_value().integer_value
-        if self.verbose:
-            self.get_logger().info(f"Encoder resolution: {encoder_resolution}")
-
-        self.declare_parameter('steer_pos_multiplier', 1.0)
-        self.steer_pos_multiplier = self.get_parameter('steer_pos_multiplier').get_parameter_value().double_value
-        if self.verbose:
-            self.get_logger().info(f"Steer position multiplier: {self.steer_pos_multiplier}")
-
-        self.declare_parameter('velocity_rolling_window_size', 50)  # Увеличено для лучшего сглаживания
-        velocity_rolling_window_size = self.get_parameter('velocity_rolling_window_size').get_parameter_value().integer_value
-        if self.verbose:
-            self.get_logger().info(f"Velocity rolling window size: {velocity_rolling_window_size}")
-
-        self.declare_parameter('base_frame_id', 'base_footprint')
-        self.base_frame_id = self.get_parameter('base_frame_id').get_parameter_value().string_value
-        if self.verbose:
-            self.get_logger().info(f"Base frame ID: {self.base_frame_id}")
-
-        self.declare_parameter('imu_topic', '/imu_plugin/out')
-        self.imu_topic = self.get_parameter('imu_topic').get_parameter_value().string_value
-        if self.verbose:
-            self.get_logger().info(f"IMU Topic: {self.imu_topic}")
-
-        self.declare_parameter('odom_frame_id', 'odom')
-        self.odom_frame_id = self.get_parameter('odom_frame_id').get_parameter_value().string_value
-        if self.verbose:
-            self.get_logger().info(f"Odom frame ID: {self.odom_frame_id}")
 
         self.declare_parameter('enable_odom_tf', True)
         self.enable_odom_tf = self.get_parameter('enable_odom_tf').get_parameter_value().bool_value
         if self.verbose:
             self.get_logger().info(f"Enable odom TF: {self.enable_odom_tf}")
 
-        self.declare_parameter('clock_topic', 'clock')
-        self.clock_topic = self.get_parameter('clock_topic').get_parameter_value().string_value
+        self.declare_parameter('base_frame_id', 'base_footprint')
+        self.base_frame_id = self.get_parameter('base_frame_id').get_parameter_value().string_value
         if self.verbose:
-            self.get_logger().info(f"Clock Topic: {self.clock_topic}")
+            self.get_logger().info(f"Base frame ID: {self.base_frame_id}")
 
-        # Имена суставов квадропеда
-        self.joint_names = [
-            'FR_hip_joint', 'FR_thigh_joint', 'FR_calf_joint',
-            'FL_hip_joint', 'FL_thigh_joint', 'FL_calf_joint',
-            'RR_hip_joint', 'RR_thigh_joint', 'RR_calf_joint',
-            'RL_hip_joint', 'RL_thigh_joint', 'RL_calf_joint'
-        ]
-
-        # Инициализация позиций суставов и предыдущих позиций
-        self.joint_positions = {name: 0.0 for name in self.joint_names}
-        self.prev_joint_positions = {name: 0.0 for name in self.joint_names}
+        self.declare_parameter('odom_frame_id', 'odom')
+        self.odom_frame_id = self.get_parameter('odom_frame_id').get_parameter_value().string_value
+        if self.verbose:
+            self.get_logger().info(f"Odom frame ID: {self.odom_frame_id}")
 
         # Инициализация переменных одометрии
         self.x = 0.0
@@ -110,40 +51,20 @@ class DogOdometry(Node):
         self.linear_velocity = 0.0
         self.angular_velocity = 0.0  # Будет обновляться из IMU
 
-        # Инициализация отдельных временных меток
-        self.last_joint_time = self.get_clock().now()
+        # Инициализация времени
         self.last_position_time = self.get_clock().now()
 
-        # Сохранение параметров ног
-        self.thigh_length = thigh_length
-        self.base_width = base_width
-        self.encoder_resolution = encoder_resolution
-
-        # Логирование параметров ног
-        if self.verbose:
-            self.get_logger().info(f"Thigh length: {self.thigh_length} m")
-            self.get_logger().info(f"Base width: {self.base_width} m")
-
-        # Инициализация паблишеров и подписчиков
+        # Публикация одометрии
         self.odom_pub = self.create_publisher(Odometry, 'odom', 10)
-        self.joint_state_sub = self.create_subscription(
-            JointState,
-            '/joint_states',
-            self.joint_state_callback,
-            10
-        )
 
-        # Подписка на IMU (если необходимо)
+        # Подписка на IMU
         if self.has_imu_heading:
             self.imu_sub = self.create_subscription(
                 Imu,
-                self.imu_topic,
+                '/imu_plugin/out',
                 self.imu_callback,
                 10
             )
-        else:
-            # Обработка альтернативных источников направления, если необходимо
-            pass
 
         # Подписка на /controller_velocity
         self.controller_velocity_sub = self.create_subscription(
@@ -163,43 +84,12 @@ class DogOdometry(Node):
 
         self.get_logger().info("Dog Odometry Node has been started.")
 
-        # Порог для фильтрации малых изменений позиций
-        self.position_threshold = 1e-4  # Увеличен для лучшей фильтрации
-
-        # Инициализация истории скоростей для фильтрации
-        self.linear_velocity_history = deque(maxlen=velocity_rolling_window_size)
-        self.angular_velocity_history = deque(maxlen=velocity_rolling_window_size)
-
-        # Инициализация буферов для медианного фильтра
-        self.left_thigh_velocity_buffer = []
-        self.right_thigh_velocity_buffer = []
-
         # Ограничения на скорости
         self.MAX_LINEAR_VELOCITY = 1.0  # Максимальная линейная скорость в м/с
         self.MAX_ANGULAR_VELOCITY = 2.0  # Максимальная угловая скорость в рад/с
 
         # Инициализация переменных для хранения угловой скорости из IMU
         self.imu_angular_velocity = 0.0
-
-    def joint_state_callback(self, msg):
-        current_time = self.get_clock().now()
-        dt = (current_time - self.last_joint_time).nanoseconds / 1e9
-        if dt <= 0.0:
-            return  # Избегаем деления на ноль или отрицательных dt
-
-        # Обновление позиций суставов
-        for name, position in zip(msg.name, msg.position):
-            if name in self.joint_positions:
-                self.joint_positions[name] = position
-
-        # Обновление предыдущих позиций
-        # (Удалена логика вычисления self.linear_velocity из joint_state_callback)
-
-        # Обновление времени для joint_state_callback
-        self.last_joint_time = current_time
-
-        if self.verbose:
-            self.get_logger().info(f"Joint states updated.")
 
     def controller_velocity_callback(self, msg):
         # Используется только linear.x
@@ -228,7 +118,7 @@ class DogOdometry(Node):
         if dt <= 0.0:
             return  # Избегаем деления на ноль или отрицательных dt
 
-        # Обновление положения на основе linear_velocity из /controller_velocity
+        # Обновление положения на основе linear_velocity
         delta_x = self.linear_velocity * math.cos(self.theta) * dt
         delta_y = self.linear_velocity * math.sin(self.theta) * dt
         self.x += delta_x
@@ -252,30 +142,10 @@ class DogOdometry(Node):
             w=quaternion[3]
         )
 
-        # Установка ковариации положения (примерные значения)
-        odom.pose.covariance = [
-            0.0001, 0.0,    0.0,    0.0, 0.0, 0.0,
-            0.0,    0.0001, 0.0,    0.0, 0.0, 0.0,
-            0.0,    0.0,    1000000.0, 0.0, 0.0, 0.0,
-            0.0,    0.0,    0.0,    1000000.0, 0.0, 0.0,
-            0.0,    0.0,    0.0,    0.0,    1000000.0, 0.0,
-            0.0,    0.0,    0.0,    0.0,    0.0,    0.0001
-        ]
-
         # Установка скоростей
         odom.twist.twist.linear.x = self.linear_velocity
         odom.twist.twist.linear.y = 0.0
-        odom.twist.twist.angular.z = self.imu_angular_velocity  # Используем угловую скорость из IMU
-
-        # Установка ковариации скоростей (примерные значения)
-        odom.twist.covariance = [
-            0.0001, 0.0,    0.0,    0.0, 0.0, 0.0,
-            0.0,    0.0001, 0.0,    0.0, 0.0, 0.0,
-            0.0,    0.0,    1000000.0, 0.0, 0.0, 0.0,
-            0.0,    0.0,    0.0,    1000000.0, 0.0, 0.0,
-            0.0,    0.0,    0.0,    0.0,    1000000.0, 0.0,
-            0.0,    0.0,    0.0,    0.0,    0.0,    0.0001
-        ]
+        odom.twist.twist.angular.z = self.imu_angular_velocity
 
         # Публикация одометрии
         self.odom_pub.publish(odom)
@@ -299,7 +169,7 @@ class DogOdometry(Node):
 
             self.tf_broadcaster.sendTransform(t)
 
-        # Обновление времени для timer_callback
+        # Обновление времени
         self.last_position_time = current_time
 
         if self.verbose:
