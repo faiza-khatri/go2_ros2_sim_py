@@ -61,7 +61,7 @@ class DogOdometry(Node):
         if self.has_imu_heading:
             self.imu_sub = self.create_subscription(
                 Imu,
-                '/imu_plugin/out',
+                '/robot1/imu_plugin/out',
                 self.imu_callback,
                 10
             )

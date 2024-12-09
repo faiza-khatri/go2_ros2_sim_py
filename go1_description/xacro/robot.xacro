@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <robot name="go1" xmlns:xacro="http://www.ros.org/wiki/xacro">
-
+    <xacro:arg name="robot_name" default="robot1"/>
     <xacro:arg name="DEBUG" default="false"/>
     <xacro:arg name="use_nav2_links" default="false"/>
     <xacro:arg name="lidar_x_offset" default="0.0525"/>
@@ -15,6 +15,7 @@
     <xacro:include filename="$(find go1_description)/xacro/gazebo.xacro"/>
     <xacro:include filename="$(find go1_description)/xacro/depthCamera.xacro"/>
     <xacro:include filename="$(find go1_description)/xacro/ultraSound.xacro"/>
+    <xacro:robot_gazebo_systems robot_name="$(arg robot_name)"/>
     <!-- <xacro:include filename="$(find go1_gazebo)/launch/stairs.urdf.xacro"/> -->
 
     <!-- <xacro:stairs stairs="15" xpos="0" ypos="0" zpos="0" /> -->
@@ -103,11 +104,39 @@
         </inertial>
     </link>
 
+    <joint name='laser_scan' type='fixed'>
+        <parent link="trunk"/>,
+        <child link="laser_scan_link"/>
+        <origin xyz="0.263 0.0 0.077" rpy="0 0 0" />
+    </joint>
+
+    <link name="laser_scan_link">
+        <inertial>
+            <mass value="0.001"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.01" radius="0.018" />
+            </geometry>
+            <!-- <material name="red"/> -->
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.01" radius="0.018" />
+            </geometry>
+        </collision>
+    </link>
+
     <joint name="imu_joint" type="fixed">
         <parent link="trunk"/>
         <child link="imu_link"/>
         <origin rpy="0 0 0" xyz="-0.01592 -0.06659 -0.00617"/>
     </joint>
+    
 
     <link name="imu_link">
         <inertial>
