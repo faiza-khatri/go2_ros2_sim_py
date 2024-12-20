@@ -426,15 +426,15 @@
     </gazebo>
 
     <gazebo>
-        <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system.so">
+        <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
             <parameters>$(find go1_description)/config/gaz_ros2_ctl_use_sim.yaml</parameters>
             <parameters>$(find go1_description)/config/robot_control.yaml</parameters>
         </plugin>
     </gazebo>
 
-    <ros2_control name="GazeboSystem" type="system">
+    <ros2_control name="IgnitionSystem" type="system">
         <hardware>
-            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+            <plugin>ign_ros2_control/IgnitionSystem</plugin>
         </hardware>
         
         <joint name="FL_hip_joint">
