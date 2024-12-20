@@ -18,6 +18,7 @@ install(DIRECTORY
   xacro
   launch
   world
+  maps
   DESTINATION share/${PROJECT_NAME}/
 )
 

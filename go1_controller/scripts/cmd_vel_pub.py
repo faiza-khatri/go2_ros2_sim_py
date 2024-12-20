@@ -12,12 +12,12 @@ class CmdVelToJoy(Node):
         # Подписываемся на топик /cmd_vel
         self.subscription = self.create_subscription(
             Twist,
-            '/robot1/cmd_vel',
+            '/cmd_vel',
             self.cmd_vel_callback,
             10)
 
         # Публикуем команды на топик /joy_ramped
-        self.publisher_ = self.create_publisher(Joy, '/robot1/joy_ramped', 10)
+        self.publisher_ = self.create_publisher(Joy, '/joy_ramped', 10)
 
         self.get_logger().info("Node started: CmdVelToJoy")
 

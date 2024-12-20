@@ -68,7 +68,7 @@ class TrotGaitController(GaitController):
         velocity_msg.linear.x = command.velocity[0] 
         velocity_msg.linear.y = command.velocity[1]
         velocity_msg.angular.z = command.yaw_rate
-        # self.velocity_pub.publish(velocity_msg)
+        self.velocity_pub.publish(velocity_msg)
 
 
         velocity_msg_raw = Twist()

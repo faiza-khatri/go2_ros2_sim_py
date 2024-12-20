@@ -23,12 +23,12 @@ class RobotControllerNode(Node):
         self.inverseKinematics = robot_IK.InverseKinematics(body, legs)
 
         # Публикуем в один топик для всех суставов
-        self.joint_command_publisher = self.create_publisher(Float64MultiArray, "/robot1/joint_group_controller/commands", 10)
+        self.joint_command_publisher = self.create_publisher(Float64MultiArray, "/joint_group_controller/commands", 10)
 
         if USE_IMU:
-            self.create_subscription(Imu, "/robot1//imu_plugin/out", self.a1_robot.imu_orientation, 10)
+            self.create_subscription(Imu, "/imu_plugin/out", self.a1_robot.imu_orientation, 10)
         
-        self.create_subscription(Joy, "/robot1/joy_ramped", self.a1_robot.joystick_command, 10)
+        self.create_subscription(Joy, "/joy_ramped", self.a1_robot.joystick_command, 10)
 
         self.timer = self.create_timer(1.0 / RATE, self.control_loop)
 

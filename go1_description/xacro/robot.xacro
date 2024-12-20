@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 
-<robot name="go1" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:arg name="robot_name" default="robot1"/>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
     <xacro:arg name="DEBUG" default="false"/>
-    <xacro:arg name="use_nav2_links" default="false"/>
+    <xacro:arg name="use_nav2_links" default="False"/>
     <xacro:arg name="lidar_x_offset" default="0.0525"/>
     <xacro:arg name="lidar_y_offset" default="0.0"/>
     <xacro:arg name="lidar_z_offset" default="0.21"/>
@@ -13,9 +13,8 @@
     <xacro:include filename="$(find go1_description)/xacro/leg.xacro"/>
     <!-- <xacro:include filename="$(find go1_description)/xacro/stairs.xacro"/> -->
     <xacro:include filename="$(find go1_description)/xacro/gazebo.xacro"/>
-    <xacro:include filename="$(find go1_description)/xacro/depthCamera.xacro"/>
-    <xacro:include filename="$(find go1_description)/xacro/ultraSound.xacro"/>
-    <xacro:robot_gazebo_systems robot_name="$(arg robot_name)"/>
+    <!-- <xacro:include filename="$(find go1_description)/xacro/depthCamera.xacro"/>
+    <xacro:include filename="$(find go1_description)/xacro/ultraSound.xacro"/> -->
     <!-- <xacro:include filename="$(find go1_gazebo)/launch/stairs.urdf.xacro"/> -->
 
     <!-- <xacro:stairs stairs="15" xpos="0" ypos="0" zpos="0" /> -->
@@ -33,17 +32,40 @@
         </joint>
     </xacro:if>  -->
 
-    <link name="base">
+
+    <joint name='laser_scan' type='fixed'>
+        <parent link="base"/>,
+        <child link="laser_frame"/>
+        <origin xyz="0.263 0.0 0.077" rpy="0 0 0" />
+    </joint>
+
+    <link name="laser_frame">
+        <inertial>
+            <mass value="0.001"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+        </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <box size="0.001 0.001 0.001"/>
+                <cylinder length="0.01" radius="0.018" />
             </geometry>
+            <!-- <material name="red"/> -->
         </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.01" radius="0.018" />
+            </geometry>
+        </collision>
     </link>
 
-    <xacro:if value="$(arg use_nav2_links)">
-        <link name="base_link" />
+    <link name="base">
+    </link>
+
+    <!-- <xacro:if value="$(arg use_nav2_links)">
+        <link name="base_link" >
+        </link>
         <joint name="base_link_to_base" type="fixed">
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <parent link="base_link"/>
@@ -51,13 +73,13 @@
         </joint>
 
         <link name="height_measurement" />
-        <!-- Measured empirically from difference between actual and reported body height -->
         <joint name="base_link_to_height" type="fixed">
             <origin rpy="0 0 0" xyz="0 0 -0.015"/>
             <parent link="base_link"/>
             <child link="height_measurement"/>
         </joint>
-        <link name="base_footprint" />
+        <link name="base_footprint" >
+        </link>
         <joint name="height_to_footprint" type="prismatic">
                 <parent link="height_measurement"/>
                 <child link="base_footprint"/>
@@ -67,12 +89,12 @@
         </joint>
         <link name="base_laser" />
         <joint name="base_link_to_lidar" type="fixed">
-            <!-- TODO need to measure mounting or make this a parameter -->
+
             <origin rpy="0 0 0" xyz="$(arg lidar_x_offset) $(arg lidar_y_offset) $(arg lidar_z_offset)"/>
             <parent link="base_link"/>
             <child link="base_laser"/>
         </joint>
-    </xacro:if>
+    </xacro:if> -->
 
     <joint name="floating_base" type="fixed">
         <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -80,6 +102,14 @@
         <child link="trunk"/>
     </joint>
 
+    <link name="base_footprint" >
+    </link>
+    
+    <joint name="base_footprint_joint" type="fixed">
+        <parent link="base"/>
+        <child link="base_footprint"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
     <link name="trunk">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -104,39 +134,11 @@
         </inertial>
     </link>
 
-    <joint name='laser_scan' type='fixed'>
-        <parent link="trunk"/>,
-        <child link="laser_scan_link"/>
-        <origin xyz="0.263 0.0 0.077" rpy="0 0 0" />
-    </joint>
-
-    <link name="laser_scan_link">
-        <inertial>
-            <mass value="0.001"/>
-            <origin rpy="0 0 0" xyz="0 0 0"/>
-            <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
-        </inertial>
-        <visual>
-            <origin rpy="0 0 0" xyz="0 0 0"/>
-            <geometry>
-                <cylinder length="0.01" radius="0.018" />
-            </geometry>
-            <!-- <material name="red"/> -->
-        </visual>
-        <collision>
-            <origin rpy="0 0 0" xyz="0 0 0"/>
-            <geometry>
-                <cylinder length="0.01" radius="0.018" />
-            </geometry>
-        </collision>
-    </link>
-
     <joint name="imu_joint" type="fixed">
-        <parent link="trunk"/>
+        <parent link="base"/>
         <child link="imu_link"/>
-        <origin rpy="0 0 0" xyz="-0.01592 -0.06659 -0.00617"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
     </joint>
-    
 
     <link name="imu_link">
         <inertial>
@@ -164,7 +166,7 @@
     <xacro:leg name="RR" mirror="-1" mirror_dae="False"  front_hind="-1" front_hind_dae="False" />
     <xacro:leg name="RL" mirror="1"  mirror_dae="True"   front_hind="-1" front_hind_dae="False" />
 
-    <xacro:depthCamera camID="1" name="face">
+    <!-- <xacro:depthCamera camID="1" name="face">
         <origin rpy="${PI} 0 0" xyz="0.2785 0.0125 0.0167"/>
     </xacro:depthCamera>
 
@@ -212,7 +214,7 @@
 
     <xacro:ultraSound name="face">
         <origin rpy="0 0 0" xyz="0.2747 0.0 -0.0088"/>
-    </xacro:ultraSound>
+    </xacro:ultraSound> -->
 
 
 </robot>

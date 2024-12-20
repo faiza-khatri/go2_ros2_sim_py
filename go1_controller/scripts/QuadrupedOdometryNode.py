@@ -4,6 +4,9 @@ from rclpy.node import Node
 from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Quaternion, TransformStamped, Twist
+from std_msgs.msg import Float64, Int64
+from rosgraph_msgs.msg import Clock  # Для обработки /clock
+from builtin_interfaces.msg import Time  # Импорт Time
 import tf_transformations
 import tf2_ros
 import math
@@ -34,7 +37,7 @@ class DogOdometry(Node):
         if self.verbose:
             self.get_logger().info(f"Enable odom TF: {self.enable_odom_tf}")
 
-        self.declare_parameter('base_frame_id', 'base_footprint')
+        self.declare_parameter('base_frame_id', 'base')
         self.base_frame_id = self.get_parameter('base_frame_id').get_parameter_value().string_value
         if self.verbose:
             self.get_logger().info(f"Base frame ID: {self.base_frame_id}")
@@ -43,6 +46,17 @@ class DogOdometry(Node):
         self.odom_frame_id = self.get_parameter('odom_frame_id').get_parameter_value().string_value
         if self.verbose:
             self.get_logger().info(f"Odom frame ID: {self.odom_frame_id}")
+
+        # Добавленные параметры для обработки /clock
+        self.declare_parameter('is_gazebo', True)
+        self.is_gazebo = self.get_parameter('is_gazebo').get_parameter_value().bool_value
+        if self.verbose:
+            self.get_logger().info(f"Is Gazebo: {self.is_gazebo}")
+
+        self.declare_parameter('clock_topic', '/clock')
+        clock_topic = self.get_parameter('clock_topic').get_parameter_value().string_value
+        if self.verbose:
+            self.get_logger().info(f"Clock Topic: {clock_topic}")
 
         # Инициализация переменных одометрии
         self.x = 0.0
@@ -54,6 +68,10 @@ class DogOdometry(Node):
         # Инициализация времени
         self.last_position_time = self.get_clock().now()
 
+        # Инициализация переменных для /clock и encoder
+        self.gazebo_clock = Time()  # Инициализируем как Time
+        self.encoder_pos = 0
+
         # Публикация одометрии
         self.odom_pub = self.create_publisher(Odometry, 'odom', 10)
 
@@ -61,7 +79,7 @@ class DogOdometry(Node):
         if self.has_imu_heading:
             self.imu_sub = self.create_subscription(
                 Imu,
-                '/robot1/imu_plugin/out',
+                '/imu_plugin/out',
                 self.imu_callback,
                 10
             )
@@ -77,6 +95,26 @@ class DogOdometry(Node):
         # Транслятор TF
         if self.enable_odom_tf:
             self.tf_broadcaster = tf2_ros.TransformBroadcaster(self)
+
+        # Подписка на /clock или encoder_value в зависимости от параметра is_gazebo
+        if self.is_gazebo:
+            self.clock_sub = self.create_subscription(
+                Clock,
+                clock_topic,
+                self.clock_callback,
+                10  # Используется надежность по умолчанию
+            )
+            if self.verbose:
+                self.get_logger().info("Subscribed to /clock topic.")
+        else:
+            self.encoder_sub = self.create_subscription(
+                Int64,
+                'encoder_value',
+                self.encoder_callback,
+                10  # Используется надежность по умолчанию
+            )
+            if self.verbose:
+                self.get_logger().info("Subscribed to encoder_value topic.")
 
         # Таймер для публикации одометрии
         timer_period = 1.0 / publish_rate
@@ -112,6 +150,18 @@ class DogOdometry(Node):
             self.get_logger().info(f"IMU Yaw: {self.theta:.6f} rad")
             self.get_logger().info(f"IMU Angular Velocity: {self.imu_angular_velocity:.6f} rad/s")
 
+    # Добавлен колбэк для обработки сообщений /clock
+    def clock_callback(self, msg):
+        self.gazebo_clock = msg.clock
+        if self.verbose:
+            self.get_logger().info(f"Received Gazebo Clock: {self.gazebo_clock.sec}.{self.gazebo_clock.nanosec}")
+
+    # Добавлен колбэк для обработки encoder_value
+    def encoder_callback(self, msg):
+        self.encoder_pos = msg.data
+        if self.verbose:
+            self.get_logger().info(f"Received Encoder Position: {self.encoder_pos}")
+
     def timer_callback(self):
         current_time = self.get_clock().now()
         dt = (current_time - self.last_position_time).nanoseconds / 1e9
@@ -126,7 +176,12 @@ class DogOdometry(Node):
 
         # Создание сообщения одометрии
         odom = Odometry()
-        odom.header.stamp = current_time.to_msg()
+        if self.is_gazebo:
+            # Используем время из /clock
+            odom.header.stamp = self.gazebo_clock
+        else:
+            # Используем текущее время системы
+            odom.header.stamp = current_time.to_msg()
         odom.header.frame_id = self.odom_frame_id
         odom.child_frame_id = self.base_frame_id
 
@@ -153,7 +208,10 @@ class DogOdometry(Node):
         # Публикация TF
         if self.enable_odom_tf:
             t = TransformStamped()
-            t.header.stamp = current_time.to_msg()
+            if self.is_gazebo:
+                t.header.stamp = self.gazebo_clock
+            else:
+                t.header.stamp = current_time.to_msg()
             t.header.frame_id = self.odom_frame_id
             t.child_frame_id = self.base_frame_id
 
