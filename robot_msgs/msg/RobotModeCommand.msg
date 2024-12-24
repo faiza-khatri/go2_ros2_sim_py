@@ -1,4 +1,8 @@
 # RobotModeCommand.msg
-uint16 robot_id
-uint16 command
-string command_name
+# Описание режима работы робота
+
+# Возможные режимы работы
+string mode  # Режим работы: REST, TROT, CRAWL, STAND, etc.
+
+# Опционально: Добавление дополнительных параметров
+uint16 robot_id  # Идентификатор робота (если используется несколько роботов)

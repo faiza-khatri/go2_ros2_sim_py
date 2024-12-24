@@ -15,7 +15,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
     package_name='go1_description'
-
+    pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory(package_name),'launch','rsp.launch.py'
@@ -26,47 +26,36 @@ def generate_launch_description():
     default_world = os.path.join(
         get_package_share_directory(package_name),
         'world',
-        'empty.world'
+        'classic.world'
         )       
     pkg_bot = get_package_share_directory(package_name)
+
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     declare_use_sim_time = DeclareLaunchArgument(
         name='use_sim_time', default_value=use_sim_time, description='Использовать симуляционное время'
     )
-    world = LaunchConfiguration('world')
-
-    world_arg = DeclareLaunchArgument(
-        'world',
-        default_value=default_world,
-        description='World to load'
-        )
 
     # Include the Gazebo launch file, provided by the ros_gz_sim package
-    gazebo = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
-                    launch_arguments={'gz_args': ['-r -v4 ', world], 'on_exit_shutdown': 'true'}.items()
-             )
+    start_gazebo_server_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzserver.launch.py')),
+        launch_arguments={'world': default_world}.items()
+    )
+
+    start_gazebo_client_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzclient.launch.py'))
+    )
 
     # Run the spawner node from the ros_gz_sim package. The entity name doesn't really matter if you only have a single robot.
-    spawn_entity = Node(package='ros_gz_sim', executable='create',
-                        arguments=['-topic', 'robot_description',
-                                   '-name', 'my_bot',
-                                   '-z', '0.4'],
-                        output='screen')
-
-
-
-    bridge_params = os.path.join(get_package_share_directory(package_name),'config','gz_bridge.yaml')
-    ros_gz_bridge = Node(
-        package="ros_gz_bridge",
-        executable="parameter_bridge",
-        arguments=[
-            '--ros-args',
-            '-p',
-            f'config_file:={bridge_params}',
-        ]
+    spawn_entity = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=['-topic', 'robot_description',
+                   '-z', '0.35', '-entity', 'bot'],
+        output='screen'
     )
+
+
+
         # Запуск контроллеров
     joint_state_broadcaster = Node(
         package="controller_manager",
@@ -124,14 +113,14 @@ def generate_launch_description():
     return LaunchDescription([
         declare_use_sim_time,
         rsp,
-        world_arg,
-        gazebo,
+        start_gazebo_server_cmd,
+        start_gazebo_client_cmd,
         spawn_entity,
-        ros_gz_bridge,
-        joint_state_broadcaster,
-        joint_group_controller,
-        controller,
+        # ros_gz_bridge,
+        # joint_state_broadcaster,
+        # joint_group_controller,
+        # controller,
         # cmd_vel_pub,
-        odom,
+        # odom,
         # bringup_cmd
     ])

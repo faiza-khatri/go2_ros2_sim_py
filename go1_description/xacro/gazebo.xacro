@@ -383,8 +383,7 @@
         <kd  value="1.0"/>
     </gazebo>
 
-    <gazebo reference="imu_link">
-        <!--<material>Gazebo/Black</material>-->
+    <!-- <gazebo reference="imu_link">
         <gravity>false</gravity>
         <sensor name="imu_sensor" type="imu">
             <always_on>true</always_on>
@@ -394,12 +393,12 @@
                 <plugin filename="libgz-sim-imu-system.so" name="gz::sim::systems::Imu">
             </plugin>
             <pose>0 0 0 0 0 0</pose>
-            <gz_frame_id>imu_link</gz_frame_id> <!-- Добавьте этот тег для указания кадра -->
+            <gz_frame_id>imu_link</gz_frame_id> 
         </sensor>
-    </gazebo>
+    </gazebo> -->
 
-    <gazebo reference="laser_frame">
-        <!--<material>Gazebo/Black</material>-->
+    <!-- <gazebo reference="laser_frame">
+
 
         <sensor name="laser" type="gpu_lidar">
             <pose> 0 0 0 0 0 0 </pose>
@@ -423,9 +422,9 @@
 
         </sensor>
 
-    </gazebo>
+    </gazebo> -->
 
-    <gazebo>
+    <!-- <gazebo>
         <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
             <parameters>$(find go1_description)/config/gaz_ros2_ctl_use_sim.yaml</parameters>
             <parameters>$(find go1_description)/config/robot_control.yaml</parameters>
@@ -527,6 +526,6 @@
         <state_interface name="effort"/>
         </joint>
 
-    </ros2_control>
+    </ros2_control> -->
 
 </robot>
