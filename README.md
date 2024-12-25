@@ -10,16 +10,16 @@
 ### SETUP:
 
 ```bash
-mkdir -p ~/go1_sim_py/src
-cd ~/go1_sim_py/src
-git clone https://github.com/abutalipovvv/go1_sim.git .
+mkdir -p ~/go1/src
+cd ~/go1/src
+git clone https://github.com/abutalipovvv/go1_sim.git -b humble
 cd ..
-colcon build
+colcon build --symlink-install
 ```
 
 ### install deps:
 ```bash
-cd ~/go1_sim_py
+cd ~/go1
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 ```
@@ -27,9 +27,9 @@ rosdep install --from-paths src --ignore-src -r -y
 ### RUN SIMULATION
 
 ```bash
-cd ~/go1_sim_py
+cd ~/go1
 source install/local_setup.bash
-ros2 launch go1_description go1_gazebo.launch.py
+ros2 launch go1_description launch_sim.launch.py
 ```
 
 
