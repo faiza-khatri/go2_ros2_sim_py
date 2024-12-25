@@ -96,7 +96,7 @@ class TrotGaitController(GaitController):
 
     def step(self, state, command):
         if self.autoRest:
-            if command.velocity[0] == 0 and command.velocity[1] == 0 and command.yaw_rate == 0:
+            if command.velocity[0] == 0 and command.velocity[1] == 0 and np.all(command.yaw_rate == 0):
                 if state.ticks % (2 * self.phase_length) == 0:
                     self.trotNeeded = False
             else:
@@ -153,7 +153,7 @@ class TrotSwingController:
         delta_pos_2d = command.velocity * self.phase_length * self.time_step * scale_factor
         delta_pos = np.array([delta_pos_2d[0], delta_pos_2d[1], 0])
 
-        theta = self.stance_ticks * self.time_step * command.yaw_rate
+        theta = self.stance_ticks * self.time_step * command.yaw_rate[2]
         rotation = rotz(theta)
 
         return np.matmul(rotation, self.default_stance[:, leg_index]) + delta_pos
@@ -201,7 +201,11 @@ class TrotStanceController:
         ])
 
         delta_pos = velocity * self.time_step
-        delta_ori = rotz(-command.yaw_rate * self.time_step)
+        delta_ori = rotxyz(
+            -command.yaw_rate[0] * self.time_step,  # Roll
+            -command.yaw_rate[1] * self.time_step,  # Pitch
+            -command.yaw_rate[2] * self.time_step   # Yaw
+        )
         return (delta_pos, delta_ori)
 
     def next_foot_location(self, leg_index, state, command):

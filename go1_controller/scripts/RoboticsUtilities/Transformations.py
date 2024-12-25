@@ -28,13 +28,11 @@ def roty(beta):
 
 
 def rotz(gamma):
-    """
-    Create a 3x3 rotation matrix about the z axis
-    """
-    rz = np.array([[cos(gamma), -sin(gamma), 0],
-                   [sin(gamma), cos(gamma),  0],
-                   [0,          0,           1]])
-
+    rz = np.array([
+        [np.cos(gamma), -np.sin(gamma), 0],
+        [np.sin(gamma),  np.cos(gamma), 0],
+        [0,              0,             1]
+    ])
     return rz
 
 
