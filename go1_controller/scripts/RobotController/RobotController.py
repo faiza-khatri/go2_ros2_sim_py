@@ -44,8 +44,8 @@ class Robot:
 
 
         # Подписчики для режимов и скоростей
-        self.node.create_subscription(RobotModeCommand, '/robot_mode', self.mode_callback, 10)
-        self.node.create_subscription(RobotVelocity, '/robot_velocity', self.velocity_callback, 10)
+        self.node.create_subscription(RobotModeCommand, 'robot_mode', self.mode_callback, 10)
+        self.node.create_subscription(RobotVelocity, 'robot_velocity', self.velocity_callback, 10)
 
     def mode_callback(self, msg):
         # Проверяем, относится ли сообщение к текущему роботу

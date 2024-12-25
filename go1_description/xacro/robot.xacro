@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
-
     <xacro:arg name="DEBUG" default="false"/>
     <xacro:arg name="use_nav2_links" default="False"/>
     <xacro:arg name="lidar_x_offset" default="0.0525"/>
@@ -16,21 +15,7 @@
     <!-- <xacro:include filename="$(find go1_description)/xacro/depthCamera.xacro"/>
     <xacro:include filename="$(find go1_description)/xacro/ultraSound.xacro"/> -->
     <!-- <xacro:include filename="$(find go1_gazebo)/launch/stairs.urdf.xacro"/> -->
-
-    <!-- <xacro:stairs stairs="15" xpos="0" ypos="0" zpos="0" /> -->
-
-    <!-- Rotor related joint and link is only for demonstrate location. -->
-    <!-- Actually, the rotor will rotate and the joint is not fixed. Reduction ratio should be considered. -->
-
-    <!-- Debug mode will hung up the robot, use "true" or "false" to switch it. -->
-    <!-- <xacro:if value="$(arg DEBUG)">
-        <link name="world"/>
-        <joint name="base_static_joint" type="fixed">
-            <origin rpy="0 0 0" xyz="0 0 0"/>
-            <parent link="world"/>
-            <child link="base"/>
-        </joint>
-    </xacro:if>  -->
+    <xacro:robot_gazebo_sensors robot_name="$(arg robot_name)"/>
 
 
     <joint name='laser_scan' type='fixed'>
@@ -63,38 +48,6 @@
     <link name="base">
     </link>
 
-    <!-- <xacro:if value="$(arg use_nav2_links)">
-        <link name="base_link" >
-        </link>
-        <joint name="base_link_to_base" type="fixed">
-            <origin rpy="0 0 0" xyz="0 0 0"/>
-            <parent link="base_link"/>
-            <child link="base"/>
-        </joint>
-
-        <link name="height_measurement" />
-        <joint name="base_link_to_height" type="fixed">
-            <origin rpy="0 0 0" xyz="0 0 -0.015"/>
-            <parent link="base_link"/>
-            <child link="height_measurement"/>
-        </joint>
-        <link name="base_footprint" >
-        </link>
-        <joint name="height_to_footprint" type="prismatic">
-                <parent link="height_measurement"/>
-                <child link="base_footprint"/>
-                <origin xyz = "0 0 0" rpy="0 0 0"/> 
-                <axis xyz="0 0 -1" />
-                <limit effort="100000.0" lower="0.0" upper="1.0" velocity="100000.0"/>
-        </joint>
-        <link name="base_laser" />
-        <joint name="base_link_to_lidar" type="fixed">
-
-            <origin rpy="0 0 0" xyz="$(arg lidar_x_offset) $(arg lidar_y_offset) $(arg lidar_z_offset)"/>
-            <parent link="base_link"/>
-            <child link="base_laser"/>
-        </joint>
-    </xacro:if> -->
 
     <joint name="floating_base" type="fixed">
         <origin rpy="0 0 0" xyz="0 0 0"/>

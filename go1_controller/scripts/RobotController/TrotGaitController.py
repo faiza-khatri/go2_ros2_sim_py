@@ -31,7 +31,7 @@ class TrotGaitController(GaitController):
 
         super().__init__(stance_time, swing_time, time_step, contact_phases, default_stance)
         
-        self.velocity_pub = self.node.create_publisher(Twist, "/controller_velocity", 10)  # Используем переданный node
+        self.velocity_pub = self.node.create_publisher(Twist, "controller_velocity", 10)  # Используем переданный node
 
         self.max_x_velocity = 0.035  # [m/s]
         self.max_y_velocity = 0.08  # [m/s]

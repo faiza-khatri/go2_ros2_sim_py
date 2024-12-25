@@ -34,11 +34,11 @@ class RobotControllerNode(Node):
         self.inverseKinematics = robot_IK.InverseKinematics(body, legs)
 
         # Публикуем команды суставов
-        self.joint_command_publisher = self.create_publisher(Float64MultiArray, "/joint_group_controller/commands", 10)
+        self.joint_command_publisher = self.create_publisher(Float64MultiArray, "joint_group_controller/commands", 10)
 
         # Подписчики для управления
-        self.create_subscription(RobotModeCommand, "/robot_mode", self.robot.mode_callback, 10)
-        self.create_subscription(RobotVelocity, "/robot_velocity", self.robot.velocity_callback, 10)
+        self.create_subscription(RobotModeCommand, "robot_mode", self.robot.mode_callback, 10)
+        self.create_subscription(RobotVelocity, "robot_velocity", self.robot.velocity_callback, 10)
 
         # Таймер для запуска управляющего цикла
         self.timer = self.create_timer(1.0 / RATE, self.control_loop)

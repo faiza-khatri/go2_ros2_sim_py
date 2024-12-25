@@ -9,38 +9,38 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 
 from launch_ros.actions import Node
-
+import xacro
 
 
 def generate_launch_description():
 
     package_name='go1_description'
+    namespace = '/robot1'
+    name = 'robot1'
 
-    rsp = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory(package_name),'launch','rsp.launch.py'
-                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
-    )
-    params_file = os.path.join(get_package_share_directory(package_name), 'config', 'nav2_params.yaml')
-    map_dir = os.path.join(get_package_share_directory(package_name), 'maps', 'warehouse_map.yaml')
-    default_world = os.path.join(
-        get_package_share_directory(package_name),
-        'world',
-        'empty.world'
-        )       
-    pkg_bot = get_package_share_directory(package_name)
+    # Process the URDF file
+    pkg_path = os.path.join(get_package_share_directory(package_name))
+    xacro_file = os.path.join(pkg_path,'xacro','robot.xacro')
+    remappings = [
+        ("/tf", "tf"),
+        ("/tf_static", "tf_static"),
+        ("/scan", "scan"),
+        ("/odom", "odom")
+    ]
+
+
+
+
+   
+    
+    
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     declare_use_sim_time = DeclareLaunchArgument(
         name='use_sim_time', default_value=use_sim_time, description='Использовать симуляционное время'
     )
-    world = LaunchConfiguration('world')
 
-    world_arg = DeclareLaunchArgument(
-        'world',
-        default_value=default_world,
-        description='World to load'
-        )
 
+    world = os.path.join(pkg_path, 'world', 'empty.world')    
     # Include the Gazebo launch file, provided by the ros_gz_sim package
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
@@ -49,18 +49,37 @@ def generate_launch_description():
              )
 
     # Run the spawner node from the ros_gz_sim package. The entity name doesn't really matter if you only have a single robot.
-    spawn_entity = Node(package='ros_gz_sim', executable='create',
-                        arguments=['-topic', 'robot_description',
-                                   '-name', 'my_bot',
+    spawn_entity = Node(package='ros_gz_sim', executable='create', namespace=namespace,
+                        arguments=['-topic', f'{namespace}/robot_description',
+                                   '-name', f'{namespace}/my_bot',
                                    '-z', '0.4'],
                         output='screen')
 
 
 
+
+
+    robot_desc = xacro.process_file(
+            xacro_file,
+            mappings={'robot_name': name}
+        ).toxml() 
+    
+    params = {'robot_description': robot_desc, 'use_sim_time': use_sim_time}
+
+    node_robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='screen',
+        namespace=namespace,
+        parameters=[params],
+        remappings=remappings
+    )
+
     bridge_params = os.path.join(get_package_share_directory(package_name),'config','gz_bridge.yaml')
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
+        namespace=namespace,
         arguments=[
             '--ros-args',
             '-p',
@@ -71,14 +90,20 @@ def generate_launch_description():
     joint_state_broadcaster = Node(
         package="controller_manager",
         executable="spawner",
+        namespace=namespace,
         arguments=["joint_state_broadcaster"],
+        remappings=remappings
+
     )
 
     joint_group_controller = Node(
         package="controller_manager",
         executable="spawner",
+        namespace=namespace,
         arguments=["joint_group_controller"],
         output="screen",
+        remappings=remappings
+
     )
 
     # Ноды для управления роботом
@@ -86,7 +111,10 @@ def generate_launch_description():
         package='go1_controller',
         executable='robot_controller_gazebo.py',
         name='quadruped_controller',
+        namespace=namespace,
         output='screen',
+        remappings=remappings
+
     )
 
 
@@ -101,14 +129,33 @@ def generate_launch_description():
         package='go1_controller',
         executable='QuadrupedOdometryNode.py',
         name='odom',
-        output='screen'
+        namespace=namespace,
+        output='screen',
+        parameters=[{
+                "verbose": False,
+                'publish_rate': 50,
+                'open_loop': False,
+                'has_imu_heading': True,
+                'is_gazebo': True,
+                'imu_topic': f"{namespace}/imu",
+                'base_frame_id': "base",
+                'odom_frame_id': "odom",
+                'clock_topic': '/clock',
+                'enable_odom_tf': True,
+        }],
+        remappings=remappings
     )
+
+    params_file = os.path.join(get_package_share_directory(package_name), 'config', 'nav2_params.yaml')
+    map_dir = os.path.join(get_package_share_directory(package_name), 'maps', 'warehouse_map.yaml')
+
     bringup_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(pkg_bot, 'launch', 'nav2', 'bringup_launch.py')),
+            os.path.join(pkg_path, 'launch', 'nav2', 'bringup_launch.py')),
         launch_arguments={
             'map': map_dir,
-            'use_namespace': 'False',
+            'use_namespace': 'True',
+            'namespace': namespace,
             'params_file': params_file,
             'autostart': 'true',
             'use_sim_time': 'true',
@@ -117,14 +164,20 @@ def generate_launch_description():
         }.items()
     )
 
-
-
+    rviz_config_file = os.path.join(pkg_path, 'config', 'multi_nav2_default_view.rviz')
+    rviz = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(pkg_path, 'launch', "rviz_launch.py")),
+            launch_arguments={
+                "namespace": namespace,
+                "use_namespace": 'true',
+                "rviz_config": rviz_config_file,
+            }.items()
+        )
 
     # Launch them all!
     return LaunchDescription([
         declare_use_sim_time,
-        rsp,
-        world_arg,
+        node_robot_state_publisher,
         gazebo,
         spawn_entity,
         ros_gz_bridge,
@@ -133,5 +186,6 @@ def generate_launch_description():
         controller,
         # cmd_vel_pub,
         odom,
-        # bringup_cmd
+        rviz,
+        bringup_cmd
     ])
