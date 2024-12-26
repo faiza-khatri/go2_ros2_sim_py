@@ -1,52 +1,54 @@
 #!/usr/bin/env python3
-# Modified for ros2 by: abutalipovvv
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
-from sensor_msgs.msg import Joy
+from robot_msgs.msg import RobotVelocity  # Имя пакета и сообщение
 
-class CmdVelToJoy(Node):
-    def __init__(self):
-        super().__init__('cmd_vel_to_joy')
+class RobotVelocityHandler(Node):
+    def init(self):
+        super().init('robot_velocity_handler')
 
-        # Подписываемся на топик /cmd_vel
+        # Подписка на топик cmd_vel с сообщениями типа Twist
         self.subscription = self.create_subscription(
-            Twist,
-            '/cmd_vel',
-            self.cmd_vel_callback,
+            Twist, 
+            '/robot1/cmd_vel',  # Подписываемся на cmd_vel, опубликованный teleop_twist_keyboard
+            self.robot_velocity_callback, 
             10)
 
-        # Публикуем команды на топик /joy_ramped
-        self.publisher_ = self.create_publisher(Joy, '/joy_ramped', 10)
+        # Публикация сообщений типа RobotVelocity
+        self.publisher_ = self.create_publisher(RobotVelocity, '/robot1/robot_velocity', 10)
 
-        self.get_logger().info("Node started: CmdVelToJoy")
+        self.get_logger().info("Node started: RobotVelocityHandler")
 
-    def cmd_vel_callback(self, msg: Twist):
-        # Преобразуем сообщение Twist в сообщение Joy
-        joy_msg = Joy()
+    def robot_velocity_callback(self, msg: Twist):
+        # Логируем полученное сообщение для отладки
+        self.get_logger().info(
+            f"Received Twist: linear=({msg.linear.x}, {msg.linear.y}, {msg.linear.z}), "
+            f"angular=({msg.angular.x}, {msg.angular.y}, {msg.angular.z})"
+        )
 
-        # Axes: (0 - yaw, 4 - forward/backward)
-        joy_msg.axes = [0.0] * 8
-        joy_msg.buttons = [0] * 12
+        # Создаём сообщение типа RobotVelocity
+        new_msg = RobotVelocity()
 
-        # Повороты (yaw) на оси 0
-        joy_msg.axes[0] = msg.angular.z
+        # Заполняем поля сообщения
+        new_msg.robot_id = 1  # Пример: жёстко задаём ID робота
+        new_msg.cmd_vel = msg  # Копируем сообщение Twist в поле cmd_vel
 
-        # Движение вперед-назад на оси 4
-        joy_msg.axes[4] = msg.linear.x
+        # Публикуем сообщение
+        self.publisher_.publish(new_msg)
 
-        # Если скорости по нулям (остановка), устанавливаем другие кнопки
-        if msg.linear.x == 0.0 and msg.angular.z == 0.0:
-            joy_msg.buttons = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # Остановка
-
-        # Публикуем преобразованное сообщение на топик /joy_ramped
-        self.publisher_.publish(joy_msg)
+        # Логируем публикацию
+        self.get_logger().info(
+            f"Published RobotVelocity: robot_id={new_msg.robot_id}, "
+            f"linear=({new_msg.cmd_vel.linear.x}, {new_msg.cmd_vel.linear.y}, {new_msg.cmd_vel.linear.z}), "
+            f"angular=({new_msg.cmd_vel.angular.x}, {new_msg.cmd_vel.angular.y}, {new_msg.cmd_vel.angular.z})"
+        )
 
 def main(args=None):
     rclpy.init(args=args)
 
     # Запуск ноды
-    node = CmdVelToJoy()
+    node = RobotVelocityHandler()
 
     try:
         rclpy.spin(node)
@@ -57,5 +59,5 @@ def main(args=None):
     node.destroy_node()
     rclpy.shutdown()
 
-if __name__ == '__main__':
+if name == 'main':
     main()

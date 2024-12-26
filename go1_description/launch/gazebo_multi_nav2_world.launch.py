@@ -253,6 +253,7 @@ def generate_launch_description():
         cmd_vel_pub = Node(
             package='go1_controller',
             executable='cmd_vel_pub.py',
+            namespace=namespace,
             name='cmd_vel_pub',
             output='screen',
             remappings=remappings
@@ -264,7 +265,7 @@ def generate_launch_description():
             ld.add_action(node_robot_state_publisher)
             ld.add_action(spawn_entity)
             ld.add_action(ros_gz_bridge)
-            ld.add_action(robot_control)
+            # ld.add_action(robot_control)
             # ld.add_action(nav2_actions)
             # ld.add_action(rviz)
 
@@ -277,7 +278,7 @@ def generate_launch_description():
                     on_exit=[
                         # rviz,
                         # nav2_actions,
-                        robot_control,
+                        # robot_control,
                         ros_gz_bridge,
                         spawn_entity,
                         node_robot_state_publisher,

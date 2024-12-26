@@ -2,8 +2,40 @@ robots:
   - name: robot1
     x_pose: '0.0'
     y_pose: '0.0'
-    z_pose: '0.35'
+    z_pose: '0.45'
   - name: robot2
-    x_pose: '5.0'
+    x_pose: '3.0'
     y_pose: '0.0'
-    z_pose: '0.35'
+    z_pose: '0.45'
+  # - name: robot3
+  #   x_pose: '6.0'
+  #   y_pose: '0.0'
+  #   z_pose: '0.45'
+  # - name: robot4
+  #   x_pose: '0.0'
+  #   y_pose: '3.0'
+  #   z_pose: '0.45'
+  # - name: robot5
+  #   x_pose: '3.0'
+  #   y_pose: '3.0'
+  #   z_pose: '0.45'
+  # - name: robot6
+  #   x_pose: '6.0'
+  #   y_pose: '3.0'
+  #   z_pose: '0.45'
+  # - name: robot7
+  #   x_pose: '0.0'
+  #   y_pose: '6.0'
+  #   z_pose: '0.45'
+  # - name: robot8
+  #   x_pose: '3.0'
+  #   y_pose: '6.0'
+  #   z_pose: '0.45'
+  # - name: robot9
+  #   x_pose: '6.0'
+  #   y_pose: '6.0'
+  #   z_pose: '0.45'
+  # - name: robot10
+  #   x_pose: '0.0'
+  #   y_pose: '9.0'
+  #   z_pose: '0.45'
