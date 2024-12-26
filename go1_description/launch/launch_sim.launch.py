@@ -29,11 +29,6 @@ def generate_launch_description():
     ]
 
 
-
-
-   
-    
-    
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     declare_use_sim_time = DeclareLaunchArgument(
         name='use_sim_time', default_value=use_sim_time, description='Использовать симуляционное время'
@@ -54,8 +49,6 @@ def generate_launch_description():
                                    '-name', f'{namespace}/my_bot',
                                    '-z', '0.4'],
                         output='screen')
-
-
 
 
 
@@ -81,9 +74,11 @@ def generate_launch_description():
         executable="parameter_bridge",
         namespace=namespace,
         arguments=[
-            '--ros-args',
-            '-p',
-            f'config_file:={bridge_params}',
+            f"{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU",
+            f"{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
+            f"{namespace}/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock",
+            f"{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
+            f"{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model"
         ]
     )
         # Запуск контроллеров
@@ -137,7 +132,7 @@ def generate_launch_description():
                 'open_loop': False,
                 'has_imu_heading': True,
                 'is_gazebo': True,
-                'imu_topic': f"{namespace}/imu",
+                'imu_topic': f"/{namespace}/imu",
                 'base_frame_id': "base",
                 'odom_frame_id': "odom",
                 'clock_topic': '/clock',
