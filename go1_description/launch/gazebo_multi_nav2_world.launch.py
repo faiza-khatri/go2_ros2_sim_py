@@ -226,14 +226,7 @@ def generate_launch_description():
             initial_pose_cmd,
         ])
 
-        robot_control = GroupAction([
-            SetRemap(src="/tf", dst="tf"),
-            SetRemap(src="/tf_static", dst="tf_static"),
-            joint_state_broadcaster,
-            joint_group_controller,
-            controller,
-            odom
-        ])
+
 
 
         rviz_launch_file = os.path.join(pkg_path, 'launch', 'rviz_launch.py')
@@ -259,13 +252,23 @@ def generate_launch_description():
             remappings=remappings
         )
 
+        
+        robot_control = GroupAction([
+            SetRemap(src="/tf", dst="tf"),
+            SetRemap(src="/tf_static", dst="tf_static"),
+            joint_state_broadcaster,
+            joint_group_controller,
+            controller,
+            cmd_vel_pub,
+            odom
+        ])
 
         if last_action is None:
             # Call add_action directly for the first robot to facilitate chain instantiation via RegisterEventHandler
             ld.add_action(node_robot_state_publisher)
             ld.add_action(spawn_entity)
             ld.add_action(ros_gz_bridge)
-            # ld.add_action(robot_control)
+            ld.add_action(robot_control)
             # ld.add_action(nav2_actions)
             # ld.add_action(rviz)
 
@@ -278,7 +281,7 @@ def generate_launch_description():
                     on_exit=[
                         # rviz,
                         # nav2_actions,
-                        # robot_control,
+                        robot_control,
                         ros_gz_bridge,
                         spawn_entity,
                         node_robot_state_publisher,

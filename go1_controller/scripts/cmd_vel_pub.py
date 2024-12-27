@@ -5,18 +5,18 @@ from geometry_msgs.msg import Twist
 from robot_msgs.msg import RobotVelocity  # Имя пакета и сообщение
 
 class RobotVelocityHandler(Node):
-    def init(self):
-        super().init('robot_velocity_handler')
+    def __init__(self):  # Исправлено на __init__
+        super().__init__('robot_velocity_handler')  # Исправлено на super().__init__
 
         # Подписка на топик cmd_vel с сообщениями типа Twist
         self.subscription = self.create_subscription(
             Twist, 
-            '/robot1/cmd_vel',  # Подписываемся на cmd_vel, опубликованный teleop_twist_keyboard
+            'cmd_vel',  # Подписываемся на cmd_vel, опубликованный teleop_twist_keyboard
             self.robot_velocity_callback, 
             10)
 
         # Публикация сообщений типа RobotVelocity
-        self.publisher_ = self.create_publisher(RobotVelocity, '/robot1/robot_velocity', 10)
+        self.publisher_ = self.create_publisher(RobotVelocity, 'robot_velocity', 10)
 
         self.get_logger().info("Node started: RobotVelocityHandler")
 
@@ -59,5 +59,5 @@ def main(args=None):
     node.destroy_node()
     rclpy.shutdown()
 
-if name == 'main':
+if __name__ == '__main__':  # Исправлено на __name__ и '__main__'
     main()
