@@ -14,7 +14,7 @@ class StandController:
         self.body_angular_scale = 0.005  # Масштаб для угловой скорости
 
         # Ограничения скорости
-        self.max_linear_velocity = 0.05  # [m/s]
+        self.max_linear_velocity = 0.035  # [m/s]
         self.max_angular_velocity = 0.1   # [rad/s]
 
     @property
