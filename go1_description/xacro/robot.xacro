@@ -12,8 +12,8 @@
     <xacro:include filename="$(find go1_description)/xacro/leg.xacro"/>
     <!-- <xacro:include filename="$(find go1_description)/xacro/stairs.xacro"/> -->
     <xacro:include filename="$(find go1_description)/xacro/gazebo.xacro"/>
-    <!-- <xacro:include filename="$(find go1_description)/xacro/depthCamera.xacro"/>
-    <xacro:include filename="$(find go1_description)/xacro/ultraSound.xacro"/> -->
+    <xacro:include filename="$(find go1_description)/xacro/depthCamera.xacro"/>
+    <xacro:include filename="$(find go1_description)/xacro/ultraSound.xacro"/>
     <!-- <xacro:include filename="$(find go1_gazebo)/launch/stairs.urdf.xacro"/> -->
     <xacro:robot_gazebo_sensors robot_name="$(arg robot_name)"/>
 
@@ -119,7 +119,7 @@
     <xacro:leg name="RR" mirror="-1" mirror_dae="False"  front_hind="-1" front_hind_dae="False" />
     <xacro:leg name="RL" mirror="1"  mirror_dae="True"   front_hind="-1" front_hind_dae="False" />
 
-    <!-- <xacro:depthCamera camID="1" name="face">
+    <xacro:depthCamera camID="1" name="face">
         <origin rpy="${PI} 0 0" xyz="0.2785 0.0125 0.0167"/>
     </xacro:depthCamera>
 
@@ -167,7 +167,7 @@
 
     <xacro:ultraSound name="face">
         <origin rpy="0 0 0" xyz="0.2747 0.0 -0.0088"/>
-    </xacro:ultraSound> -->
+    </xacro:ultraSound>
 
 
 </robot>
