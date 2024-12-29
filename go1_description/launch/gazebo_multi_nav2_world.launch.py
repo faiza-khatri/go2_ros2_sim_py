@@ -86,7 +86,21 @@ def generate_launch_description():
             ("/tf_static", "tf_static"),
             ("/scan", "scan"),
             ("/odom", "odom")
-        ]    
+        ]
+    
+
+    bridge_params = os.path.join(get_package_share_directory(package_name),'config','gz_bridge.yaml')
+    ros_gz_bridge_clock = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=[
+            '--ros-args',
+            '-p',
+            f'config_file:={bridge_params}',
+        ]
+    )
+    ld.add_action(ros_gz_bridge_clock)   
+
     
     last_action = None
 
@@ -130,7 +144,6 @@ def generate_launch_description():
             arguments=[
                 f'/{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU',
                 f'/{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
-                # f'/{namespace}/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock',
                 f'/{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
                 f'/{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model'
             ]
@@ -211,7 +224,7 @@ def generate_launch_description():
                 'autostart': 'true',
                 'use_sim_time': 'true',
                 'log_level': 'warn',
-                'map_server': 'False'
+                'map_server': 'True'
             }.items()
         )
 

@@ -76,9 +76,18 @@ def generate_launch_description():
         arguments=[
             f"{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU",
             f"{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
-            f"clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock",
             f"{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
             f"{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model"
+        ]
+    )
+
+    ros_gz_bridge_clock = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=[
+            '--ros-args',
+            '-p',
+            f'config_file:={bridge_params}',
         ]
     )
         # Запуск контроллеров
@@ -177,11 +186,12 @@ def generate_launch_description():
         gazebo,
         spawn_entity,
         ros_gz_bridge,
+        ros_gz_bridge_clock,
         joint_state_broadcaster,
         joint_group_controller,
         controller,
         cmd_vel_pub,
-        # odom,
+        odom,
         rviz,
-        # bringup_cmd
+        bringup_cmd
     ])

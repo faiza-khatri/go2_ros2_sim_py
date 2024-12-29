@@ -145,7 +145,7 @@
                 <always_on>true</always_on>
                 <update_rate>100</update_rate>
                 <visualize>false</visualize>
-                <topic>${robot_name}/imu_plugin/out</topic>
+                <topic>/${robot_name}/imu_plugin/out</topic>
                     <plugin filename="libgz-sim-imu-system.so" name="gz::sim::systems::Imu">
                 </plugin>
                 <pose>0 0 0 0 0 0</pose>
@@ -173,7 +173,7 @@
                         <max>12</max>
                     </range>
                 </lidar>
-                <topic>${robot_name}/scan</topic>
+                <topic>/${robot_name}/scan</topic>
                 <gz_frame_id>laser_frame</gz_frame_id>
 
             </sensor>
