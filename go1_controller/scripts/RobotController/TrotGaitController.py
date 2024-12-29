@@ -27,14 +27,14 @@ class TrotGaitController(GaitController):
 
         z_error_constant = 0.02  # This constant determines how fast we move
                                  # toward the goal in the z direction
-        z_leg_lift = 0.15  # Увеличено с 0.14 до 0.20
+        z_leg_lift = 0.14  # Увеличено с 0.14 до 0.20
 
         super().__init__(stance_time, swing_time, time_step, contact_phases, default_stance)
         
         self.velocity_pub = self.node.create_publisher(Twist, "controller_velocity", 10)  # Используем переданный node
 
         self.max_x_velocity = 0.035  # [m/s]
-        self.max_y_velocity = 0.08  # [m/s]
+        self.max_y_velocity = 0.012  # [m/s]
         self.max_yaw_rate = 0.5  # [rad/s]
 
         self.swingController = TrotSwingController(
@@ -195,8 +195,8 @@ class TrotStanceController:
 
         # Уменьшение делителя с 4 до 3 для увеличения шага
         velocity = np.array([
-            -(step_dist_x / 3) / (float(self.time_step) * self.stance_ticks),
-            -(step_dist_y / 3) / (float(self.time_step) * self.stance_ticks),
+            -(step_dist_x / 4) / (float(self.time_step) * self.stance_ticks),
+            -(step_dist_y / 4) / (float(self.time_step) * self.stance_ticks),
             1.0 / self.z_error_constant * (state.robot_height - z)
         ])
 

@@ -193,5 +193,5 @@ def generate_launch_description():
         cmd_vel_pub,
         odom,
         rviz,
-        bringup_cmd
+        # bringup_cmd
     ])

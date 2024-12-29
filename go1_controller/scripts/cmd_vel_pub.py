@@ -32,7 +32,16 @@ class RobotVelocityHandler(Node):
 
         # Заполняем поля сообщения
         new_msg.robot_id = 1  # Пример: жёстко задаём ID робота
-        new_msg.cmd_vel = msg  # Копируем сообщение Twist в поле cmd_vel
+
+        # Масштабируем и ограничиваем линейные скорости
+        new_msg.cmd_vel.linear.x = self.multiply_and_limit(msg.linear.x, 0.035, -1.0, 1.0)
+        new_msg.cmd_vel.linear.y = self.multiply_and_limit(msg.linear.y, 0.012, -1.0, 1.0)
+        new_msg.cmd_vel.linear.z = msg.linear.z  # Не изменяем, если необходимо
+
+        # Ограничиваем угловую скорость
+        new_msg.cmd_vel.angular.x = msg.angular.x  # Не изменяем, если необходимо
+        new_msg.cmd_vel.angular.y = msg.angular.y  # Не изменяем, если необходимо
+        new_msg.cmd_vel.angular.z = self.limit(msg.angular.z, -0.5, 0.5)
 
         # Публикуем сообщение
         self.publisher_.publish(new_msg)
@@ -43,6 +52,54 @@ class RobotVelocityHandler(Node):
             f"linear=({new_msg.cmd_vel.linear.x}, {new_msg.cmd_vel.linear.y}, {new_msg.cmd_vel.linear.z}), "
             f"angular=({new_msg.cmd_vel.angular.x}, {new_msg.cmd_vel.angular.y}, {new_msg.cmd_vel.angular.z})"
         )
+    def multiply_and_limit(self, value, scale_factor, min_limit, max_limit):
+        """
+        Умножает значение на scale_factor и ограничивает результат между min_limit и max_limit.
+
+        :param value: Исходное значение.
+        :param scale_factor: Коэффициент масштабирования.
+        :param min_limit: Минимальное допустимое значение.
+        :param max_limit: Максимальное допустимое значение.
+        :return: Масштабированное и ограниченное значение.
+        """
+        scaled_value = value * scale_factor
+        limited_value = self.limit_value(scaled_value, min_limit, max_limit)
+        self.get_logger().debug(f"Scaled value: {scaled_value}, Limited value: {limited_value}")
+        return limited_value
+
+    def scale_and_limit(self, value, scale, min_limit, max_limit):
+        """
+        Масштабирует значение и ограничивает его в заданном диапазоне.
+        """
+        scaled_value = value / scale
+        return self.limit(scaled_value, min_limit, max_limit)
+
+    def limit_value(self, value, min_limit, max_limit):
+        """
+        Ограничивает значение заданными пределами.
+
+        :param value: Исходное значение.
+        :param min_limit: Минимальное допустимое значение.
+        :param max_limit: Максимальное допустимое значение.
+        :return: Ограниченное значение.
+        """
+        if value > max_limit:
+            return max_limit
+        elif value < min_limit:
+            return min_limit
+        else:
+            return value
+
+    def limit(self, value, min_limit, max_limit):
+        """
+        Ограничивает значение в заданном диапазоне.
+        """
+        if value > max_limit:
+            return max_limit
+        elif value < min_limit:
+            return min_limit
+        else:
+            return value
 
 def main(args=None):
     rclpy.init(args=args)

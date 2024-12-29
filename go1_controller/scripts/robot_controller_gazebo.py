@@ -10,7 +10,7 @@ from RobotController import RobotController
 import numpy as np  # Добавьте импорт numpy
 
 USE_IMU = False
-RATE = 50
+RATE = 60
 
 class RobotControllerNode(Node):
     def __init__(self):
