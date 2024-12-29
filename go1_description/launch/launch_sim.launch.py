@@ -76,7 +76,7 @@ def generate_launch_description():
         arguments=[
             f"{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU",
             f"{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
-            f"{namespace}/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock",
+            f"clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock",
             f"{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
             f"{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model"
         ]
@@ -117,6 +117,7 @@ def generate_launch_description():
         package='go1_controller',
         executable='cmd_vel_pub.py',
         name='cmd_vel_pub',
+        namespace=namespace,
         output='screen',
     )
 
@@ -153,7 +154,7 @@ def generate_launch_description():
             'namespace': namespace,
             'params_file': params_file,
             'autostart': 'true',
-            'use_sim_time': 'true',
+            'use_sim_time': 'True',
             'log_level': 'warn',
             'map_server': 'True'
         }.items()
@@ -179,8 +180,8 @@ def generate_launch_description():
         joint_state_broadcaster,
         joint_group_controller,
         controller,
-        # cmd_vel_pub,
-        odom,
+        cmd_vel_pub,
+        # odom,
         rviz,
         # bringup_cmd
     ])

@@ -56,6 +56,8 @@ def generate_launch_description():
     remappings_initial = [
         ("/tf", "tf"),
         ("/tf_static", "tf_static"),
+        ("/scan", "scan"),
+        ("/odom", "odom")
     ]
     
     map_server = Node(package='nav2_map_server',
@@ -128,6 +130,7 @@ def generate_launch_description():
             arguments=[
                 f'/{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU',
                 f'/{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
+                # f'/{namespace}/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock',
                 f'/{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
                 f'/{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model'
             ]
@@ -208,7 +211,7 @@ def generate_launch_description():
                 'autostart': 'true',
                 'use_sim_time': 'true',
                 'log_level': 'warn',
-                'map_server': 'True'
+                'map_server': 'False'
             }.items()
         )
 
@@ -258,8 +261,8 @@ def generate_launch_description():
             spawn_entity,
             ros_gz_bridge,
             robot_control,
-            # nav2_actions,
-            # rviz,
+            nav2_actions,
+            rviz,
         ])
 
         if last_action is None:
@@ -276,6 +279,6 @@ def generate_launch_description():
             ld.add_action(spawn_robot_event)
 
         # Сохраняем последний spawn_entity для следующего события
-        last_action = spawn_entity
+        last_action = joint_group_controller
 
     return ld

@@ -72,17 +72,17 @@ def generate_launch_description():
                 condition=IfCondition(PythonExpression(["not ", slam])),
                 launch_arguments={"namespace": namespace, "map": map_yaml_file, "use_sim_time": use_sim_time, "autostart": autostart, "params_file": params_file, "use_lifecycle_mgr": "false"}.items(),
             ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(os.path.join(warehouse_launch_dir, "navigation_launch.py")),
-                launch_arguments={
-                    "namespace": namespace,
-                    "use_sim_time": use_sim_time,
-                    "autostart": autostart,
-                    "params_file": params_file,
-                    "use_lifecycle_mgr": "false",
-                    "map_subscribe_transient_local": "true",
-                }.items(),
-            ),
+            # IncludeLaunchDescription(
+            #     PythonLaunchDescriptionSource(os.path.join(warehouse_launch_dir, "navigation_launch.py")),
+            #     launch_arguments={
+            #         "namespace": namespace,
+            #         "use_sim_time": use_sim_time,
+            #         "autostart": autostart,
+            #         "params_file": params_file,
+            #         "use_lifecycle_mgr": "false",
+            #         "map_subscribe_transient_local": "true",
+            #     }.items(),
+            # ),
         ]
     )
 

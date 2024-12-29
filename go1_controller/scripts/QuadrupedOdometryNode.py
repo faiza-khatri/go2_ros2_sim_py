@@ -3,7 +3,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Quaternion, TransformStamped, Twist
+from geometry_msgs.msg import Quaternion, TransformStamped
 from std_msgs.msg import Float64, Int64
 from rosgraph_msgs.msg import Clock  # Для обработки /clock
 from builtin_interfaces.msg import Time  # Импорт Time
@@ -11,6 +11,7 @@ import tf_transformations
 import tf2_ros
 import math
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
+from robot_msgs.msg import RobotVelocity  # Импорт RobotVelocity
 
 class DogOdometry(Node):
     def __init__(self):
@@ -62,7 +63,8 @@ class DogOdometry(Node):
             self.x = 0.0
             self.y = 0.0
             self.theta = 0.0
-            self.linear_velocity = 0.0
+            self.linear_velocity_x = 0.0
+            self.linear_velocity_y = 0.0
             self.angular_velocity = 0.0  # Будет обновляться из IMU
 
             # Инициализация времени
@@ -98,11 +100,11 @@ class DogOdometry(Node):
                     qos_reliable
                 )
 
-            # Подписка на /controller_velocity с QoS профилем RELIABLE
-            self.controller_velocity_sub = self.create_subscription(
-                Twist,
-                'controller_velocity',
-                self.controller_velocity_callback,
+            # Подписка на robot_velocity с QoS профилем RELIABLE
+            self.velocity_sub = self.create_subscription(
+                RobotVelocity,
+                'robot_velocity',
+                self.velocity_callback,
                 qos_reliable
             )
 
@@ -151,8 +153,9 @@ class DogOdometry(Node):
             self.get_logger().info("Dog Odometry Node has been started.")
 
             # Ограничения на скорости
-            self.MAX_LINEAR_VELOCITY = 1.0  # Максимальная линейная скорость в м/с
-            self.MAX_ANGULAR_VELOCITY = 2.0  # Максимальная угловая скорость в рад/с
+            self.MAX_LINEAR_VELOCITY_X = 1.0  # Максимальная линейная скорость по X в м/с
+            self.MAX_LINEAR_VELOCITY_Y = 1.0  # Максимальная линейная скорость по Y в м/с
+            self.MAX_ANGULAR_VELOCITY = 1.0  # Максимальная угловая скорость в рад/с
 
             # Инициализация переменных для хранения угловой скорости из IMU
             self.imu_angular_velocity = 0.0
@@ -161,11 +164,12 @@ class DogOdometry(Node):
             self.get_logger().error(f"Exception during node initialization: {e}")
             raise e
 
-    def controller_velocity_callback(self, msg):
-        # Используется только linear.x
-        self.linear_velocity = msg.linear.x
+    def velocity_callback(self, msg):
+        # Обработка как linear.x, так и linear.y
+        self.linear_velocity_x = msg.cmd_vel.linear.x / 0.035
+        self.linear_velocity_y = msg.cmd_vel.linear.y / 0.035
         if self.verbose:
-            self.get_logger().info(f"Controller Linear Velocity: {self.linear_velocity:.6f} m/s")
+            self.get_logger().info(f"Robot Velocity - Linear X: {self.linear_velocity_x:.6f} m/s, Linear Y: {self.linear_velocity_y:.6f} m/s")
 
     def imu_callback(self, msg):
         # Извлечение ориентации из данных IMU
@@ -176,7 +180,7 @@ class DogOdometry(Node):
         self.theta = yaw
 
         # Извлечение угловой скорости из IMU
-        self.imu_angular_velocity = msg.angular_velocity.z
+        self.imu_angular_velocity = -msg.angular_velocity.z
 
         if self.verbose:
             self.get_logger().info(f"IMU Yaw: {self.theta:.6f} rad")
@@ -201,12 +205,13 @@ class DogOdometry(Node):
             return  # Избегаем деления на ноль или отрицательных dt
 
         # Ограничение скорости
-        self.linear_velocity = max(min(self.linear_velocity, self.MAX_LINEAR_VELOCITY), -self.MAX_LINEAR_VELOCITY)
+        self.linear_velocity_x = max(min(self.linear_velocity_x, self.MAX_LINEAR_VELOCITY_X), -self.MAX_LINEAR_VELOCITY_X)
+        self.linear_velocity_y = max(min(self.linear_velocity_y, self.MAX_LINEAR_VELOCITY_Y), -self.MAX_LINEAR_VELOCITY_Y)
         self.imu_angular_velocity = max(min(self.imu_angular_velocity, self.MAX_ANGULAR_VELOCITY), -self.MAX_ANGULAR_VELOCITY)
 
-        # Обновление положения на основе linear_velocity
-        delta_x = self.linear_velocity * math.cos(self.theta) * dt
-        delta_y = self.linear_velocity * math.sin(self.theta) * dt
+        # Обновление положения на основе linear_velocity_x и linear_velocity_y
+        delta_x = (self.linear_velocity_x * math.cos(self.theta) - self.linear_velocity_y * math.sin(self.theta)) * dt
+        delta_y = (self.linear_velocity_x * math.sin(self.theta) + self.linear_velocity_y * math.cos(self.theta)) * dt
         self.x += delta_x
         self.y += delta_y
 
@@ -234,8 +239,8 @@ class DogOdometry(Node):
         )
 
         # Установка скоростей
-        odom.twist.twist.linear.x = self.linear_velocity
-        odom.twist.twist.linear.y = 0.0
+        odom.twist.twist.linear.x = self.linear_velocity_x
+        odom.twist.twist.linear.y = self.linear_velocity_y
         odom.twist.twist.angular.z = self.imu_angular_velocity
 
         # Публикация одометрии
@@ -269,7 +274,7 @@ class DogOdometry(Node):
         if self.verbose:
             self.get_logger().info(f"Position Updated: x={self.x:.6f} m, y={self.y:.6f} m, theta={self.theta:.6f} rad")
             self.get_logger().info(f"Delta_x: {delta_x:.6f} m, Delta_y: {delta_y:.6f} m")
-            self.get_logger().info(f"Linear Velocity from Controller: {self.linear_velocity:.6f} m/s")
+            self.get_logger().info(f"Robot Velocity - Linear X: {self.linear_velocity_x:.6f} m/s, Linear Y: {self.linear_velocity_y:.6f} m/s")
 
     def destroy_node(self):
         super().destroy_node()

@@ -41,7 +41,7 @@ amcl:
 
 
     # Initial Pose
-    set_initial_pose: True
+    set_initial_pose: False
     initial_pose.x: 10.0
     initial_pose.y: -20.0
     initial_pose.z: 0.0

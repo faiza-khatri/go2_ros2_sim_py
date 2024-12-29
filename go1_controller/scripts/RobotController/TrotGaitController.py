@@ -61,21 +61,21 @@ class TrotGaitController(GaitController):
     def updateStateCommand(self, msg, state, command):
         command.velocity[0] = msg.axes[4] * self.max_x_velocity
         command.velocity[1] = msg.axes[3] * self.max_y_velocity
-        command.yaw_rate = msg.axes[0] * self.max_yaw_rate
+        command.yaw_rate[2] = msg.axes[0] * self.max_yaw_rate
 
         # Публикация скоростей в топик
         velocity_msg = Twist()
-        velocity_msg.linear.x = command.velocity[0] 
+        velocity_msg.linear.x = command.velocity[0]
         velocity_msg.linear.y = command.velocity[1]
-        velocity_msg.angular.z = command.yaw_rate
+        velocity_msg.angular.z = command.yaw_rate[2]
         self.velocity_pub.publish(velocity_msg)
 
-
+        # Публикация необработанных скоростей
         velocity_msg_raw = Twist()
-        velocity_msg_raw.linear.x = msg.axes[4] * 0.5 # Без умножения на self.max_x_velocity
-        velocity_msg_raw.linear.y = msg.axes[3] * 0.5 # Без умножения на self.max_y_velocity
-        velocity_msg_raw.angular.z = msg.axes[0]  # Угловая скорость не масштабируется
-        self.velocity_pub.publish(velocity_msg_raw)  # Отправка второго сообщения
+        velocity_msg_raw.linear.x = msg.axes[4] * 0.5  # Без масштабирования
+        velocity_msg_raw.linear.y = msg.axes[3] * 0.5  # Без масштабирования
+        velocity_msg_raw.angular.z = msg.axes[0]       # Угловая скорость
+        self.velocity_pub.publish(velocity_msg_raw)
 
         if self.use_button:
             if msg.buttons[7]:
