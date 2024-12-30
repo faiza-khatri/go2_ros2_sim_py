@@ -5,6 +5,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray  # Для отправки массива углов суставов
 from robot_msgs.msg import RobotModeCommand, RobotVelocity  # Импортируем интерфейсы
+from robot_msgs.srv import RobotBehaviorCommand
 from InverseKinematics import robot_IK
 from RobotController import RobotController
 import numpy as np  # Добавьте импорт numpy
