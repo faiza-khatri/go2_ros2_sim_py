@@ -11,8 +11,9 @@ from launch.actions import (
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from launch_ros.descriptions import ComposableNode
 from launch.conditions import IfCondition
-from launch_ros.actions import Node, SetRemap
+from launch_ros.actions import Node, SetRemap, ComposableNodeContainer
 from launch.event_handlers import OnProcessExit
 import xacro, yaml
 
@@ -45,7 +46,7 @@ def generate_launch_description():
     ld.add_action(declare_enable_rviz)
     ld.add_action(declare_use_sim_time)
 
-    world_file = os.path.join(pkg_path, 'world', 'empty.world') 
+    world_file = os.path.join(pkg_path, 'world', 'cafe.world') 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')),
@@ -129,7 +130,8 @@ def generate_launch_description():
                 '-allow_renaming', 'true',
                 '-x', robot['x_pose'],
                 '-y', robot['y_pose'],
-                '-z', robot['z_pose']
+                '-z', robot['z_pose'],
+                '-Y', robot['Y_pose'],
             ],
             output='screen'
         )
@@ -144,9 +146,27 @@ def generate_launch_description():
                 f'/{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU',
                 f'/{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
                 f'/{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
-                f'/{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model'
+                f'/{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model',
+                f'/{namespace}/color/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo',
+                f'/{namespace}/color/image_raw@sensor_msgs/msg/Image@gz.msgs.Image',
+                f'/{namespace}/color/image_rect@sensor_msgs/msg/Image@gz.msgs.Image'
             ]
         )
+        start_gazebo_ros_image_bridge_cmd = Node(
+            package='ros_gz_image',
+            executable='image_bridge',
+            namespace=namespace,
+            arguments=['color/image_raw'],
+            output='screen',
+        )
+        start_gazebo_ros_image_bridge_cmd_rect = Node(
+            package='ros_gz_image',
+            executable='image_bridge',
+            namespace=namespace,
+            arguments=['color/image_rect'],
+            output='screen',
+        )
+
 
         joint_state_broadcaster = Node(
             package='controller_manager',
@@ -177,6 +197,25 @@ def generate_launch_description():
             remappings=remappings
         )
 
+        rectify_node = ComposableNode(
+            package='image_proc',
+            plugin='image_proc::RectifyNode',
+            name='rectify_node',
+            namespace=namespace,
+            remappings=[
+                ('image', 'color/image_raw'),
+                ('image_rect', 'color/image_rect'),
+            ],
+            parameters=[{
+                'queue_size': 5,
+                'interpolation': 1,
+                'use_sim_time': use_sim_time,
+                'image_transport': 'raw'
+            }],
+            extra_arguments=[{'use_intra_process_comms': True}]
+        )
+
+
         odom = Node(
             package='quadropted_controller',
             executable='QuadrupedOdometryNode.py',
@@ -199,10 +238,10 @@ def generate_launch_description():
         )
 
         nav2_launch_file = os.path.join(pkg_path, 'launch', 'nav2', 'bringup_launch.py')
-        map_yaml_file = os.path.join(get_package_share_directory(package_name), 'maps', 'warehouse_map.yaml')
+        map_yaml_file = os.path.join(get_package_share_directory(package_name), 'maps', 'cafe_world_map.yaml')
         params_file = os.path.join(get_package_share_directory(package_name), 'config', 'nav2_params.yaml')
 
-        message = f"{{header: {{frame_id: map}}, pose: {{pose: {{position: {{x: {robot['x_pose']}, y: {robot['y_pose']}, z: 0.1}}, orientation: {{x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}}, }} }}"
+        message = f"{{header: {{frame_id: map}}, pose: {{pose: {{position: {{x: {robot['x_pose']}, y: {robot['y_pose']}, z: 0.1}}, orientation: {{x: 0.0, y: 0.0, z: 1.0, w: 0.0}}}}, }} }}"
 
         initial_pose_cmd = ExecuteProcess(
             cmd=[
@@ -235,7 +274,7 @@ def generate_launch_description():
         ])
 
         rviz_launch_file = os.path.join(pkg_path, 'launch', 'rviz_launch.py')
-        rviz_config_file = os.path.join(pkg_path, 'config', 'multi_nav2_default_view.rviz')
+        rviz_config_file = os.path.join(pkg_path, 'config', 'nav2_default_view.rviz')
 
         rviz = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(rviz_launch_file),
@@ -272,6 +311,8 @@ def generate_launch_description():
             node_robot_state_publisher,
             spawn_entity,
             ros_gz_bridge,
+            start_gazebo_ros_image_bridge_cmd,
+            start_gazebo_ros_image_bridge_cmd_rect,
             robot_control,
             nav2_actions,
             rviz,

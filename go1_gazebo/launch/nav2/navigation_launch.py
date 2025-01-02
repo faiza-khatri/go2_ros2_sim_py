@@ -59,6 +59,14 @@ def generate_launch_description():
             Node(package="nav2_controller", executable="controller_server", output="screen", parameters=[configured_params], remappings=remappings),
             Node(package="nav2_planner", executable="planner_server", name="planner_server", output="screen", parameters=[configured_params], remappings=remappings),
             Node(
+                package='opennav_docking',
+                executable='opennav_docking',
+                name='docking_server',
+                output='screen',
+                remappings=remappings,
+                parameters=[configured_params],
+            ),
+            Node(
                 package='nav2_behaviors',
                 executable='behavior_server',
                 name='recoveries_server',

@@ -1,12 +1,13 @@
 robots:
   - name: robot1
-    x_pose: '0.0'
-    y_pose: '0.0'
-    z_pose: '0.45'
-  - name: robot2
-    x_pose: '3.0'
-    y_pose: '0.0'
-    z_pose: '0.45'
+    x_pose: '-3.85'
+    y_pose: '1.51'
+    z_pose: '0.85'
+    Y_pose: '-3.14'
+  # - name: robot2
+  #   x_pose: '3.0'
+  #   y_pose: '0.0'
+  #   z_pose: '0.45'
   # - name: robot3
   #   x_pose: '6.0'
   #   y_pose: '0.0'
