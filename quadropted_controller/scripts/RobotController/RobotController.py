@@ -42,6 +42,16 @@ class Robot:
         self.state.foot_locations = self.default_stance
         self.command = Command(self.default_height)
 
+                # Установить режим TROT по умолчанию
+        self.command.trot_event = True
+        self.command.rest_event = False
+        self.command.crawl_event = False
+        self.command.stand_event = False
+
+        # Переключиться на TROT
+        self.change_controller()
+
+
 
         
         self.node.create_subscription(RobotModeCommand, 'robot_mode', self.mode_callback, 10)
