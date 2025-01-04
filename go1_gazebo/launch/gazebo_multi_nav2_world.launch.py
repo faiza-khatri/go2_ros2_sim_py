@@ -46,14 +46,6 @@ def generate_launch_description():
     ld.add_action(declare_enable_rviz)
     ld.add_action(declare_use_sim_time)
 
-    world_file = os.path.join(pkg_path, 'world', 'empty.world') 
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(
-            get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')),
-        launch_arguments={'gz_args': ['-r -v4 ', world_file], 'on_exit_shutdown': 'true'}.items()
-    )
-    ld.add_action(gazebo)
-
     remappings_initial = [
         ("/tf", "tf"),
         ("/tf_static", "tf_static"),
@@ -149,7 +141,8 @@ def generate_launch_description():
                 f'/{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model',
                 f'/{namespace}/color/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo',
                 f'/{namespace}/color/image_raw@sensor_msgs/msg/Image@gz.msgs.Image',
-                f'/{namespace}/color/image_rect@sensor_msgs/msg/Image@gz.msgs.Image'
+                f'/{namespace}/color/image_rect@sensor_msgs/msg/Image@gz.msgs.Image',
+                # f'/{namespace}/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock'
             ]
         )
         start_gazebo_ros_image_bridge_cmd = Node(
@@ -190,23 +183,15 @@ def generate_launch_description():
             remappings=remappings
         )
 
-        rectify_node = ComposableNode(
-            package='image_proc',
-            plugin='image_proc::RectifyNode',
-            name='rectify_node',
-            namespace=namespace,
-            remappings=[
-                ('image', 'color/image_raw'),
-                ('image_rect', 'color/image_rect'),
-            ],
-            parameters=[{
-                'queue_size': 5,
-                'interpolation': 1,
-                'use_sim_time': use_sim_time,
-                'image_transport': 'raw'
-            }],
-            extra_arguments=[{'use_intra_process_comms': True}]
+        apriltag_launch_file = os.path.join(get_package_share_directory('yahboom_rosmaster_docking'), 'launch', 'apriltag_dock_pose_publisher.launch.py')
+        aprilTag = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(apriltag_launch_file),
+            launch_arguments={
+                'camera_namespace': namespace,
+                'camera_frame_type': 'camera_face'
+            }.items()
         )
+
 
 
         odom = Node(
@@ -288,6 +273,28 @@ def generate_launch_description():
             remappings=remappings
         )
 
+        fake_bms = ExecuteProcess(
+            cmd=[
+                'ros2', 'topic', 'pub', f'/{namespace}/battery_state', 'sensor_msgs/msg/BatteryState',
+                "{header: {stamp: {sec: 0, nanosec: 0}, frame_id: ''}, voltage: 24.0, percentage: 0.8, capacity: 10.0}",
+                '-r', '1'
+            ],
+            output='log'
+        )
+        # Fake Docking - Публикация действий по стыковке
+        fake_docking = Node(
+            package='ff_examples_ros2',
+            executable='teleworker_skill_dummy_action.py',
+            name='docking_fake_server',
+            namespace=namespace,
+            output='screen',
+            parameters=[
+                {'action_name': f'/{namespace}/docking/start'},
+                {'return_success': True}
+            ]
+        )
+
+
         robot_control = GroupAction([
             SetRemap(src="/tf", dst="tf"),
             SetRemap(src="/tf_static", dst="tf_static"),
@@ -295,7 +302,10 @@ def generate_launch_description():
             joint_group_controller,
             controller,
             cmd_vel_pub,
-            odom
+            odom,
+            aprilTag,
+            # fake_bms,
+            # fake_docking
         ])
 
 

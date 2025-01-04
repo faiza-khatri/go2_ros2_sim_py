@@ -32,7 +32,7 @@ def generate_launch_description():
     autostart = LaunchConfiguration("autostart")
     params_file = LaunchConfiguration("params_file")
 
-    lifecycle_nodes = ["controller_server", "planner_server", "recoveries_server", "bt_navigator"]
+    lifecycle_nodes = ["controller_server", "planner_server", "docking_server","recoveries_server", "bt_navigator"]
     #  'waypoint_follower']
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
@@ -41,7 +41,7 @@ def generate_launch_description():
     # https://github.com/ros/robot_state_publisher/pull/30
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
-    remappings = [("/tf", "tf"), ("/tf_static", "tf_static"),('/scan', [namespace, '/scan'] )]
+    remappings = [("/tf", "tf"), ("/tf_static", "tf_static"),('/scan', [namespace, '/scan'] ),('/odom', [namespace, '/odom'] )]
 
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {"use_sim_time": use_sim_time, "autostart": autostart}

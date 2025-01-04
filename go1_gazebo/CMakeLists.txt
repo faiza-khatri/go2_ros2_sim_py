@@ -20,7 +20,13 @@ install(DIRECTORY
   world
   maps
   models
+  src
   DESTINATION share/${PROJECT_NAME}/
+)
+
+install(PROGRAMS
+  src/update_coordinate.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_package()
