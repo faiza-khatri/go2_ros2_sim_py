@@ -122,8 +122,7 @@ def generate_launch_description():
                 '-allow_renaming', 'true',
                 '-x', robot['x_pose'],
                 '-y', robot['y_pose'],
-                '-z', robot['z_pose'],
-                '-Y', robot['Y_pose'],
+                '-z', '0.5',
             ],
             output='screen'
         )
@@ -216,10 +215,10 @@ def generate_launch_description():
         )
 
         nav2_launch_file = os.path.join(pkg_path, 'launch', 'nav2', 'bringup_launch.py')
-        map_yaml_file = os.path.join(get_package_share_directory(package_name), 'maps', 'cafe_world_map.yaml')
+        map_yaml_file = os.path.join(get_package_share_directory(package_name), 'maps', 'cambridge.yaml')
         params_file = os.path.join(get_package_share_directory(package_name), 'config', 'nav2_params.yaml')
 
-        message = f"{{header: {{frame_id: map}}, pose: {{pose: {{position: {{x: {robot['x_pose']}, y: {robot['y_pose']}, z: 0.1}}, orientation: {{x: 0.0, y: 0.0, z: 1.0, w: 0.0}}}}, }} }}"
+        message = f"{{header: {{frame_id: map}}, pose: {{pose: {{position: {{x: {robot['x_pose']}, y: {robot['y_pose']}, z: 0.1}}, orientation: {{x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}}, }} }}"
 
         initial_pose_cmd = ExecuteProcess(
             cmd=[
@@ -283,7 +282,7 @@ def generate_launch_description():
         )
         # Fake Docking - Публикация действий по стыковке
         fake_docking = Node(
-            package='ff_examples_ros2',
+            package='go1_gazebo',
             executable='teleworker_skill_dummy_action.py',
             name='docking_fake_server',
             namespace=namespace,
@@ -304,8 +303,8 @@ def generate_launch_description():
             cmd_vel_pub,
             odom,
             aprilTag,
-            # fake_bms,
-            # fake_docking
+            fake_bms,
+            fake_docking
         ])
 
 

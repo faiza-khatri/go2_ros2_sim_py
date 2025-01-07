@@ -22,9 +22,9 @@ def update_robot_positions(input_file, output_file):
             # Формирование информации о роботе
             robot_info = {
                 'name': robot_name,
-                'x_pose': str(x/20.0078857),
-                'y_pose': '-' + str(y/20.01035),
-                'z_pose': '0.01',
+                'x_pose': str(x/20.0),
+                'y_pose': '-' + str(y/20.0),
+                'z_pose': '0.45',
             }
             robots.append(robot_info)
 
@@ -45,8 +45,8 @@ def update_robot_positions(input_file, output_file):
         yaml.dump(output_data, outfile, Dumper=IndentDumper, default_flow_style=False, sort_keys=False, indent=2)
 
 def main():
-    input_file_path = os.path.join(get_package_share_directory('ff_examples_ros2'), 'maps','cambrdge_student_house', 'cambridge.building.yaml')
-    output_file_path = os.path.join(get_package_share_directory('turtlebot3_multi_robot'), 'params', 'robots.yaml')
+    input_file_path = '/maps/cambrdge_student_house/cambridge.building.yaml'
+    output_file_path = os.path.join(get_package_share_directory('go1_gazebo'), 'config', 'robots.yaml')
 
     update_robot_positions(input_file_path, output_file_path)
 

@@ -29,4 +29,14 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+install(
+  PROGRAMS
+  ff_examples_ros2/send_destination_request.py
+  ff_examples_ros2/send_path_request.py
+  ff_examples_ros2/send_mode_request.py
+  ff_examples_ros2/teleworker_skill_dummy_action.py
+  ff_examples_ros2/teleworker_skill_dummy.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()
