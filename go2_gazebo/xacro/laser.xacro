@@ -17,7 +17,7 @@
         <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-            <mesh filename="file://$(find go2_description)/meshes/hokuyo.dae"/>
+            <mesh filename="file://$(find go2_gazebo)/meshes/hokuyo.dae"/>
         </geometry>
         </visual>
         <inertial>
