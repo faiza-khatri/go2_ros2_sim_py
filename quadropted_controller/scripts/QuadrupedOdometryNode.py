@@ -57,6 +57,7 @@ class DogOdometry(Node):
             if self.verbose:
                 self.get_logger().info(f"Clock Topic: {clock_topic}")
 
+            # Инициализация переменных одометрии
             self.x = 0.0
             self.y = 0.0
             self.theta = 0.0
@@ -68,6 +69,9 @@ class DogOdometry(Node):
 
             self.gazebo_clock = Time()
             self.encoder_pos = 0
+
+            # Коэффициент для коррекции скорости
+            self.VELOCITY_COEFFICIENT = 11.95
 
             qos_reliable = QoSProfile(
                 reliability=ReliabilityPolicy.RELIABLE,
@@ -104,7 +108,7 @@ class DogOdometry(Node):
 
             if self.is_gazebo:
                 clock_qos = QoSProfile(
-                    reliability=ReliabilityPolicy.BEST_EFFORT,
+                    reliability=ReliabilityPolicy.RELIABLE,
                     durability=DurabilityPolicy.VOLATILE,
                     depth=10,
                     history=HistoryPolicy.KEEP_LAST
@@ -138,8 +142,8 @@ class DogOdometry(Node):
 
             self.get_logger().info("Dog Odometry Node has been started.")
 
-            self.MAX_LINEAR_VELOCITY_X = 1.0
-            self.MAX_LINEAR_VELOCITY_Y = 1.0
+            self.MAX_LINEAR_VELOCITY_X = 0.035
+            self.MAX_LINEAR_VELOCITY_Y = 0.012
             self.MAX_ANGULAR_VELOCITY = 1.0
 
             self.imu_angular_velocity = 0.0
@@ -149,8 +153,8 @@ class DogOdometry(Node):
             raise e
 
     def velocity_callback(self, msg):
-        self.linear_velocity_x = (msg.cmd_vel.linear.x / 0.035) / 2.8
-        self.linear_velocity_y = (msg.cmd_vel.linear.y / 0.012) / 2.8
+        self.linear_velocity_x = msg.cmd_vel.linear.x
+        self.linear_velocity_y = msg.cmd_vel.linear.y
         if self.verbose:
             self.get_logger().info(f"Robot Velocity - Linear X: {self.linear_velocity_x:.6f} m/s, Linear Y: {self.linear_velocity_y:.6f} m/s")
 
@@ -182,12 +186,18 @@ class DogOdometry(Node):
         if dt <= 0.0:
             return
 
+        # Ограничение скоростей
         self.linear_velocity_x = max(min(self.linear_velocity_x, self.MAX_LINEAR_VELOCITY_X), -self.MAX_LINEAR_VELOCITY_X)
         self.linear_velocity_y = max(min(self.linear_velocity_y, self.MAX_LINEAR_VELOCITY_Y), -self.MAX_LINEAR_VELOCITY_Y)
         self.imu_angular_velocity = max(min(self.imu_angular_velocity, self.MAX_ANGULAR_VELOCITY), -self.MAX_ANGULAR_VELOCITY)
 
-        delta_x = (self.linear_velocity_x * math.cos(self.theta) - self.linear_velocity_y * math.sin(self.theta)) * dt
-        delta_y = (self.linear_velocity_x * math.sin(self.theta) + self.linear_velocity_y * math.cos(self.theta)) * dt
+        # Применение коэффициента к скоростям
+        corrected_linear_velocity_x = self.linear_velocity_x * self.VELOCITY_COEFFICIENT
+        corrected_linear_velocity_y = self.linear_velocity_y * self.VELOCITY_COEFFICIENT
+
+        # Расчёт изменения позиции с учётом откорректированной скорости
+        delta_x = (corrected_linear_velocity_x * math.cos(self.theta) - corrected_linear_velocity_y * math.sin(self.theta)) * dt
+        delta_y = (corrected_linear_velocity_x * math.sin(self.theta) + corrected_linear_velocity_y * math.cos(self.theta)) * dt
         self.x += delta_x
         self.y += delta_y
 

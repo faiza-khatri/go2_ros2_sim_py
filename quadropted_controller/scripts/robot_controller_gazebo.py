@@ -9,7 +9,7 @@ from InverseKinematics import robot_IK
 from RobotController import RobotController
 import numpy as np  
 
-USE_IMU = False
+USE_IMU = True
 RATE = 60
 
 class RobotControllerNode(Node):
@@ -24,7 +24,7 @@ class RobotControllerNode(Node):
 
         # Геометрия робота
         body = [0.3762, 0.0935]
-        legs = [0.0, 0.08, 0.213, 0.213]
+        legs = [0.0, 0.0955, 0.213, 0.213]
         
         self.declare_parameter('robot_id', 1)
         self.robot_id = self.get_parameter('robot_id').get_parameter_value().integer_value
