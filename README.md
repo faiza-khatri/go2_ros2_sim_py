@@ -12,7 +12,7 @@
 ```bash
 mkdir -p ~/go_sim/src
 cd ~/go_sim/src
-git clone https://github.com/abutalipovvv/go1_sim.git .
+git clone https://github.com/abutalipovvv/go_sim_py.git .
 cd ..
 colcon build --symlink-install
 ```
