@@ -1,0 +1,8 @@
+image: cambridge.pgm
+free_thresh: 0.196
+negate: 0
+origin: [0.000000, -219.850000, 0.0]
+resolution: 0.05
+mode: trinary
+occupied_thresh: 0.65
+
