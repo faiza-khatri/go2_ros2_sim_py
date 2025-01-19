@@ -17,8 +17,19 @@ install(DIRECTORY
   config
   xacro
   launch
-  world
+  models
+  src
   DESTINATION share/${PROJECT_NAME}/
+)
+
+install(PROGRAMS
+  src/update_coordinate.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  PROGRAMS
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_package()
