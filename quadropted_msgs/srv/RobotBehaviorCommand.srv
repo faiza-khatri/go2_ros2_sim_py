@@ -1,5 +1,5 @@
 # RobotBehaviorCommand.srv
-# Команда: [sit, stand, walking]
+# Команда: [sit, up, walk]
 string command
 ---
 # Результат выполнения

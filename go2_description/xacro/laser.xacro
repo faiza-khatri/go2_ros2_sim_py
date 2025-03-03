@@ -26,7 +26,7 @@
         <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
         </inertial>
     </link>
-    <gazebo reference="front_laser">
+    <!-- <gazebo reference="front_laser">
         <sensor name="front_laser_sensor" type="ray">
             <always_on>true</always_on>
             <visualize>false</visualize>
@@ -60,5 +60,5 @@
             <frame_name>front_laser</frame_name>
             </plugin>
         </sensor>
-    </gazebo>
+    </gazebo> -->
 </robot>

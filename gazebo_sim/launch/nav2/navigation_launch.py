@@ -32,7 +32,11 @@ def generate_launch_description():
     autostart = LaunchConfiguration("autostart")
     params_file = LaunchConfiguration("params_file")
 
-    lifecycle_nodes = ["controller_server", "planner_server", "docking_server","recoveries_server", "bt_navigator"]
+    lifecycle_nodes = ["controller_server", 
+                       "planner_server",
+                        #  "docking_server",
+                         "recoveries_server", 
+                         "bt_navigator"]
     #  'waypoint_follower']
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
@@ -41,10 +45,10 @@ def generate_launch_description():
     # https://github.com/ros/robot_state_publisher/pull/30
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
-    remappings = [("/tf", "tf"), ("/tf_static", "tf_static"),('/scan', [namespace, '/scan'] ),('/odom', [namespace, '/odom'] )]
+    remappings = [("/tf", "tf"), ("/tf_static", "tf_static"),('/scan', [namespace, '/scan'] ),('/odom', [namespace, '/odometry/filtered'] )]
 
     # Create our own temporary YAML files that include substitutions
-    param_substitutions = {"use_sim_time": use_sim_time, "autostart": autostart}
+    param_substitutions = {"use_sim_time": use_sim_time, "autostart": autostart, "scan_topic": f'{namespace}/scan'}
 
     configured_params = RewrittenYaml(source_file=params_file, root_key=namespace, param_rewrites=param_substitutions, convert_types=True)
 
@@ -58,14 +62,14 @@ def generate_launch_description():
             DeclareLaunchArgument("params_file", default_value=os.path.join(bringup_dir, "params", "nav2_params.yaml"), description="Full path to the ROS2 parameters file to use"),
             Node(package="nav2_controller", executable="controller_server", output="screen", parameters=[configured_params], remappings=remappings),
             Node(package="nav2_planner", executable="planner_server", name="planner_server", output="screen", parameters=[configured_params], remappings=remappings),
-            Node(
-                package='opennav_docking',
-                executable='opennav_docking',
-                name='docking_server',
-                output='screen',
-                remappings=remappings,
-                parameters=[configured_params],
-            ),
+            # Node(
+            #     package='opennav_docking',
+            #     executable='opennav_docking',
+            #     name='docking_server',
+            #     output='screen',
+            #     remappings=remappings,
+            #     parameters=[configured_params],
+            # ),
             Node(
                 package='nav2_behaviors',
                 executable='behavior_server',

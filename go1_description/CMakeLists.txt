@@ -23,7 +23,6 @@ install(DIRECTORY
 )
 
 install(PROGRAMS
-  src/update_coordinate.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

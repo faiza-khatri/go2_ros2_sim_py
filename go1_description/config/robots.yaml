@@ -1,9 +1,0 @@
-robots:
-  - name: robot1
-    x_pose: '8.7845'
-    y_pose: '-67.18475'
-    z_pose: '0.45'
-  - name: robot2
-    x_pose: '39.64275'
-    y_pose: '-67.46485'
-    z_pose: '0.45'

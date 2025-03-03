@@ -8,6 +8,7 @@ from RoboticsUtilities.Transformations import rotxyz, rotz
 from .GaitController import GaitController
 from .PIDController import PID_controller
 from geometry_msgs.msg import Twist
+from quadropted_msgs.msg import RobotFootContact
 
 class TrotGaitController(GaitController):
     def __init__(self, node, default_stance, stance_time, swing_time, time_step, use_imu):
@@ -30,6 +31,8 @@ class TrotGaitController(GaitController):
         super().__init__(stance_time, swing_time, time_step, contact_phases, default_stance)
         
         self.velocity_pub = self.node.create_publisher(Twist, "controller_velocity", 10)  # Используем переданный node
+
+        self.foot_contact_pub = self.node.create_publisher(RobotFootContact, "foot_contact", 10)
 
         self.max_x_velocity = 0.035  # [m/s]
         self.max_y_velocity = 0.012  # [m/s]
@@ -102,6 +105,10 @@ class TrotGaitController(GaitController):
         if self.trotNeeded:
             contact_modes = self.contacts(state.ticks)
 
+            foot_contact_msg = RobotFootContact()
+            foot_contact_msg.contacts = [bool(mode) for mode in contact_modes.tolist()]
+            self.foot_contact_pub.publish(foot_contact_msg)
+
             new_foot_locations = np.zeros((3, 4))
             for leg_index in range(4):
                 contact_mode = contact_modes[leg_index]
@@ -128,6 +135,11 @@ class TrotGaitController(GaitController):
         else:
             temp = self.default_stance.copy()
             temp[2] = [command.robot_height] * 4
+
+            foot_contact_msg = RobotFootContact()
+            foot_contact_msg.contacts = [True, True, True, True]  # [FR, FL, RR, RL]
+            self.foot_contact_pub.publish(foot_contact_msg)
+            
             return temp
 
     def run(self, state, command):

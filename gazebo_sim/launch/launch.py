@@ -27,7 +27,7 @@ def generate_launch_description():
 
     ld.add_action(declare_use_sim_time)
 
-    world_file = os.path.join(pkg_path, 'world', 'cambridge.world') 
+    world_file = os.path.join(pkg_path, 'world', 'cafe.world') 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')),
