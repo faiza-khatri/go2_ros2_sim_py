@@ -3,10 +3,16 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from quadropted_msgs.msg import RobotVelocity
+import math
 
 class RobotVelocityHandler(Node):
     def __init__(self):
         super().__init__('robot_velocity_handler')
+
+        self.declare_parameter('verbose', False)
+        self.verbose = self.get_parameter('verbose').get_parameter_value().bool_value
+        if self.verbose:
+            self.get_logger().info(f"Verbose mode: {self.verbose}")
 
         self.subscription = self.create_subscription(
             Twist, 
@@ -15,8 +21,8 @@ class RobotVelocityHandler(Node):
             10)
 
         self.publisher_ = self.create_publisher(RobotVelocity, 'robot_velocity', 10)
-
-        self.get_logger().info("Node started: RobotVelocityHandler")
+        if self.verbose:
+            self.get_logger().info("Node started: RobotVelocityHandler")
 
         # Переменная для секундомера
         self.motion_start_time = None
@@ -32,19 +38,21 @@ class RobotVelocityHandler(Node):
         # Если есть ненулевая скорость и секундомер не запущен — запускаем его
         if has_velocity and self.motion_start_time is None:
             self.motion_start_time = current_time
-            self.get_logger().info(f"Motion started at time: {current_time.to_msg()}")
+            if self.verbose:
+                self.get_logger().info(f"Motion started at time: {current_time.to_msg()}")
 
         # Если скорости нет (робот остановился) и секундомер был запущен — останавливаем его
         if not has_velocity and self.motion_start_time is not None:
             elapsed = current_time - self.motion_start_time
-            self.get_logger().info(f"Motion stopped at time: {current_time.to_msg()}")
-            self.get_logger().info(f"Elapsed motion time: {elapsed.nanoseconds / 1e9:.3f} seconds")
+            if self.verbose:
+                self.get_logger().info(f"Motion stopped at time: {current_time.to_msg()}")
+                self.get_logger().info(f"Elapsed motion time: {elapsed.nanoseconds / 1e9:.3f} seconds")
             self.motion_start_time = None
-
-        self.get_logger().info(
-            f"Received Twist: linear=({msg.linear.x}, {msg.linear.y}, {msg.linear.z}), "
-            f"angular=({msg.angular.x}, {msg.angular.y}, {msg.angular.z})"
-        )
+        if self.verbose:
+            self.get_logger().info(
+                f"Received Twist: linear=({msg.linear.x}, {msg.linear.y}, {msg.linear.z}), "
+                f"angular=({msg.angular.x}, {msg.angular.y}, {msg.angular.z})"
+            )
 
         new_msg = RobotVelocity()
         new_msg.robot_id = 1
@@ -58,15 +66,23 @@ class RobotVelocityHandler(Node):
         new_msg.cmd_vel.angular.z = self.limit(msg.angular.z, -1.0, 1.0)
 
         self.publisher_.publish(new_msg)
-
-        self.get_logger().info(
-            f"Published RobotVelocity: robot_id={new_msg.robot_id}, "
-            f"linear=({new_msg.cmd_vel.linear.x}, {new_msg.cmd_vel.linear.y}, {new_msg.cmd_vel.linear.z}), "
-            f"angular=({new_msg.cmd_vel.angular.x}, {new_msg.cmd_vel.angular.y}, {new_msg.cmd_vel.angular.z})"
-        )
+        if self.verbose:
+            self.get_logger().info(
+                f"Published RobotVelocity: robot_id={new_msg.robot_id}, "
+                f"linear=({new_msg.cmd_vel.linear.x}, {new_msg.cmd_vel.linear.y}, {new_msg.cmd_vel.linear.z}), "
+                f"angular=({new_msg.cmd_vel.angular.x}, {new_msg.cmd_vel.angular.y}, {new_msg.cmd_vel.angular.z})"
+            )
         
     def multiply_and_limit(self, value, scale_factor, min_limit, max_limit):
-        scaled_value = value * scale_factor
+        # Обработка положительных и отрицательных значений отдельно
+        if value > 0:
+            adjusted_value = value * 0.035
+            scaled_value = scale_factor * (1 - math.exp(-100 * adjusted_value))
+        else:
+            # Для отрицательных значений значение умножаем на -0.035
+            adjusted_value = (-value) * 0.035
+            scaled_value = -scale_factor * (1 - math.exp(-100 * adjusted_value))
+        
         return self.limit_value(scaled_value, min_limit, max_limit)
 
     def limit_value(self, value, min_limit, max_limit):

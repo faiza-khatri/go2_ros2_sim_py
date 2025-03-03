@@ -16,6 +16,7 @@ set(msg_files
   "msg/RobotVelocity.msg"
   "msg/RobotGaitCommand.msg"
   "msg/RobotModeCommand.msg"
+  "msg/RobotFootContact.msg"
 )
 
 set(srv_files

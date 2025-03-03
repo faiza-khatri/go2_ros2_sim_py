@@ -77,7 +77,7 @@ def generate_launch_description():
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
             ("/scan", "scan"),
-            ("/odom", "odom")
+            ("/odom", "odometry/filtered")
         ]
     
 
@@ -122,7 +122,8 @@ def generate_launch_description():
                 '-allow_renaming', 'true',
                 '-x', robot['x_pose'],
                 '-y', robot['y_pose'],
-                '-z', '0.5',
+                '-z', robot['z_pose'],
+                # '-Y', robot['Y_pose']
             ],
             output='screen'
         )
@@ -182,14 +183,14 @@ def generate_launch_description():
             remappings=remappings
         )
 
-        apriltag_launch_file = os.path.join(get_package_share_directory('yahboom_rosmaster_docking'), 'launch', 'apriltag_dock_pose_publisher.launch.py')
-        aprilTag = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(apriltag_launch_file),
-            launch_arguments={
-                'camera_namespace': namespace,
-                'camera_frame_type': 'camera_face'
-            }.items()
-        )
+        # apriltag_launch_file = os.path.join(get_package_share_directory('yahboom_rosmaster_docking'), 'launch', 'apriltag_dock_pose_publisher.launch.py')
+        # aprilTag = IncludeLaunchDescription(
+        #     PythonLaunchDescriptionSource(apriltag_launch_file),
+        #     launch_arguments={
+        #         'camera_namespace': namespace,
+        #         'camera_frame_type': 'camera_face'
+        #     }.items()
+        # )
 
 
 
@@ -201,7 +202,7 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 "verbose": False,
-                'publish_rate': 50,
+                'publish_rate': 100,
                 'open_loop': False,
                 'has_imu_heading': True,
                 'is_gazebo': True,
@@ -215,7 +216,7 @@ def generate_launch_description():
         )
 
         nav2_launch_file = os.path.join(pkg_path, 'launch', 'nav2', 'bringup_launch.py')
-        map_yaml_file = os.path.join(pkg_path, 'maps', 'cambridge.yaml')
+        map_yaml_file = os.path.join(pkg_path, 'maps', 'cafe_world_map.yaml')
         params_file = os.path.join(pkg_path, 'config', 'nav2_params.yaml')
 
         message = f"{{header: {{frame_id: map}}, pose: {{pose: {{position: {{x: {robot['x_pose']}, y: {robot['y_pose']}, z: 0.1}}, orientation: {{x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}}, }} }}"
@@ -305,17 +306,25 @@ def generate_launch_description():
             # aprilTag,
             fake_bms,
         ])
-
+        test_action = Node(
+            package='gazebo_sim',
+            executable='test_action.py',
+            namespace=namespace,
+            name='test_action',
+            output='screen',
+            remappings=remappings
+        )
 
         # Группировка всех действий для робота
         robot_group = GroupAction([
             node_robot_state_publisher,
             spawn_entity,
             ros_gz_bridge,
-            # start_gazebo_ros_image_bridge_cmd,
+            start_gazebo_ros_image_bridge_cmd,
             robot_control,
             nav2_actions,
             rviz,
+            test_action
         ])
 
         if last_action is None:

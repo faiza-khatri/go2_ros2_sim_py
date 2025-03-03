@@ -15,7 +15,6 @@ find_package(std_msgs REQUIRED)
 install(DIRECTORY
   meshes
   config
-  xacro
   launch
   world
   maps
@@ -26,7 +25,7 @@ install(DIRECTORY
 )
 
 install(PROGRAMS
-  src/update_coordinate.py
+  src/test_action.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
