@@ -152,7 +152,8 @@ for go2: use "go2_description"
 for go1: use "go1_description"
 
 Running Multiple Robots Simultaneously
-
+![](./media/go1multi.png)
+![](./media/go2multi.png)
 ### The repository supports simultaneous operation of multiple robots. Each robot has access to nav2. In the robot.config file, add the robot’s namespace and spawn coordinates in the world.
 ![](./media/robot_config.png)
 
