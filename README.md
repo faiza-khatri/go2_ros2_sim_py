@@ -1,4 +1,4 @@
-# Simulation Quadropted Robots (Unitree go2, go1) in Gazebo Sim
+# Unitree go2, go1 simulation in Gazebo Sim
 
 This repository allows you to run dog robots in the GAZEBO simulator. The robot can walk, rotate with 12 degrees of freedom, and features a `robot_msgs` interface. The robot moves using inverse kinematics, and its odometry is based on direct kinematics. Additionally, all functionalities are developed in Python.
 
