@@ -17,8 +17,6 @@ install(DIRECTORY
   config
   xacro
   launch
-  models
-  src
   DESTINATION share/${PROJECT_NAME}/
 )
 
