@@ -13,7 +13,6 @@ find_package(xacro REQUIRED)
 find_package(std_msgs REQUIRED)
 
 install(DIRECTORY
-  meshes
   config
   launch
   world

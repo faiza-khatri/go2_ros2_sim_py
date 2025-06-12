@@ -33,7 +33,7 @@ rosdep install --from-paths src --ignore-src -r -y
 Before running the simulation, export the path to your Gazebo models:
 
 ```bash
-export GZ_SIM_RESOURCE_PATH=~/go_sim/gazebo_sim/models
+export GZ_SIM_RESOURCE_PATH=~/go_sim/src/gazebo_sim/models
 ```
 (Replace with the correct path to your models.)
 
