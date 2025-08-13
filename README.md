@@ -2,6 +2,28 @@
 
 This repository allows you to run dog robots in the GAZEBO simulator. The robot can walk, rotate with 12 degrees of freedom, and features a `robot_msgs` interface. The robot moves using inverse kinematics, and its odometry is based on direct kinematics. Additionally, all functionalities are developed in Python.
 
+
+## Run from docker 
+
+> **Note:** BUILDED AND TESTED WITH NVIDIA GPU.
+
+### setup docker, docker compose and nvidia container toolkit
+[docker install](https://docs.docker.com/engine/install/ubuntu/)
+[nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+### build docker :
+
+```bash
+mkdir -p ~/go_sim/src
+cd ~/go_sim/src/docker
+docker compose -f compose.yml build simulator
+docker compose -f compose.yml up simulator
+```
+
+
+## Run from source
+
+> **Note:** BUILDED AND TESTED FROM ROS2 JAZZY, UBUNTU 22.04.
+
 > **Note:** Before launching, ensure that you install all dependencies and build the project using `colcon build`.
 
 ---

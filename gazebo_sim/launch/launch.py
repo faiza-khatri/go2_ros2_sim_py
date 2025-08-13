@@ -11,7 +11,7 @@ from launch.actions import (
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch.event_handlers import OnProcessExit
-
+from launch_ros.actions import SetParameter
 def generate_launch_description():
     ld = LaunchDescription()
 
@@ -19,13 +19,11 @@ def generate_launch_description():
     pkg_path = get_package_share_directory(package_name)
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    declare_use_sim_time = DeclareLaunchArgument(
-        name='use_sim_time',
-        default_value='true',
-        description='Использовать симуляционное время'
-    )
+    ld.add_action(DeclareLaunchArgument('use_sim_time', default_value='true',
+                                       description='Использовать симуляционное время'))
 
-    ld.add_action(declare_use_sim_time)
+    ld.add_action(SetParameter(name='use_sim_time', value=use_sim_time))
+
 
     world_file = os.path.join(pkg_path, 'world', 'cafe.world') 
     gazebo = IncludeLaunchDescription(
@@ -41,7 +39,7 @@ def generate_launch_description():
     )
     ld.add_action(pause)
 
-    # Добавляем запуск gazebo_multi_nav2_world.launch.py после ожидания
+
     multi_nav2_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_path, 'launch', 'gazebo_multi_nav2_world.launch.py')

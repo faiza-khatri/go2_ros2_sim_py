@@ -34,8 +34,9 @@ def generate_launch_description():
 
     lifecycle_nodes = ["controller_server", 
                        "planner_server",
+                       "behavior_server",
+                       "smoother_server",
                         #  "docking_server",
-                         "recoveries_server", 
                          "bt_navigator"]
     #  'waypoint_follower']
 
@@ -73,11 +74,19 @@ def generate_launch_description():
             Node(
                 package='nav2_behaviors',
                 executable='behavior_server',
-                name='recoveries_server',
+                name='behavior_server',
+                output='screen',
+                parameters=[configured_params],
+                remappings=remappings),
+            Node(
+                package='nav2_smoother',
+                executable='smoother_server',
+                name='smoother_server',
                 output='screen',
                 parameters=[configured_params],
                 remappings=remappings),
             Node(package="nav2_bt_navigator", executable="bt_navigator", name="bt_navigator", output="screen", parameters=[configured_params], remappings=remappings),
+
             Node(
                 package="nav2_lifecycle_manager",
                 executable="lifecycle_manager",
