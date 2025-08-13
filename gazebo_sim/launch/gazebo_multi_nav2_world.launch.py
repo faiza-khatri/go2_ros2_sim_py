@@ -202,7 +202,7 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 "verbose": False,
-                'publish_rate': 100,
+                'publish_rate': 50,
                 'open_loop': False,
                 'has_imu_heading': True,
                 'is_gazebo': True,
@@ -324,7 +324,7 @@ def generate_launch_description():
             robot_control,
             nav2_actions,
             rviz,
-            test_action
+            # test_action
         ])
 
         if last_action is None:
