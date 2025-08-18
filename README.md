@@ -17,6 +17,7 @@ This repository allows you to run dog robots in the GAZEBO simulator. The robot 
 mkdir -p ~/go_sim/src
 cd ~/go_sim/src/docker
 docker compose -f compose.yml build simulator
+xhost +local:docker
 docker compose -f compose.yml up simulator
 ```
 
