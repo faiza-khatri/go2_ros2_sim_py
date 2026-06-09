@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="default">
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"></plugin>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"></plugin>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"></plugin>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"></plugin>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.5 0.5 0.5 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="terrain">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <heightmap>
+              <uri>/home/administrator/go_sim/src/gazebo_sim/materials/textures/bc_terrain_heightmap_256.png</uri>
+              <size>20 20 0.5</size>
+              <pos>0 0 0</pos>
+            </heightmap>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <heightmap>
+              <use_terrain_paging>false</use_terrain_paging>
+              <uri>/home/administrator/go_sim/src/gazebo_sim/materials/textures/bc_terrain_heightmap_256.png</uri>
+              <!-- MUST match collision size exactly -->
+              <size>20 20 0.5</size>
+              <pos>0 0 0</pos>
+              <texture>
+                <diffuse>/home/administrator/go_sim/src/gazebo_sim/materials/textures/bc_moss_rock_diffuse.png</diffuse>
+                <normal>/home/administrator/go_sim/src/gazebo_sim/materials/textures/bc_moss_rock_normal.png</normal>
+                <size>4</size>
+              </texture>
+            </heightmap>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- spruce_1: terrain_z(0.5, -1.6) = 0.2922 -->
+    <model name="spruce_1">
+      <static>true</static>
+      <pose>0.5 -1.6 0.2922 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>model://spruce_tree/spruce_tree.glb</uri>
+              <scale>0.5 0.5 0.5</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>0.15</radius>
+              <length>2.0</length>
+            </cylinder>
+          </geometry>
+          <pose>0 0 1.0 0 0 0</pose>
+        </collision>
+      </link>
+    </model>
+
+    <!-- tables: terrain_z(XY) + 0.2 leg offset, recalculated for size Z=0.5 -->
+    <include>
+      <name>table2</name>
+      <pose>2.4 -5.5 0.6392 0 0 0</pose>
+      <uri>model://cafe_table</uri>
+    </include>
+    <include>
+      <name>table3</name>
+      <pose>-1.5 -5.5 0.6235 0 0 0</pose>
+      <uri>model://cafe_table</uri>
+    </include>
+    <include>
+      <name>table4</name>
+      <pose>2.4 -9.0 0.6353 0 0 0</pose>
+      <uri>model://cafe_table</uri>
+    </include>
+    <include>
+      <name>table5</name>
+      <pose>-1.5 -9.0 0.4098 0 0 0</pose>
+      <uri>model://cafe_table</uri>
+    </include>
+
+    <!-- apriltag: terrain_z(-4.96, 1.5) + 0.46 = 0.8267 -->
+    <include>
+      <name>Apriltag36_11_00000</name>
+      <pose>-4.96 1.5 0.8267 1.5708 0 1.5708</pose>
+      <static>true</static>
+      <uri>model://Apriltag36_11_00000</uri>
+    </include>
+  </world>
+</sdf>
+
+
+
+
+
