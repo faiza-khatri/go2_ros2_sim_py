@@ -136,14 +136,18 @@ def generate_launch_description():
             output='screen',
             arguments=[
                 f'/{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU',
-                f'/{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
+		f'/{namespace}/scan@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked',
                 f'/{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
                 f'/{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model',
                 f'/{namespace}/color/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo',
                 f'/{namespace}/color/image_raw@sensor_msgs/msg/Image@gz.msgs.Image',
                 f'/{namespace}/color/image_rect@sensor_msgs/msg/Image@gz.msgs.Image',
                 # f'/{namespace}/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock'
-            ]
+            ],
+	remappings=[
+               (f'/{namespace}/tf', 'tf'),
+               (f'/{namespace}/tf_static', 'tf_static'),
+        ]
         )
         start_gazebo_ros_image_bridge_cmd = Node(
             package='ros_gz_image',

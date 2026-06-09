@@ -9,7 +9,7 @@ Panels:
         - /TF1
         - /TF1/Frames1
         - /TF1/Tree1
-        - /LaserScan1
+        - /PointCloud21
       Splitter Ratio: 0.5833333134651184
     Tree Height: 186
   - Class: rviz_common/Selection
@@ -94,21 +94,37 @@ Visualization Manager:
           Value: true
         lf_foot_link:
           Value: true
+        lf_hip_link:
+          Value: true
         lf_lower_leg_link:
+          Value: true
+        lf_upper_leg_link:
           Value: true
         lh_foot_link:
           Value: true
+        lh_hip_link:
+          Value: true
         lh_lower_leg_link:
+          Value: true
+        lh_upper_leg_link:
           Value: true
         odom:
           Value: true
         rf_foot_link:
           Value: true
+        rf_hip_link:
+          Value: true
         rf_lower_leg_link:
+          Value: true
+        rf_upper_leg_link:
           Value: true
         rh_foot_link:
           Value: true
+        rh_hip_link:
+          Value: true
         rh_lower_leg_link:
+          Value: true
+        rh_upper_leg_link:
           Value: true
         trunk:
           Value: true
@@ -118,9 +134,6 @@ Visualization Manager:
       Show Axes: false
       Show Names: false
       Tree:
-        lh_lower_leg_link:
-          lh_foot_link:
-            {}
         odom:
           base_link:
             camera_face:
@@ -130,7 +143,26 @@ Visualization Manager:
             laser_frame:
               {}
             trunk:
-              {}
+              lf_hip_link:
+                lf_upper_leg_link:
+                  lf_lower_leg_link:
+                    lf_foot_link:
+                      {}
+              lh_hip_link:
+                lh_upper_leg_link:
+                  lh_lower_leg_link:
+                    lh_foot_link:
+                      {}
+              rf_hip_link:
+                rf_upper_leg_link:
+                  rf_lower_leg_link:
+                    rf_foot_link:
+                      {}
+              rh_hip_link:
+                rh_upper_leg_link:
+                  rh_lower_leg_link:
+                    rh_foot_link:
+                      {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -145,7 +177,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 0
@@ -166,7 +198,7 @@ Visualization Manager:
         Value: /robot1/scan
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -573,6 +605,7 @@ Visualization Manager:
         LaserScan: true
         Map: true
         MarkerArray: true
+        PointCloud2: true
         Realsense:
           RealsenseCamera: true
           RealsenseDepthImage: true
@@ -593,7 +626,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 0
@@ -612,6 +645,39 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /robot1/scan
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz_default_plugins/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 0
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot1/points/points
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -652,21 +718,26 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.029199328273534775
-      Class: rviz_default_plugins/TopDownOrtho
+      Class: rviz_default_plugins/Orbit
+      Distance: 3.551410436630249
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
+      Focal Point:
+        X: 0.8493654727935791
+        Y: -0.1884332299232483
+        Z: 0.190273255109787
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 63.58992385864258
+      Pitch: 0.30476200580596924
       Target Frame: <Fixed Frame>
-      Value: TopDownOrtho (rviz_default_plugins)
-      X: -0.5802085399627686
-      Y: 0.17821279168128967
+      Value: Orbit (rviz_default_plugins)
+      Yaw: 3.0573887825012207
     Saved: ~
 Window Geometry:
   Camera:
@@ -693,4 +764,4 @@ Window Geometry:
     collapsed: false
   Width: 1160
   X: 352
-  Y: 264
+  Y: 203

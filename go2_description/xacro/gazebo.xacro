@@ -113,28 +113,31 @@
         <gazebo reference="laser_frame">
             <!--<material>Gazebo/Black</material>-->
 
-            <sensor name="laser" type="gpu_lidar">
-                <pose> 0 0 0 0 0 0 </pose>
-                <visualize>false</visualize>
-                <update_rate>10</update_rate>
-                <lidar>
-                    <scan>
-                        <horizontal>
-                            <samples>360</samples>
-                            <min_angle>-3.14</min_angle>
-                            <max_angle>3.14</max_angle>
-                        </horizontal>
-                    </scan>
-                    <range>
-                        <min>0.05</min>
-                        <max>12</max>
-                    </range>
-                </lidar>
-                <topic>/${robot_name}/scan</topic>
-                <gz_frame_id>laser_frame</gz_frame_id>
-
-            </sensor>
-
+	<sensor name="laser" type="gpu_lidar">
+	    <pose> 0 0 0 0 0 0 </pose>
+	    <visualize>false</visualize>
+	    <update_rate>10</update_rate>
+	    <lidar>
+	        <scan>
+	            <horizontal>
+	                <samples>360</samples>
+	                <min_angle>-3.14</min_angle>
+	                <max_angle>3.14</max_angle>
+	            </horizontal>
+	            <vertical>
+	                <samples>16</samples>
+	                <min_angle>-0.2618</min_angle>
+	                <max_angle>0.2618</max_angle>
+	            </vertical>
+	        </scan>
+	        <range>
+	            <min>0.05</min>
+	            <max>12</max>
+	        </range>
+	    </lidar>
+	    <topic>/${robot_name}/points</topic>
+	    <gz_frame_id>laser_frame</gz_frame_id>
+	</sensor>
         </gazebo>
 
         <gazebo reference="camera_face">
