@@ -34,7 +34,7 @@ def generate_launch_description():
     ld.add_action(gazebo)
 
     pause = ExecuteProcess(
-        cmd=['sleep', '6'],
+        cmd=['sleep', '15'],
         output='screen'
     )
     ld.add_action(pause)

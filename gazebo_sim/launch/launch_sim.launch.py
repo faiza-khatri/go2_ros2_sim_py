@@ -20,7 +20,7 @@ def generate_launch_description():
 
     # Process the URDF file
     pkg_path = os.path.join(get_package_share_directory(package_name))
-    xacro_file = os.path.join(pkg_path,'xacro','robot.xacro')
+    xacro_file = os.path.join(get_package_share_directory('go2_description'), 'xacro', 'robot.xacro')
     remappings = [
         ("/tf", "tf"),
         ("/tf_static", "tf_static"),
@@ -35,7 +35,7 @@ def generate_launch_description():
     )
 
 
-    world = os.path.join(pkg_path, 'world', 'empty.world')    
+    world = os.path.join(pkg_path, 'world', 'cafe.world')    
     # Include the Gazebo launch file, provided by the ros_gz_sim package
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
@@ -47,7 +47,7 @@ def generate_launch_description():
     spawn_entity = Node(package='ros_gz_sim', executable='create', namespace=namespace,
                         arguments=['-topic', f'{namespace}/robot_description',
                                    '-name', f'{namespace}/my_bot',
-                                   '-z', '0.4'],
+                                   '-z', '2.74'],
                         output='screen')
 
 
@@ -169,7 +169,7 @@ def generate_launch_description():
         }.items()
     )
 
-    rviz_config_file = os.path.join(pkg_path, 'config', 'multi_nav2_default_view.rviz')
+    rviz_config_file = os.path.join(pkg_path, 'rviz', 'multi_nav2_default_view.rviz')
     rviz = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(pkg_path, 'launch', "rviz_launch.py")),
             launch_arguments={

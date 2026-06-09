@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="test">
+
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+    </light>
+
+    <model name="terrain">
+      <static>true</static>
+
+      <link name="terrain_link">
+
+        <collision name="terrain_collision">
+          <geometry>
+            <heightmap>
+              <uri>file:///home/administrator/farm/spruce_tree/terrains/terrain.png</uri>
+              <size>80 80 20</size>
+              <pos>0 0 0</pos>
+            </heightmap>
+          </geometry>
+        </collision>
+
+        <visual name="terrain_visual">
+          <geometry>
+            <heightmap>
+              <uri>file:///home/administrator/farm/spruce_tree/terrains/terrain.png</uri>
+              <size>80 80 20</size>
+              <pos>0 0 0</pos>
+            </heightmap>
+          </geometry>
+        </visual>
+
+      </link>
+    </model>
+
+    <include>
+      <uri>model://spruce_tree</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+  </world>
+</sdf>
