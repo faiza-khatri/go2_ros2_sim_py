@@ -76,7 +76,8 @@ def generate_launch_description():
         namespace=namespace,
         arguments=[
             f"{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU",
-            f"{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
+	    f"{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
+	    f"{namespace}/points/points@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked",
             f"{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
             f"{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model"
         ]
@@ -173,14 +174,18 @@ def generate_launch_description():
     )
 
     rviz_config_file = os.path.join(pkg_path, 'rviz', 'forest_view.rviz')
-    rviz = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(pkg_path, 'launch', "rviz_launch.py")),
-            launch_arguments={
-                "namespace": namespace,
-                "use_namespace": 'true',
-                "rviz_config": rviz_config_file,
-            }.items()
-        )
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        namespace=namespace,
+        arguments=['-d', rviz_config_file],
+        output='screen',
+        remappings=[
+            ('/tf', '/robot1/tf'),
+            ('/tf_static', '/robot1/tf_static'),
+        ]
+    )
+
 
     # Launch them all!
     return LaunchDescription([
