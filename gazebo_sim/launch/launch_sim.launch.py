@@ -4,7 +4,8 @@ from ament_index_python.packages import get_package_share_directory
 
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, RegisterEventHandler, TimerAction
+from launch.event_handlers import OnProcessStart
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 
@@ -91,25 +92,27 @@ def generate_launch_description():
         ]
     )
         # Запуск контроллеров
-    joint_state_broadcaster = Node(
-        package="controller_manager",
-        executable="spawner",
-        namespace=namespace,
-        arguments=["joint_state_broadcaster"],
-        remappings=remappings
-
+    joint_state_broadcaster = TimerAction(
+        period=5.0,
+        actions=[Node(
+            package="controller_manager",
+            executable="spawner",
+            namespace=namespace,
+            arguments=["joint_state_broadcaster", "--controller-manager-timeout", "30"],
+            remappings=remappings,
+        )]
     )
-
-    joint_group_controller = Node(
-        package="controller_manager",
-        executable="spawner",
-        namespace=namespace,
-        arguments=["joint_group_controller"],
-        output="screen",
-        remappings=remappings
-
+    joint_group_controller = TimerAction(
+        period=6.0,
+        actions=[Node(
+            package="controller_manager",
+            executable="spawner",
+            namespace=namespace,
+            arguments=["joint_group_controller", "--controller-manager-timeout", "30"],
+            output="screen",
+            remappings=remappings,
+        )]
     )
-
     # Ноды для управления роботом
     controller = Node(
         package='quadropted_controller',
@@ -143,7 +146,7 @@ def generate_launch_description():
                 'has_imu_heading': True,
                 'is_gazebo': True,
                 'imu_topic': f"/{namespace}/imu",
-                'base_frame_id': "base",
+                'base_frame_id': "base_link",
                 'odom_frame_id': "odom",
                 'clock_topic': '/clock',
                 'enable_odom_tf': True,
@@ -169,7 +172,7 @@ def generate_launch_description():
         }.items()
     )
 
-    rviz_config_file = os.path.join(pkg_path, 'rviz', 'multi_nav2_default_view.rviz')
+    rviz_config_file = os.path.join(pkg_path, 'rviz', 'forest_view.rviz')
     rviz = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(pkg_path, 'launch', "rviz_launch.py")),
             launch_arguments={
