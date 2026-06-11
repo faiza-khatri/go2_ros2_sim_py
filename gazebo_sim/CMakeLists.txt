@@ -18,6 +18,7 @@ install(DIRECTORY
   world
   maps
   rviz
+  materials
   models
   src
   DESTINATION share/${PROJECT_NAME}/
