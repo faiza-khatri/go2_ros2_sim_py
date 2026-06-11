@@ -1,3 +1,11 @@
+##### Note for forked version #####
+The world file used is go_sim/src/gazebo_sim/world/cafe.world
+In order to have this file use the correct file paths, run:
+```bash
+python3 gazebo_sim/generate_world.py
+```
+
+
 # Unitree go2, go1 simulation in Gazebo Sim
 
 This repository allows you to run dog robots in the GAZEBO simulator. The robot can walk, rotate with 12 degrees of freedom, and features a `robot_msgs` interface. The robot moves using inverse kinematics, and its odometry is based on direct kinematics. Additionally, all functionalities are developed in Python.
