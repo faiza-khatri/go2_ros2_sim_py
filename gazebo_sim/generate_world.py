@@ -14,30 +14,33 @@ from PIL import Image
 import numpy as np
 import os
 import random
+import subprocess
 
 # ─────────────────────────────────────────────
 # TERRAIN CONFIG  ← edit these
 # ─────────────────────────────────────────────
-HEIGHTMAP_PNG  = "/home/administrator/go_sim/src/gazebo_sim/materials/textures/bc_terrain_heightmap_256.png"
-TERRAIN_W      = 50.0   # metres X
-TERRAIN_H      = 50.0   # metres Y
-TERRAIN_Z      = 1.0    # metres max height (vertical scale)
-TERRAIN_POS    = (0, 0, 0)
+# Source paths (used for heightmap sampling only)
+SCRIPT_DIR    = os.path.dirname(os.path.abspath(__file__))
+MATERIALS_DIR = os.path.join(SCRIPT_DIR, 'materials', 'textures')
+HEIGHTMAP_PNG = os.path.join(MATERIALS_DIR, 'bc_terrain_heightmap_256.png')
 
-DIFFUSE_TEX    = "/home/administrator/go_sim/src/gazebo_sim/materials/textures/bc_moss_rock_diffuse.png"
-NORMAL_TEX     = "/home/administrator/go_sim/src/gazebo_sim/materials/textures/bc_moss_rock_normal.png"
-TEXTURE_SIZE   = 4      # tiling size in metres
+# Installed paths (written into the world SDF for Gazebo to load)
+pkg_share    = subprocess.check_output(['ros2', 'pkg', 'prefix', '--share', 'gazebo_sim']).decode().strip()
+GZ_MATERIALS = os.path.join(pkg_share, 'materials', 'textures')
+GZ_HEIGHTMAP = os.path.join(GZ_MATERIALS, 'bc_terrain_heightmap_256.png')
+GZ_DIFFUSE   = os.path.join(GZ_MATERIALS, 'bc_moss_rock_diffuse.png')
+GZ_NORMAL    = os.path.join(GZ_MATERIALS, 'bc_moss_rock_normal.png')
 
-# Random generation:
+TERRAIN_W   = 50.0
+TERRAIN_H   = 50.0
+TERRAIN_Z   = 1.0
+TERRAIN_POS = (0, 0, 0)
+TEXTURE_SIZE = 4
+
 X_MIN, X_MAX = -20, 20
 Y_MIN, Y_MAX = -20, 20
 
-
-
-
-
-
-OUTPUT_FILE    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "world/cafe.world")
+OUTPUT_FILE = os.path.join(SCRIPT_DIR, 'world', 'cafe.world')
 
 # ─────────────────────────────────────────────
 # HEIGHTMAP SAMPLER
@@ -222,7 +225,7 @@ world = f"""<?xml version="1.0" ?>
         <collision name="collision">
           <geometry>
             <heightmap>
-              <uri>{HEIGHTMAP_PNG}</uri>
+              <uri>{GZ_HEIGHTMAP}</uri>
               <size>{TERRAIN_W} {TERRAIN_H} {TERRAIN_Z}</size>
               <pos>{TERRAIN_POS[0]} {TERRAIN_POS[1]} {TERRAIN_POS[2]}</pos>
             </heightmap>
@@ -232,12 +235,12 @@ world = f"""<?xml version="1.0" ?>
           <geometry>
             <heightmap>
               <use_terrain_paging>false</use_terrain_paging>
-              <uri>{HEIGHTMAP_PNG}</uri>
+              <uri>{GZ_HEIGHTMAP}</uri>
               <size>{TERRAIN_W} {TERRAIN_H} {TERRAIN_Z}</size>
               <pos>{TERRAIN_POS[0]} {TERRAIN_POS[1]} {TERRAIN_POS[2]}</pos>
               <texture>
-                <diffuse>{DIFFUSE_TEX}</diffuse>
-                <normal>{NORMAL_TEX}</normal>
+                <diffuse>{GZ_DIFFUSE}</diffuse>
+                <normal>{GZ_NORMAL}</normal>
                 <size>{TEXTURE_SIZE}</size>
               </texture>
             </heightmap>
