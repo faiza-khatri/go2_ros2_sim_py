@@ -92,7 +92,6 @@ def generate_launch_description():
         ]
     )
     ld.add_action(ros_gz_bridge_clock)   
-
     
     last_action = None
 
@@ -136,7 +135,7 @@ def generate_launch_description():
             output='screen',
             arguments=[
                 f'/{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU',
-		f'/{namespace}/scan@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked',
+                f'/{namespace}/points/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
                 f'/{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
                 f'/{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model',
                 f'/{namespace}/color/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo',
@@ -144,10 +143,25 @@ def generate_launch_description():
                 f'/{namespace}/color/image_rect@sensor_msgs/msg/Image@gz.msgs.Image',
                 # f'/{namespace}/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock'
             ],
-	remappings=[
+    remappings=[
                (f'/{namespace}/tf', 'tf'),
                (f'/{namespace}/tf_static', 'tf_static'),
         ]
+        )
+        velodyne_laserscan = Node(
+            package='velodyne_laserscan',
+            executable='velodyne_laserscan_node',
+            name='velodyne_laserscan',
+            namespace=namespace,
+            remappings=[
+                ('velodyne_points', f'/{namespace}/points/points'),
+                ('scan', f'/{namespace}/scan'),
+            ],
+            parameters=[{
+                'ring': -1,
+                'resolution': 0.007,
+                'use_sim_time': True,
+            }]
         )
         start_gazebo_ros_image_bridge_cmd = Node(
             package='ros_gz_image',
@@ -324,6 +338,7 @@ def generate_launch_description():
             node_robot_state_publisher,
             spawn_entity,
             ros_gz_bridge,
+            velodyne_laserscan,
             start_gazebo_ros_image_bridge_cmd,
             robot_control,
             nav2_actions,
