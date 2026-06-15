@@ -29,7 +29,7 @@
         <collision name="collision">
           <geometry>
             <heightmap>
-              <uri>/home/administrator/simforest/go_sim/install/gazebo_sim/share/gazebo_sim/materials/textures/bc_terrain_heightmap_256.png</uri>
+              <uri>/home/administrator/newsim/go_sim/install/gazebo_sim/share/gazebo_sim/materials/textures/bc_terrain_heightmap_256.png</uri>
               <size>50.0 50.0 1.0</size>
               <pos>0 0 0</pos>
             </heightmap>
@@ -39,12 +39,12 @@
           <geometry>
             <heightmap>
               <use_terrain_paging>false</use_terrain_paging>
-              <uri>/home/administrator/simforest/go_sim/install/gazebo_sim/share/gazebo_sim/materials/textures/bc_terrain_heightmap_256.png</uri>
+              <uri>/home/administrator/newsim/go_sim/install/gazebo_sim/share/gazebo_sim/materials/textures/bc_terrain_heightmap_256.png</uri>
               <size>50.0 50.0 1.0</size>
               <pos>0 0 0</pos>
               <texture>
-                <diffuse>/home/administrator/simforest/go_sim/install/gazebo_sim/share/gazebo_sim/materials/textures/bc_moss_rock_diffuse.png</diffuse>
-                <normal>/home/administrator/simforest/go_sim/install/gazebo_sim/share/gazebo_sim/materials/textures/bc_moss_rock_normal.png</normal>
+                <diffuse>/home/administrator/newsim/go_sim/install/gazebo_sim/share/gazebo_sim/materials/textures/bc_moss_rock_diffuse.png</diffuse>
+                <normal>/home/administrator/newsim/go_sim/install/gazebo_sim/share/gazebo_sim/materials/textures/bc_moss_rock_normal.png</normal>
                 <size>4</size>
               </texture>
             </heightmap>
@@ -53,16 +53,16 @@
       </link>
     </model>
 
-    <!-- spruce_tree_0: terrain_z(-13.887480789930503, 1.3169623530013226) = 0.5412 -->
+    <!-- spruce_tree_0: terrain_z(11.939587723335233, 11.45801084834789) = 0.4314 -->
     <model name="spruce_tree_0">
       <static>true</static>
-      <pose>-13.887480789930503 1.3169623530013226 0.5412 0 0 0</pose>
+      <pose>11.939587723335233 11.45801084834789 0.4314 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5435740246099933 0.5435740246099933 0.5435740246099933</scale>
+              <scale>0.5334017321685321 0.5334017321685321 0.5334017321685321</scale>
             </mesh>
           </geometry>
         </visual>
@@ -77,16 +77,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_1: terrain_z(-12.344909146337226, 9.226303908608916) = 0.5725 -->
+    <!-- spruce_tree_1: terrain_z(-5.469040572484957, 15.04010037637238) = 0.6745 -->
     <model name="spruce_tree_1">
       <static>true</static>
-      <pose>-12.344909146337226 9.226303908608916 0.5725 0 0 0</pose>
+      <pose>-5.469040572484957 15.04010037637238 0.6745 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5397817363833088 0.5397817363833088 0.5397817363833088</scale>
+              <scale>0.5682762285375733 0.5682762285375733 0.5682762285375733</scale>
             </mesh>
           </geometry>
         </visual>
@@ -101,16 +101,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_2: terrain_z(-9.72242457294007, 14.585398897365181) = 0.5137 -->
+    <!-- spruce_tree_2: terrain_z(8.334519452499048, -19.570110095527312) = 0.6980 -->
     <model name="spruce_tree_2">
       <static>true</static>
-      <pose>-9.72242457294007 14.585398897365181 0.5137 0 0 0</pose>
+      <pose>8.334519452499048 -19.570110095527312 0.6980 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5854716641382236 0.5854716641382236 0.5854716641382236</scale>
+              <scale>0.536086220114311 0.536086220114311 0.536086220114311</scale>
             </mesh>
           </geometry>
         </visual>
@@ -125,16 +125,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_3: terrain_z(15.897621545148233, -8.052150186888852) = 0.6902 -->
+    <!-- spruce_tree_3: terrain_z(15.35074652431863, 6.546703880473487) = 0.2667 -->
     <model name="spruce_tree_3">
       <static>true</static>
-      <pose>15.897621545148233 -8.052150186888852 0.6902 0 0 0</pose>
+      <pose>15.35074652431863 6.546703880473487 0.2667 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5691702021661766 0.5691702021661766 0.5691702021661766</scale>
+              <scale>0.5107640298997267 0.5107640298997267 0.5107640298997267</scale>
             </mesh>
           </geometry>
         </visual>
@@ -149,16 +149,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_4: terrain_z(2.6150220069447982, -0.7175835424873682) = 0.6471 -->
+    <!-- spruce_tree_4: terrain_z(-13.867270799570374, 13.369718238685095) = 0.6392 -->
     <model name="spruce_tree_4">
       <static>true</static>
-      <pose>2.6150220069447982 -0.7175835424873682 0.6471 0 0 0</pose>
+      <pose>-13.867270799570374 13.369718238685095 0.6392 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5114237426288483 0.5114237426288483 0.5114237426288483</scale>
+              <scale>0.5126827897783249 0.5126827897783249 0.5126827897783249</scale>
             </mesh>
           </geometry>
         </visual>
@@ -173,16 +173,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_5: terrain_z(-13.415588509247293, -18.738639152488346) = 0.4392 -->
+    <!-- spruce_tree_5: terrain_z(-11.606789509136032, -6.611703363651319) = 0.5412 -->
     <model name="spruce_tree_5">
       <static>true</static>
-      <pose>-13.415588509247293 -18.738639152488346 0.4392 0 0 0</pose>
+      <pose>-11.606789509136032 -6.611703363651319 0.5412 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5347721233374892 0.5347721233374892 0.5347721233374892</scale>
+              <scale>0.5181161262746675 0.5181161262746675 0.5181161262746675</scale>
             </mesh>
           </geometry>
         </visual>
@@ -197,16 +197,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_6: terrain_z(-11.079998448954406, 12.636748611554488) = 0.5686 -->
+    <!-- spruce_tree_6: terrain_z(-18.296736609686736, -9.517431176492863) = 0.0000 -->
     <model name="spruce_tree_6">
       <static>true</static>
-      <pose>-11.079998448954406 12.636748611554488 0.5686 0 0 0</pose>
+      <pose>-18.296736609686736 -9.517431176492863 0.0000 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5772255386996441 0.5772255386996441 0.5772255386996441</scale>
+              <scale>0.5060757272005114 0.5060757272005114 0.5060757272005114</scale>
             </mesh>
           </geometry>
         </visual>
@@ -221,16 +221,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_7: terrain_z(-1.5899021260626576, -0.49861059785156314) = 0.5765 -->
+    <!-- spruce_tree_7: terrain_z(-14.636349814944074, 14.695092010177518) = 0.7922 -->
     <model name="spruce_tree_7">
       <static>true</static>
-      <pose>-1.5899021260626576 -0.49861059785156314 0.5765 0 0 0</pose>
+      <pose>-14.636349814944074 14.695092010177518 0.7922 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5895650374896906 0.5895650374896906 0.5895650374896906</scale>
+              <scale>0.5217683759028503 0.5217683759028503 0.5217683759028503</scale>
             </mesh>
           </geometry>
         </visual>
@@ -245,16 +245,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_8: terrain_z(4.316038986860416, 14.242475870108812) = 0.4078 -->
+    <!-- spruce_tree_8: terrain_z(-7.321150324856273, 9.475279081734701) = 0.5804 -->
     <model name="spruce_tree_8">
       <static>true</static>
-      <pose>4.316038986860416 14.242475870108812 0.4078 0 0 0</pose>
+      <pose>-7.321150324856273 9.475279081734701 0.5804 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5450735441955012 0.5450735441955012 0.5450735441955012</scale>
+              <scale>0.5382417616633555 0.5382417616633555 0.5382417616633555</scale>
             </mesh>
           </geometry>
         </visual>
@@ -269,16 +269,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_9: terrain_z(-5.08747698248202, -0.9916376626004144) = 0.5608 -->
+    <!-- spruce_tree_9: terrain_z(15.595167492528454, 17.54429187874655) = 0.5137 -->
     <model name="spruce_tree_9">
       <static>true</static>
-      <pose>-5.08747698248202 -0.9916376626004144 0.5608 0 0 0</pose>
+      <pose>15.595167492528454 17.54429187874655 0.5137 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5729141665708954 0.5729141665708954 0.5729141665708954</scale>
+              <scale>0.5325727327682731 0.5325727327682731 0.5325727327682731</scale>
             </mesh>
           </geometry>
         </visual>
@@ -293,16 +293,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_10: terrain_z(-19.893880677226203, -19.38210164586485) = 0.6392 -->
+    <!-- spruce_tree_10: terrain_z(17.0529105958017, 5.4981628806892004) = 0.4235 -->
     <model name="spruce_tree_10">
       <static>true</static>
-      <pose>-19.893880677226203 -19.38210164586485 0.6392 0 0 0</pose>
+      <pose>17.0529105958017 5.4981628806892004 0.4235 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5743065996659654 0.5743065996659654 0.5743065996659654</scale>
+              <scale>0.585010136798105 0.585010136798105 0.585010136798105</scale>
             </mesh>
           </geometry>
         </visual>
@@ -317,16 +317,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_11: terrain_z(-17.509521653130587, -5.433982812447953) = 0.2784 -->
+    <!-- spruce_tree_11: terrain_z(-12.644495108953727, -13.255481221569125) = 0.4941 -->
     <model name="spruce_tree_11">
       <static>true</static>
-      <pose>-17.509521653130587 -5.433982812447953 0.2784 0 0 0</pose>
+      <pose>-12.644495108953727 -13.255481221569125 0.4941 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.558221857117178 0.558221857117178 0.558221857117178</scale>
+              <scale>0.5367844568251028 0.5367844568251028 0.5367844568251028</scale>
             </mesh>
           </geometry>
         </visual>
@@ -341,16 +341,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_12: terrain_z(-5.04211331954048, -10.501866349464715) = 0.7098 -->
+    <!-- spruce_tree_12: terrain_z(-14.702672826749739, 4.632363597035084) = 0.4706 -->
     <model name="spruce_tree_12">
       <static>true</static>
-      <pose>-5.04211331954048 -10.501866349464715 0.7098 0 0 0</pose>
+      <pose>-14.702672826749739 4.632363597035084 0.4706 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5653383174233402 0.5653383174233402 0.5653383174233402</scale>
+              <scale>0.5957347505403421 0.5957347505403421 0.5957347505403421</scale>
             </mesh>
           </geometry>
         </visual>
@@ -365,16 +365,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_13: terrain_z(-18.073609766793236, 9.873492110392732) = 0.5765 -->
+    <!-- spruce_tree_13: terrain_z(-9.8477573743674, 7.572679517956942) = 0.5373 -->
     <model name="spruce_tree_13">
       <static>true</static>
-      <pose>-18.073609766793236 9.873492110392732 0.5765 0 0 0</pose>
+      <pose>-9.8477573743674 7.572679517956942 0.5373 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5466784305907763 0.5466784305907763 0.5466784305907763</scale>
+              <scale>0.5089483324400464 0.5089483324400464 0.5089483324400464</scale>
             </mesh>
           </geometry>
         </visual>
@@ -389,16 +389,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_14: terrain_z(8.393790956689543, 18.54825145962218) = 0.4941 -->
+    <!-- spruce_tree_14: terrain_z(1.4795478714861652, -1.471303153914178) = 0.6314 -->
     <model name="spruce_tree_14">
       <static>true</static>
-      <pose>8.393790956689543 18.54825145962218 0.4941 0 0 0</pose>
+      <pose>1.4795478714861652 -1.471303153914178 0.6314 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5136767199292124 0.5136767199292124 0.5136767199292124</scale>
+              <scale>0.5380813913065248 0.5380813913065248 0.5380813913065248</scale>
             </mesh>
           </geometry>
         </visual>
@@ -413,16 +413,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_15: terrain_z(1.3333201419165448, -8.15129813092108) = 0.6784 -->
+    <!-- spruce_tree_15: terrain_z(16.51198602095719, 6.3310104796149425) = 0.3294 -->
     <model name="spruce_tree_15">
       <static>true</static>
-      <pose>1.3333201419165448 -8.15129813092108 0.6784 0 0 0</pose>
+      <pose>16.51198602095719 6.3310104796149425 0.3294 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5951783704291431 0.5951783704291431 0.5951783704291431</scale>
+              <scale>0.531860870984873 0.531860870984873 0.531860870984873</scale>
             </mesh>
           </geometry>
         </visual>
@@ -437,16 +437,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_16: terrain_z(-12.093320271557921, -10.941754596326007) = 0.4706 -->
+    <!-- spruce_tree_16: terrain_z(6.571305808037181, 2.313380008893482) = 0.6471 -->
     <model name="spruce_tree_16">
       <static>true</static>
-      <pose>-12.093320271557921 -10.941754596326007 0.4706 0 0 0</pose>
+      <pose>6.571305808037181 2.313380008893482 0.6471 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5908758579919289 0.5908758579919289 0.5908758579919289</scale>
+              <scale>0.5351836522095246 0.5351836522095246 0.5351836522095246</scale>
             </mesh>
           </geometry>
         </visual>
@@ -461,16 +461,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_17: terrain_z(9.9194399949631, 15.120995961616181) = 0.3098 -->
+    <!-- spruce_tree_17: terrain_z(-13.676057564478663, 8.280852779801982) = 0.6392 -->
     <model name="spruce_tree_17">
       <static>true</static>
-      <pose>9.9194399949631 15.120995961616181 0.3098 0 0 0</pose>
+      <pose>-13.676057564478663 8.280852779801982 0.6392 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5485480438076874 0.5485480438076874 0.5485480438076874</scale>
+              <scale>0.5618747700216945 0.5618747700216945 0.5618747700216945</scale>
             </mesh>
           </geometry>
         </visual>
@@ -485,16 +485,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_18: terrain_z(1.9260750886988376, 3.779512002818862) = 0.7216 -->
+    <!-- spruce_tree_18: terrain_z(14.902028020367098, 1.0409194577981715) = 0.4353 -->
     <model name="spruce_tree_18">
       <static>true</static>
-      <pose>1.9260750886988376 3.779512002818862 0.7216 0 0 0</pose>
+      <pose>14.902028020367098 1.0409194577981715 0.4353 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5081641543233985 0.5081641543233985 0.5081641543233985</scale>
+              <scale>0.5342038495509426 0.5342038495509426 0.5342038495509426</scale>
             </mesh>
           </geometry>
         </visual>
@@ -509,16 +509,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_19: terrain_z(12.697962394011341, -13.886195793971243) = 0.7725 -->
+    <!-- spruce_tree_19: terrain_z(-17.324235343243664, -4.662872857457799) = 0.2392 -->
     <model name="spruce_tree_19">
       <static>true</static>
-      <pose>12.697962394011341 -13.886195793971243 0.7725 0 0 0</pose>
+      <pose>-17.324235343243664 -4.662872857457799 0.2392 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5442873417929233 0.5442873417929233 0.5442873417929233</scale>
+              <scale>0.5755541430825324 0.5755541430825324 0.5755541430825324</scale>
             </mesh>
           </geometry>
         </visual>
@@ -533,16 +533,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_20: terrain_z(-14.421420305175383, -7.193420678499148) = 0.2039 -->
+    <!-- spruce_tree_20: terrain_z(-12.914384427884142, -5.521066023332066) = 0.5020 -->
     <model name="spruce_tree_20">
       <static>true</static>
-      <pose>-14.421420305175383 -7.193420678499148 0.2039 0 0 0</pose>
+      <pose>-12.914384427884142 -5.521066023332066 0.5020 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5089122176518542 0.5089122176518542 0.5089122176518542</scale>
+              <scale>0.5727284142354506 0.5727284142354506 0.5727284142354506</scale>
             </mesh>
           </geometry>
         </visual>
@@ -557,16 +557,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_21: terrain_z(-18.395668651633752, 13.98439928677201) = 0.6980 -->
+    <!-- spruce_tree_21: terrain_z(-6.111613358542769, -3.5570378678838637) = 0.6118 -->
     <model name="spruce_tree_21">
       <static>true</static>
-      <pose>-18.395668651633752 13.98439928677201 0.6980 0 0 0</pose>
+      <pose>-6.111613358542769 -3.5570378678838637 0.6118 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5847741588140307 0.5847741588140307 0.5847741588140307</scale>
+              <scale>0.513437053680569 0.513437053680569 0.513437053680569</scale>
             </mesh>
           </geometry>
         </visual>
@@ -581,16 +581,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_22: terrain_z(-2.548884295288371, -1.3935215244365509) = 0.5529 -->
+    <!-- spruce_tree_22: terrain_z(5.665352080056159, -11.587194487679904) = 0.9294 -->
     <model name="spruce_tree_22">
       <static>true</static>
-      <pose>-2.548884295288371 -1.3935215244365509 0.5529 0 0 0</pose>
+      <pose>5.665352080056159 -11.587194487679904 0.9294 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5543365365076744 0.5543365365076744 0.5543365365076744</scale>
+              <scale>0.5099318108309978 0.5099318108309978 0.5099318108309978</scale>
             </mesh>
           </geometry>
         </visual>
@@ -605,16 +605,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_23: terrain_z(4.736294287864876, 14.772771035178536) = 0.3373 -->
+    <!-- spruce_tree_23: terrain_z(-8.942052579819908, 15.284757141572129) = 0.5804 -->
     <model name="spruce_tree_23">
       <static>true</static>
-      <pose>4.736294287864876 14.772771035178536 0.3373 0 0 0</pose>
+      <pose>-8.942052579819908 15.284757141572129 0.5804 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5288196626349964 0.5288196626349964 0.5288196626349964</scale>
+              <scale>0.5393368406899935 0.5393368406899935 0.5393368406899935</scale>
             </mesh>
           </geometry>
         </visual>
@@ -629,16 +629,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_24: terrain_z(-9.060132800610884, 4.510525425880282) = 0.5765 -->
+    <!-- spruce_tree_24: terrain_z(1.272028851687331, 13.894226155149212) = 0.5686 -->
     <model name="spruce_tree_24">
       <static>true</static>
-      <pose>-9.060132800610884 4.510525425880282 0.5765 0 0 0</pose>
+      <pose>1.272028851687331 13.894226155149212 0.5686 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5354412154268685 0.5354412154268685 0.5354412154268685</scale>
+              <scale>0.5215109701808458 0.5215109701808458 0.5215109701808458</scale>
             </mesh>
           </geometry>
         </visual>
@@ -653,16 +653,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_25: terrain_z(7.127729949240518, -15.842262552748242) = 0.8941 -->
+    <!-- spruce_tree_25: terrain_z(9.294712241480688, 3.0284033243827757) = 0.5255 -->
     <model name="spruce_tree_25">
       <static>true</static>
-      <pose>7.127729949240518 -15.842262552748242 0.8941 0 0 0</pose>
+      <pose>9.294712241480688 3.0284033243827757 0.5255 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5635336888039731 0.5635336888039731 0.5635336888039731</scale>
+              <scale>0.5536419580488059 0.5536419580488059 0.5536419580488059</scale>
             </mesh>
           </geometry>
         </visual>
@@ -677,16 +677,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_26: terrain_z(2.929067797489484, 2.843219019765506) = 0.8157 -->
+    <!-- spruce_tree_26: terrain_z(4.955120540995402, -13.237063726700473) = 1.0000 -->
     <model name="spruce_tree_26">
       <static>true</static>
-      <pose>2.929067797489484 2.843219019765506 0.8157 0 0 0</pose>
+      <pose>4.955120540995402 -13.237063726700473 1.0000 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5739094473258426 0.5739094473258426 0.5739094473258426</scale>
+              <scale>0.5092071882053065 0.5092071882053065 0.5092071882053065</scale>
             </mesh>
           </geometry>
         </visual>
@@ -701,16 +701,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_27: terrain_z(19.63361835064231, 17.278256958074707) = 0.5529 -->
+    <!-- spruce_tree_27: terrain_z(19.12555444233891, -8.925098161340731) = 0.5647 -->
     <model name="spruce_tree_27">
       <static>true</static>
-      <pose>19.63361835064231 17.278256958074707 0.5529 0 0 0</pose>
+      <pose>19.12555444233891 -8.925098161340731 0.5647 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5681411506335422 0.5681411506335422 0.5681411506335422</scale>
+              <scale>0.5573205213407093 0.5573205213407093 0.5573205213407093</scale>
             </mesh>
           </geometry>
         </visual>
@@ -725,16 +725,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_28: terrain_z(-5.175876537089685, -15.405037880920464) = 0.7412 -->
+    <!-- spruce_tree_28: terrain_z(19.433987015271875, 18.28952488056194) = 0.5490 -->
     <model name="spruce_tree_28">
       <static>true</static>
-      <pose>-5.175876537089685 -15.405037880920464 0.7412 0 0 0</pose>
+      <pose>19.433987015271875 18.28952488056194 0.5490 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5156031156346881 0.5156031156346881 0.5156031156346881</scale>
+              <scale>0.5110322645801365 0.5110322645801365 0.5110322645801365</scale>
             </mesh>
           </geometry>
         </visual>
@@ -749,16 +749,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_29: terrain_z(17.4495327577785, 4.408681997841491) = 0.3294 -->
+    <!-- spruce_tree_29: terrain_z(-11.101564047729116, -11.925975912208475) = 0.6588 -->
     <model name="spruce_tree_29">
       <static>true</static>
-      <pose>17.4495327577785 4.408681997841491 0.3294 0 0 0</pose>
+      <pose>-11.101564047729116 -11.925975912208475 0.6588 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5607832738888562 0.5607832738888562 0.5607832738888562</scale>
+              <scale>0.5971614314393786 0.5971614314393786 0.5971614314393786</scale>
             </mesh>
           </geometry>
         </visual>
@@ -773,16 +773,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_30: terrain_z(0.6382437439848374, 1.9685282316242336) = 0.8078 -->
+    <!-- spruce_tree_30: terrain_z(18.96977902904454, -13.06400184439147) = 0.8314 -->
     <model name="spruce_tree_30">
       <static>true</static>
-      <pose>0.6382437439848374 1.9685282316242336 0.8078 0 0 0</pose>
+      <pose>18.96977902904454 -13.06400184439147 0.8314 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5489450721555188 0.5489450721555188 0.5489450721555188</scale>
+              <scale>0.5425811117568747 0.5425811117568747 0.5425811117568747</scale>
             </mesh>
           </geometry>
         </visual>
@@ -797,16 +797,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_31: terrain_z(5.806823258650983, 14.006464059027095) = 0.4314 -->
+    <!-- spruce_tree_31: terrain_z(11.048046843837426, 9.213561805886652) = 0.2314 -->
     <model name="spruce_tree_31">
       <static>true</static>
-      <pose>5.806823258650983 14.006464059027095 0.4314 0 0 0</pose>
+      <pose>11.048046843837426 9.213561805886652 0.2314 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5157169702037234 0.5157169702037234 0.5157169702037234</scale>
+              <scale>0.5631148754419817 0.5631148754419817 0.5631148754419817</scale>
             </mesh>
           </geometry>
         </visual>
@@ -821,16 +821,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_32: terrain_z(-5.307826603718727, -8.858558229289958) = 0.5490 -->
+    <!-- spruce_tree_32: terrain_z(15.27024767042387, -12.145532079540322) = 0.7098 -->
     <model name="spruce_tree_32">
       <static>true</static>
-      <pose>-5.307826603718727 -8.858558229289958 0.5490 0 0 0</pose>
+      <pose>15.27024767042387 -12.145532079540322 0.7098 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5878811567131387 0.5878811567131387 0.5878811567131387</scale>
+              <scale>0.5820723000304063 0.5820723000304063 0.5820723000304063</scale>
             </mesh>
           </geometry>
         </visual>
@@ -845,16 +845,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_33: terrain_z(7.517953079158495, 13.196589699621526) = 0.4314 -->
+    <!-- spruce_tree_33: terrain_z(-6.546176199880751, 12.800309860863557) = 0.5098 -->
     <model name="spruce_tree_33">
       <static>true</static>
-      <pose>7.517953079158495 13.196589699621526 0.4314 0 0 0</pose>
+      <pose>-6.546176199880751 12.800309860863557 0.5098 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5204651681712839 0.5204651681712839 0.5204651681712839</scale>
+              <scale>0.5875428926025847 0.5875428926025847 0.5875428926025847</scale>
             </mesh>
           </geometry>
         </visual>
@@ -869,16 +869,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_34: terrain_z(5.582889217394069, 17.00870115152823) = 0.4078 -->
+    <!-- spruce_tree_34: terrain_z(1.7383836128541539, 18.238069255825543) = 0.4157 -->
     <model name="spruce_tree_34">
       <static>true</static>
-      <pose>5.582889217394069 17.00870115152823 0.4078 0 0 0</pose>
+      <pose>1.7383836128541539 18.238069255825543 0.4157 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.557752253712406 0.557752253712406 0.557752253712406</scale>
+              <scale>0.5789611165892725 0.5789611165892725 0.5789611165892725</scale>
             </mesh>
           </geometry>
         </visual>
@@ -893,16 +893,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_35: terrain_z(15.853566686595244, -4.6107863282833925) = 0.5804 -->
+    <!-- spruce_tree_35: terrain_z(-0.6920788268882738, -18.710902513803084) = 0.8039 -->
     <model name="spruce_tree_35">
       <static>true</static>
-      <pose>15.853566686595244 -4.6107863282833925 0.5804 0 0 0</pose>
+      <pose>-0.6920788268882738 -18.710902513803084 0.8039 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5070791679419513 0.5070791679419513 0.5070791679419513</scale>
+              <scale>0.5874322383428526 0.5874322383428526 0.5874322383428526</scale>
             </mesh>
           </geometry>
         </visual>
@@ -917,16 +917,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_36: terrain_z(-0.928462682462655, -14.928048046764296) = 0.6784 -->
+    <!-- spruce_tree_36: terrain_z(12.995780544537283, 9.82345775945063) = 0.2431 -->
     <model name="spruce_tree_36">
       <static>true</static>
-      <pose>-0.928462682462655 -14.928048046764296 0.6784 0 0 0</pose>
+      <pose>12.995780544537283 9.82345775945063 0.2431 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5089604962874961 0.5089604962874961 0.5089604962874961</scale>
+              <scale>0.5808101706241984 0.5808101706241984 0.5808101706241984</scale>
             </mesh>
           </geometry>
         </visual>
@@ -941,16 +941,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_37: terrain_z(12.335453692703275, 6.984865099836874) = 0.3020 -->
+    <!-- spruce_tree_37: terrain_z(2.748867968657052, 3.64148537130734) = 0.7765 -->
     <model name="spruce_tree_37">
       <static>true</static>
-      <pose>12.335453692703275 6.984865099836874 0.3020 0 0 0</pose>
+      <pose>2.748867968657052 3.64148537130734 0.7765 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5800448127659523 0.5800448127659523 0.5800448127659523</scale>
+              <scale>0.5903277820651683 0.5903277820651683 0.5903277820651683</scale>
             </mesh>
           </geometry>
         </visual>
@@ -965,16 +965,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_38: terrain_z(-14.199318253502469, 5.629280471905346) = 0.6431 -->
+    <!-- spruce_tree_38: terrain_z(2.9042025339264512, 9.12315482263569) = 0.6588 -->
     <model name="spruce_tree_38">
       <static>true</static>
-      <pose>-14.199318253502469 5.629280471905346 0.6431 0 0 0</pose>
+      <pose>2.9042025339264512 9.12315482263569 0.6588 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5872019948006402 0.5872019948006402 0.5872019948006402</scale>
+              <scale>0.508522016198503 0.508522016198503 0.508522016198503</scale>
             </mesh>
           </geometry>
         </visual>
@@ -989,16 +989,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_39: terrain_z(17.25239218032811, 0.5432979760617727) = 0.5098 -->
+    <!-- spruce_tree_39: terrain_z(-12.71732646081035, 14.517925800360523) = 0.7255 -->
     <model name="spruce_tree_39">
       <static>true</static>
-      <pose>17.25239218032811 0.5432979760617727 0.5098 0 0 0</pose>
+      <pose>-12.71732646081035 14.517925800360523 0.7255 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5740545882093603 0.5740545882093603 0.5740545882093603</scale>
+              <scale>0.5587492306995451 0.5587492306995451 0.5587492306995451</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1013,16 +1013,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_40: terrain_z(-9.724899853365429, 17.71987592270041) = 0.6588 -->
+    <!-- spruce_tree_40: terrain_z(-11.400420683370633, -10.101317075413089) = 0.3412 -->
     <model name="spruce_tree_40">
       <static>true</static>
-      <pose>-9.724899853365429 17.71987592270041 0.6588 0 0 0</pose>
+      <pose>-11.400420683370633 -10.101317075413089 0.3412 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5130513636310708 0.5130513636310708 0.5130513636310708</scale>
+              <scale>0.53353822211742 0.53353822211742 0.53353822211742</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1037,16 +1037,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_41: terrain_z(-9.306895125848452, 10.40792274187421) = 0.6863 -->
+    <!-- spruce_tree_41: terrain_z(-5.52984177814896, -5.688881375136358) = 0.6157 -->
     <model name="spruce_tree_41">
       <static>true</static>
-      <pose>-9.306895125848452 10.40792274187421 0.6863 0 0 0</pose>
+      <pose>-5.52984177814896 -5.688881375136358 0.6157 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5566784839861884 0.5566784839861884 0.5566784839861884</scale>
+              <scale>0.5052676476930753 0.5052676476930753 0.5052676476930753</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1061,16 +1061,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_42: terrain_z(-12.83404947042515, 16.697349183079368) = 0.7608 -->
+    <!-- spruce_tree_42: terrain_z(-10.49553883177425, 2.3750681727553946) = 0.4510 -->
     <model name="spruce_tree_42">
       <static>true</static>
-      <pose>-12.83404947042515 16.697349183079368 0.7608 0 0 0</pose>
+      <pose>-10.49553883177425 2.3750681727553946 0.4510 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5832523661076747 0.5832523661076747 0.5832523661076747</scale>
+              <scale>0.514414798456755 0.514414798456755 0.514414798456755</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1085,16 +1085,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_43: terrain_z(8.290175676838246, 12.202983403070476) = 0.4353 -->
+    <!-- spruce_tree_43: terrain_z(15.648782565695662, 4.077163553557721) = 0.3569 -->
     <model name="spruce_tree_43">
       <static>true</static>
-      <pose>8.290175676838246 12.202983403070476 0.4353 0 0 0</pose>
+      <pose>15.648782565695662 4.077163553557721 0.3569 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5117016469407183 0.5117016469407183 0.5117016469407183</scale>
+              <scale>0.543115900814759 0.543115900814759 0.543115900814759</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1109,16 +1109,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_44: terrain_z(-12.825236997795631, -7.711176253594925) = 0.4784 -->
+    <!-- spruce_tree_44: terrain_z(7.370838663781612, 4.8222805116652445) = 0.5804 -->
     <model name="spruce_tree_44">
       <static>true</static>
-      <pose>-12.825236997795631 -7.711176253594925 0.4784 0 0 0</pose>
+      <pose>7.370838663781612 4.8222805116652445 0.5804 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5498559577629504 0.5498559577629504 0.5498559577629504</scale>
+              <scale>0.5377800343898216 0.5377800343898216 0.5377800343898216</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1133,16 +1133,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_45: terrain_z(-3.5680462190730395, -13.29927295763678) = 0.8275 -->
+    <!-- spruce_tree_45: terrain_z(16.3168397316495, 3.8881430888247053) = 0.2196 -->
     <model name="spruce_tree_45">
       <static>true</static>
-      <pose>-3.5680462190730395 -13.29927295763678 0.8275 0 0 0</pose>
+      <pose>16.3168397316495 3.8881430888247053 0.2196 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5325096332080652 0.5325096332080652 0.5325096332080652</scale>
+              <scale>0.5636894477231749 0.5636894477231749 0.5636894477231749</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1157,16 +1157,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_46: terrain_z(13.292937051513562, -4.068749803665032) = 0.6078 -->
+    <!-- spruce_tree_46: terrain_z(-1.4461495865841876, 8.723033895338478) = 0.7922 -->
     <model name="spruce_tree_46">
       <static>true</static>
-      <pose>13.292937051513562 -4.068749803665032 0.6078 0 0 0</pose>
+      <pose>-1.4461495865841876 8.723033895338478 0.7922 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5410187674525092 0.5410187674525092 0.5410187674525092</scale>
+              <scale>0.5986923178150181 0.5986923178150181 0.5986923178150181</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1181,16 +1181,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_47: terrain_z(-11.768862300326784, -7.519892089960916) = 0.4588 -->
+    <!-- spruce_tree_47: terrain_z(18.184766845318173, 4.697034764631297) = 0.2784 -->
     <model name="spruce_tree_47">
       <static>true</static>
-      <pose>-11.768862300326784 -7.519892089960916 0.4588 0 0 0</pose>
+      <pose>18.184766845318173 4.697034764631297 0.2784 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5077261342966142 0.5077261342966142 0.5077261342966142</scale>
+              <scale>0.5030967212116328 0.5030967212116328 0.5030967212116328</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1205,16 +1205,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_48: terrain_z(-18.894646575289396, -17.76714238751864) = 0.4196 -->
+    <!-- spruce_tree_48: terrain_z(8.119329487437703, 4.1919409611569165) = 0.4392 -->
     <model name="spruce_tree_48">
       <static>true</static>
-      <pose>-18.894646575289396 -17.76714238751864 0.4196 0 0 0</pose>
+      <pose>8.119329487437703 4.1919409611569165 0.4392 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5442624594913719 0.5442624594913719 0.5442624594913719</scale>
+              <scale>0.5727792702427444 0.5727792702427444 0.5727792702427444</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1229,16 +1229,16 @@
         </collision>
       </link>
     </model>
-    <!-- spruce_tree_49: terrain_z(12.611038786329367, 18.45944217257319) = 0.4784 -->
+    <!-- spruce_tree_49: terrain_z(-4.474617937696198, -9.50764326000419) = 0.6627 -->
     <model name="spruce_tree_49">
       <static>true</static>
-      <pose>12.611038786329367 18.45944217257319 0.4784 0 0 0</pose>
+      <pose>-4.474617937696198 -9.50764326000419 0.6627 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://spruce_tree/spruce_tree.glb</uri>
-              <scale>0.5519231831365154 0.5519231831365154 0.5519231831365154</scale>
+              <scale>0.5720778461447908 0.5720778461447908 0.5720778461447908</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1254,16 +1254,16 @@
       </link>
     </model>
 
-    <!-- fir_tree_0: terrain_z(-4.100840216723478, -15.234381342408927) = 0.7255 -->
+    <!-- fir_tree_0: terrain_z(13.23576460692204, -15.67393046832954) = 0.6588 -->
     <model name="fir_tree_0">
       <static>true</static>
-      <pose>-4.100840216723478 -15.234381342408927 0.7255 0 0 0</pose>
+      <pose>13.23576460692204 -15.67393046832954 0.6588 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19327676797595217 0.19327676797595217 0.19327676797595217</scale>
+              <scale>0.16544220640652574 0.16544220640652574 0.16544220640652574</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1278,16 +1278,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_1: terrain_z(-12.279248693465284, -3.511425511367708) = 0.3647 -->
+    <!-- fir_tree_1: terrain_z(-19.979112387868206, 19.687443809050123) = 0.3882 -->
     <model name="fir_tree_1">
       <static>true</static>
-      <pose>-12.279248693465284 -3.511425511367708 0.3647 0 0 0</pose>
+      <pose>-19.979112387868206 19.687443809050123 0.3882 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19389360110286188 0.19389360110286188 0.19389360110286188</scale>
+              <scale>0.18804337737277968 0.18804337737277968 0.18804337737277968</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1302,16 +1302,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_2: terrain_z(7.332670652060386, -8.80035336889955) = 0.6510 -->
+    <!-- fir_tree_2: terrain_z(18.996292020230392, -8.830299126273768) = 0.5647 -->
     <model name="fir_tree_2">
       <static>true</static>
-      <pose>7.332670652060386 -8.80035336889955 0.6510 0 0 0</pose>
+      <pose>18.996292020230392 -8.830299126273768 0.5647 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19056680529649875 0.19056680529649875 0.19056680529649875</scale>
+              <scale>0.19830070116580947 0.19830070116580947 0.19830070116580947</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1326,16 +1326,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_3: terrain_z(-12.410842202598511, -16.11171388274017) = 0.5569 -->
+    <!-- fir_tree_3: terrain_z(-12.182995993845566, -3.3436233343419346) = 0.3647 -->
     <model name="fir_tree_3">
       <static>true</static>
-      <pose>-12.410842202598511 -16.11171388274017 0.5569 0 0 0</pose>
+      <pose>-12.182995993845566 -3.3436233343419346 0.3647 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.18056420762899147 0.18056420762899147 0.18056420762899147</scale>
+              <scale>0.1816129897063159 0.1816129897063159 0.1816129897063159</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1350,16 +1350,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_4: terrain_z(-7.811691004405592, -5.546687229405411) = 0.3922 -->
+    <!-- fir_tree_4: terrain_z(-2.157914322170285, -6.513695990337487) = 0.6392 -->
     <model name="fir_tree_4">
       <static>true</static>
-      <pose>-7.811691004405592 -5.546687229405411 0.3922 0 0 0</pose>
+      <pose>-2.157914322170285 -6.513695990337487 0.6392 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1516118078586564 0.1516118078586564 0.1516118078586564</scale>
+              <scale>0.17094280181594798 0.17094280181594798 0.17094280181594798</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1374,16 +1374,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_5: terrain_z(-0.12789585864698338, -10.993201801638959) = 0.6118 -->
+    <!-- fir_tree_5: terrain_z(2.370930002013022, 11.466531543270154) = 0.6784 -->
     <model name="fir_tree_5">
       <static>true</static>
-      <pose>-0.12789585864698338 -10.993201801638959 0.6118 0 0 0</pose>
+      <pose>2.370930002013022 11.466531543270154 0.6784 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1777686115129584 0.1777686115129584 0.1777686115129584</scale>
+              <scale>0.15736639194447233 0.15736639194447233 0.15736639194447233</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1398,16 +1398,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_6: terrain_z(8.551410742193589, 16.911156483078607) = 0.3451 -->
+    <!-- fir_tree_6: terrain_z(12.095615781089393, 0.6843277038246853) = 0.3490 -->
     <model name="fir_tree_6">
       <static>true</static>
-      <pose>8.551410742193589 16.911156483078607 0.3451 0 0 0</pose>
+      <pose>12.095615781089393 0.6843277038246853 0.3490 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.16363462930842124 0.16363462930842124 0.16363462930842124</scale>
+              <scale>0.1552499065168798 0.1552499065168798 0.1552499065168798</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1422,16 +1422,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_7: terrain_z(-13.607201932254466, 3.0507004938989155) = 0.5412 -->
+    <!-- fir_tree_7: terrain_z(9.348161533532785, 13.429344531566024) = 0.3490 -->
     <model name="fir_tree_7">
       <static>true</static>
-      <pose>-13.607201932254466 3.0507004938989155 0.5412 0 0 0</pose>
+      <pose>9.348161533532785 13.429344531566024 0.3490 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1552908371067309 0.1552908371067309 0.1552908371067309</scale>
+              <scale>0.167457864940364 0.167457864940364 0.167457864940364</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1446,16 +1446,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_8: terrain_z(-18.490886986084263, -6.187274109151595) = 0.3020 -->
+    <!-- fir_tree_8: terrain_z(-5.828057060849336, -18.207856173052956) = 0.6627 -->
     <model name="fir_tree_8">
       <static>true</static>
-      <pose>-18.490886986084263 -6.187274109151595 0.3020 0 0 0</pose>
+      <pose>-5.828057060849336 -18.207856173052956 0.6627 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1676679590584038 0.1676679590584038 0.1676679590584038</scale>
+              <scale>0.1691416076744318 0.1691416076744318 0.1691416076744318</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1470,16 +1470,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_9: terrain_z(2.5167387520061197, 12.440747019382016) = 0.6000 -->
+    <!-- fir_tree_9: terrain_z(-14.19251204972137, 7.341805539747014) = 0.4941 -->
     <model name="fir_tree_9">
       <static>true</static>
-      <pose>2.5167387520061197 12.440747019382016 0.6000 0 0 0</pose>
+      <pose>-14.19251204972137 7.341805539747014 0.4941 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1913741292588665 0.1913741292588665 0.1913741292588665</scale>
+              <scale>0.19237270973350662 0.19237270973350662 0.19237270973350662</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1494,16 +1494,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_10: terrain_z(10.627254817322363, 15.963475659141167) = 0.5569 -->
+    <!-- fir_tree_10: terrain_z(6.477225302305474, -18.542758427702086) = 0.7882 -->
     <model name="fir_tree_10">
       <static>true</static>
-      <pose>10.627254817322363 15.963475659141167 0.5569 0 0 0</pose>
+      <pose>6.477225302305474 -18.542758427702086 0.7882 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1537815150834278 0.1537815150834278 0.1537815150834278</scale>
+              <scale>0.17312570823298393 0.17312570823298393 0.17312570823298393</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1518,16 +1518,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_11: terrain_z(12.787201486049547, 17.84674092687041) = 0.4549 -->
+    <!-- fir_tree_11: terrain_z(14.665462490077836, 13.811304077224868) = 0.3922 -->
     <model name="fir_tree_11">
       <static>true</static>
-      <pose>12.787201486049547 17.84674092687041 0.4549 0 0 0</pose>
+      <pose>14.665462490077836 13.811304077224868 0.3922 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19838912505271317 0.19838912505271317 0.19838912505271317</scale>
+              <scale>0.1742406344939953 0.1742406344939953 0.1742406344939953</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1542,16 +1542,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_12: terrain_z(11.824467977103296, 4.150296118352642) = 0.3843 -->
+    <!-- fir_tree_12: terrain_z(16.31417309434748, 17.791955707060666) = 0.5725 -->
     <model name="fir_tree_12">
       <static>true</static>
-      <pose>11.824467977103296 4.150296118352642 0.3843 0 0 0</pose>
+      <pose>16.31417309434748 17.791955707060666 0.5725 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.15858057312496113 0.15858057312496113 0.15858057312496113</scale>
+              <scale>0.19640483383605029 0.19640483383605029 0.19640483383605029</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1566,16 +1566,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_13: terrain_z(-15.389923671870491, -10.671305424632118) = 0.4353 -->
+    <!-- fir_tree_13: terrain_z(6.327413975400042, 13.848763374091064) = 0.3725 -->
     <model name="fir_tree_13">
       <static>true</static>
-      <pose>-15.389923671870491 -10.671305424632118 0.4353 0 0 0</pose>
+      <pose>6.327413975400042 13.848763374091064 0.3725 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.194933639650064 0.194933639650064 0.194933639650064</scale>
+              <scale>0.1598877462993853 0.1598877462993853 0.1598877462993853</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1590,16 +1590,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_14: terrain_z(-13.371067851966414, 12.520838765202726) = 0.6039 -->
+    <!-- fir_tree_14: terrain_z(-15.972218512187482, 18.853173379579424) = 0.6392 -->
     <model name="fir_tree_14">
       <static>true</static>
-      <pose>-13.371067851966414 12.520838765202726 0.6039 0 0 0</pose>
+      <pose>-15.972218512187482 18.853173379579424 0.6392 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.17102549298473213 0.17102549298473213 0.17102549298473213</scale>
+              <scale>0.1716264591963133 0.1716264591963133 0.1716264591963133</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1614,16 +1614,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_15: terrain_z(5.9056622723412, -7.659242695346551) = 0.5412 -->
+    <!-- fir_tree_15: terrain_z(-11.588040252839185, 18.652325213399536) = 0.7216 -->
     <model name="fir_tree_15">
       <static>true</static>
-      <pose>5.9056622723412 -7.659242695346551 0.5412 0 0 0</pose>
+      <pose>-11.588040252839185 18.652325213399536 0.7216 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19835096303392194 0.19835096303392194 0.19835096303392194</scale>
+              <scale>0.15964298492720785 0.15964298492720785 0.15964298492720785</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1638,16 +1638,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_16: terrain_z(4.3471466718638965, 2.1863798361559006) = 0.6549 -->
+    <!-- fir_tree_16: terrain_z(3.815995979996064, 3.961672702598481) = 0.7373 -->
     <model name="fir_tree_16">
       <static>true</static>
-      <pose>4.3471466718638965 2.1863798361559006 0.6549 0 0 0</pose>
+      <pose>3.815995979996064 3.961672702598481 0.7373 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1775826623688406 0.1775826623688406 0.1775826623688406</scale>
+              <scale>0.18459578951412667 0.18459578951412667 0.18459578951412667</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1662,16 +1662,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_17: terrain_z(16.863067157519815, -3.1177563523335685) = 0.4941 -->
+    <!-- fir_tree_17: terrain_z(2.0821007066109587, -1.797121703720336) = 0.6863 -->
     <model name="fir_tree_17">
       <static>true</static>
-      <pose>16.863067157519815 -3.1177563523335685 0.4941 0 0 0</pose>
+      <pose>2.0821007066109587 -1.797121703720336 0.6863 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.15392125836676596 0.15392125836676596 0.15392125836676596</scale>
+              <scale>0.1961112451303543 0.1961112451303543 0.1961112451303543</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1686,16 +1686,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_18: terrain_z(-16.40776872898844, 16.763852956617143) = 0.6627 -->
+    <!-- fir_tree_18: terrain_z(7.554547248616327, 1.6920160272703733) = 0.5490 -->
     <model name="fir_tree_18">
       <static>true</static>
-      <pose>-16.40776872898844 16.763852956617143 0.6627 0 0 0</pose>
+      <pose>7.554547248616327 1.6920160272703733 0.5490 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19043419624996027 0.19043419624996027 0.19043419624996027</scale>
+              <scale>0.19229076814445212 0.19229076814445212 0.19229076814445212</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1710,16 +1710,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_19: terrain_z(-9.79349747665088, 4.068628706868118) = 0.5922 -->
+    <!-- fir_tree_19: terrain_z(16.68565559605065, 10.222980906704692) = 0.3373 -->
     <model name="fir_tree_19">
       <static>true</static>
-      <pose>-9.79349747665088 4.068628706868118 0.5922 0 0 0</pose>
+      <pose>16.68565559605065 10.222980906704692 0.3373 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.17566917552929548 0.17566917552929548 0.17566917552929548</scale>
+              <scale>0.1757497882439656 0.1757497882439656 0.1757497882439656</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1734,16 +1734,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_20: terrain_z(-10.721324881436338, -10.91912311552376) = 0.5922 -->
+    <!-- fir_tree_20: terrain_z(-15.386072519613014, -3.4463520707079134) = 0.2549 -->
     <model name="fir_tree_20">
       <static>true</static>
-      <pose>-10.721324881436338 -10.91912311552376 0.5922 0 0 0</pose>
+      <pose>-15.386072519613014 -3.4463520707079134 0.2549 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1966835190736282 0.1966835190736282 0.1966835190736282</scale>
+              <scale>0.17882284187056455 0.17882284187056455 0.17882284187056455</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1758,16 +1758,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_21: terrain_z(8.182767007406664, -10.380766974361663) = 0.5765 -->
+    <!-- fir_tree_21: terrain_z(-10.424804408809356, 0.9203495953480001) = 0.5176 -->
     <model name="fir_tree_21">
       <static>true</static>
-      <pose>8.182767007406664 -10.380766974361663 0.5765 0 0 0</pose>
+      <pose>-10.424804408809356 0.9203495953480001 0.5176 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.175390966256118 0.175390966256118 0.175390966256118</scale>
+              <scale>0.18830879215341453 0.18830879215341453 0.18830879215341453</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1782,16 +1782,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_22: terrain_z(1.6354983976239126, -13.791179940949828) = 0.8196 -->
+    <!-- fir_tree_22: terrain_z(4.797313562651357, -15.130038115239305) = 0.9922 -->
     <model name="fir_tree_22">
       <static>true</static>
-      <pose>1.6354983976239126 -13.791179940949828 0.8196 0 0 0</pose>
+      <pose>4.797313562651357 -15.130038115239305 0.9922 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1569482302240924 0.1569482302240924 0.1569482302240924</scale>
+              <scale>0.18345590960351532 0.18345590960351532 0.18345590960351532</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1806,16 +1806,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_23: terrain_z(11.561060049075454, -17.106032098902887) = 0.6863 -->
+    <!-- fir_tree_23: terrain_z(12.862141786163058, 4.744518676700551) = 0.3412 -->
     <model name="fir_tree_23">
       <static>true</static>
-      <pose>11.561060049075454 -17.106032098902887 0.6863 0 0 0</pose>
+      <pose>12.862141786163058 4.744518676700551 0.3412 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1730101652573097 0.1730101652573097 0.1730101652573097</scale>
+              <scale>0.1982345470713948 0.1982345470713948 0.1982345470713948</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1830,16 +1830,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_24: terrain_z(-8.669764931957058, 3.84036414580833) = 0.5961 -->
+    <!-- fir_tree_24: terrain_z(-12.800443356124296, -8.775659017673188) = 0.4078 -->
     <model name="fir_tree_24">
       <static>true</static>
-      <pose>-8.669764931957058 3.84036414580833 0.5961 0 0 0</pose>
+      <pose>-12.800443356124296 -8.775659017673188 0.4078 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.17689767512020954 0.17689767512020954 0.17689767512020954</scale>
+              <scale>0.18438317572927923 0.18438317572927923 0.18438317572927923</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1854,16 +1854,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_25: terrain_z(16.311340764663854, 0.17233380350896965) = 0.4157 -->
+    <!-- fir_tree_25: terrain_z(-6.5010111291049135, -3.857788481313058) = 0.6196 -->
     <model name="fir_tree_25">
       <static>true</static>
-      <pose>16.311340764663854 0.17233380350896965 0.4157 0 0 0</pose>
+      <pose>-6.5010111291049135 -3.857788481313058 0.6196 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.17877798666427966 0.17877798666427966 0.17877798666427966</scale>
+              <scale>0.15877618904815002 0.15877618904815002 0.15877618904815002</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1878,16 +1878,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_26: terrain_z(-16.23885545110726, 19.94597113162643) = 0.6471 -->
+    <!-- fir_tree_26: terrain_z(0.4993808461063267, -2.7407711622030817) = 0.6196 -->
     <model name="fir_tree_26">
       <static>true</static>
-      <pose>-16.23885545110726 19.94597113162643 0.6471 0 0 0</pose>
+      <pose>0.4993808461063267 -2.7407711622030817 0.6196 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19539031952212427 0.19539031952212427 0.19539031952212427</scale>
+              <scale>0.17865784354463227 0.17865784354463227 0.17865784354463227</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1902,16 +1902,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_27: terrain_z(-19.064663248100832, 10.19226004564662) = 0.5686 -->
+    <!-- fir_tree_27: terrain_z(-9.847710992934049, 8.544618752648784) = 0.6275 -->
     <model name="fir_tree_27">
       <static>true</static>
-      <pose>-19.064663248100832 10.19226004564662 0.5686 0 0 0</pose>
+      <pose>-9.847710992934049 8.544618752648784 0.6275 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1741132651643455 0.1741132651643455 0.1741132651643455</scale>
+              <scale>0.15729218689357355 0.15729218689357355 0.15729218689357355</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1926,16 +1926,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_28: terrain_z(0.7268287704657794, -5.268355766260807) = 0.6353 -->
+    <!-- fir_tree_28: terrain_z(5.820859352614043, 10.729869657987301) = 0.3961 -->
     <model name="fir_tree_28">
       <static>true</static>
-      <pose>0.7268287704657794 -5.268355766260807 0.6353 0 0 0</pose>
+      <pose>5.820859352614043 10.729869657987301 0.3961 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.18743065918212953 0.18743065918212953 0.18743065918212953</scale>
+              <scale>0.16328366364634878 0.16328366364634878 0.16328366364634878</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1950,16 +1950,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_29: terrain_z(16.816115066683892, -18.822759252750693) = 0.8157 -->
+    <!-- fir_tree_29: terrain_z(4.862709372986707, -16.675343910818874) = 0.9333 -->
     <model name="fir_tree_29">
       <static>true</static>
-      <pose>16.816115066683892 -18.822759252750693 0.8157 0 0 0</pose>
+      <pose>4.862709372986707 -16.675343910818874 0.9333 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.17842265407770172 0.17842265407770172 0.17842265407770172</scale>
+              <scale>0.15968665627570383 0.15968665627570383 0.15968665627570383</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1974,16 +1974,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_30: terrain_z(17.92672473094123, -10.891958817102708) = 0.5294 -->
+    <!-- fir_tree_30: terrain_z(-18.11541925931065, -18.287556167677344) = 0.5373 -->
     <model name="fir_tree_30">
       <static>true</static>
-      <pose>17.92672473094123 -10.891958817102708 0.5294 0 0 0</pose>
+      <pose>-18.11541925931065 -18.287556167677344 0.5373 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.16821737142439028 0.16821737142439028 0.16821737142439028</scale>
+              <scale>0.1957300289747848 0.1957300289747848 0.1957300289747848</scale>
             </mesh>
           </geometry>
         </visual>
@@ -1998,16 +1998,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_31: terrain_z(16.466416319107267, 10.498428885120433) = 0.3608 -->
+    <!-- fir_tree_31: terrain_z(10.07019894319971, -7.842707319305408) = 0.6471 -->
     <model name="fir_tree_31">
       <static>true</static>
-      <pose>16.466416319107267 10.498428885120433 0.3608 0 0 0</pose>
+      <pose>10.07019894319971 -7.842707319305408 0.6471 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19570118517100357 0.19570118517100357 0.19570118517100357</scale>
+              <scale>0.19361783601348007 0.19361783601348007 0.19361783601348007</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2022,16 +2022,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_32: terrain_z(1.6015620885898905, -13.874824396469613) = 0.8039 -->
+    <!-- fir_tree_32: terrain_z(11.190726290732286, 2.3479007909862375) = 0.6196 -->
     <model name="fir_tree_32">
       <static>true</static>
-      <pose>1.6015620885898905 -13.874824396469613 0.8039 0 0 0</pose>
+      <pose>11.190726290732286 2.3479007909862375 0.6196 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19166551054422923 0.19166551054422923 0.19166551054422923</scale>
+              <scale>0.1712094653832131 0.1712094653832131 0.1712094653832131</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2046,16 +2046,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_33: terrain_z(6.621933185218886, 6.388430302318287) = 0.6353 -->
+    <!-- fir_tree_33: terrain_z(7.48970650951631, -5.057082822860867) = 0.7451 -->
     <model name="fir_tree_33">
       <static>true</static>
-      <pose>6.621933185218886 6.388430302318287 0.6353 0 0 0</pose>
+      <pose>7.48970650951631 -5.057082822860867 0.7451 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1922631409574364 0.1922631409574364 0.1922631409574364</scale>
+              <scale>0.17582811862003922 0.17582811862003922 0.17582811862003922</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2070,16 +2070,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_34: terrain_z(10.493564599885342, -19.40599784030177) = 0.7804 -->
+    <!-- fir_tree_34: terrain_z(15.448408815822148, -19.19505481075669) = 0.6784 -->
     <model name="fir_tree_34">
       <static>true</static>
-      <pose>10.493564599885342 -19.40599784030177 0.7804 0 0 0</pose>
+      <pose>15.448408815822148 -19.19505481075669 0.6784 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1755419291230725 0.1755419291230725 0.1755419291230725</scale>
+              <scale>0.1913087979649324 0.1913087979649324 0.1913087979649324</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2094,16 +2094,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_35: terrain_z(-10.864798391670817, -4.081788813166071) = 0.3725 -->
+    <!-- fir_tree_35: terrain_z(-0.4800920257169352, 15.484304803717343) = 0.5216 -->
     <model name="fir_tree_35">
       <static>true</static>
-      <pose>-10.864798391670817 -4.081788813166071 0.3725 0 0 0</pose>
+      <pose>-0.4800920257169352 15.484304803717343 0.5216 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.18456773422020897 0.18456773422020897 0.18456773422020897</scale>
+              <scale>0.19179644704274154 0.19179644704274154 0.19179644704274154</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2118,16 +2118,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_36: terrain_z(-18.267003548695616, -19.918865518431485) = 0.7137 -->
+    <!-- fir_tree_36: terrain_z(-9.21827758015342, 19.29401443908572) = 0.6118 -->
     <model name="fir_tree_36">
       <static>true</static>
-      <pose>-18.267003548695616 -19.918865518431485 0.7137 0 0 0</pose>
+      <pose>-9.21827758015342 19.29401443908572 0.6118 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19867169645064248 0.19867169645064248 0.19867169645064248</scale>
+              <scale>0.16711007894439717 0.16711007894439717 0.16711007894439717</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2142,16 +2142,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_37: terrain_z(-9.972140722721505, -2.573628792131789) = 0.4745 -->
+    <!-- fir_tree_37: terrain_z(-2.133618401618328, -16.331844915572326) = 0.8314 -->
     <model name="fir_tree_37">
       <static>true</static>
-      <pose>-9.972140722721505 -2.573628792131789 0.4745 0 0 0</pose>
+      <pose>-2.133618401618328 -16.331844915572326 0.8314 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1557470422327018 0.1557470422327018 0.1557470422327018</scale>
+              <scale>0.15210025499508037 0.15210025499508037 0.15210025499508037</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2166,16 +2166,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_38: terrain_z(-9.008580686265987, 6.800309073043177) = 0.6471 -->
+    <!-- fir_tree_38: terrain_z(19.79832900641513, -4.832634540477239) = 0.3451 -->
     <model name="fir_tree_38">
       <static>true</static>
-      <pose>-9.008580686265987 6.800309073043177 0.6471 0 0 0</pose>
+      <pose>19.79832900641513 -4.832634540477239 0.3451 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1666899124549969 0.1666899124549969 0.1666899124549969</scale>
+              <scale>0.17616083116330475 0.17616083116330475 0.17616083116330475</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2190,16 +2190,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_39: terrain_z(10.32834992354866, 17.563197012641282) = 0.5843 -->
+    <!-- fir_tree_39: terrain_z(4.117026080110072, 1.223010068346369) = 0.6863 -->
     <model name="fir_tree_39">
       <static>true</static>
-      <pose>10.32834992354866 17.563197012641282 0.5843 0 0 0</pose>
+      <pose>4.117026080110072 1.223010068346369 0.6863 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1902034104827421 0.1902034104827421 0.1902034104827421</scale>
+              <scale>0.17971262670515536 0.17971262670515536 0.17971262670515536</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2214,16 +2214,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_40: terrain_z(13.252773016783038, -2.659306962151703) = 0.5529 -->
+    <!-- fir_tree_40: terrain_z(6.16967405420279, -15.889595971525413) = 0.8902 -->
     <model name="fir_tree_40">
       <static>true</static>
-      <pose>13.252773016783038 -2.659306962151703 0.5529 0 0 0</pose>
+      <pose>6.16967405420279 -15.889595971525413 0.8902 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19392698602777525 0.19392698602777525 0.19392698602777525</scale>
+              <scale>0.16252543663417635 0.16252543663417635 0.16252543663417635</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2238,16 +2238,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_41: terrain_z(4.287863485997288, -13.294396416825847) = 1.0000 -->
+    <!-- fir_tree_41: terrain_z(18.24385891424319, -15.541824699375454) = 0.9765 -->
     <model name="fir_tree_41">
       <static>true</static>
-      <pose>4.287863485997288 -13.294396416825847 1.0000 0 0 0</pose>
+      <pose>18.24385891424319 -15.541824699375454 0.9765 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.17534756884129557 0.17534756884129557 0.17534756884129557</scale>
+              <scale>0.1672219621570872 0.1672219621570872 0.1672219621570872</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2262,16 +2262,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_42: terrain_z(-8.626976143839862, -6.369358540575956) = 0.3569 -->
+    <!-- fir_tree_42: terrain_z(-19.472435439414536, 15.654417205557841) = 0.6706 -->
     <model name="fir_tree_42">
       <static>true</static>
-      <pose>-8.626976143839862 -6.369358540575956 0.3569 0 0 0</pose>
+      <pose>-19.472435439414536 15.654417205557841 0.6706 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1500546881220671 0.1500546881220671 0.1500546881220671</scale>
+              <scale>0.15096964728918957 0.15096964728918957 0.15096964728918957</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2286,16 +2286,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_43: terrain_z(-15.925672134885742, 15.581156408060686) = 0.6902 -->
+    <!-- fir_tree_43: terrain_z(4.065375595034844, 19.77874753653549) = 0.4000 -->
     <model name="fir_tree_43">
       <static>true</static>
-      <pose>-15.925672134885742 15.581156408060686 0.6902 0 0 0</pose>
+      <pose>4.065375595034844 19.77874753653549 0.4000 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.16282962733638517 0.16282962733638517 0.16282962733638517</scale>
+              <scale>0.16339663583527247 0.16339663583527247 0.16339663583527247</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2310,16 +2310,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_44: terrain_z(14.641464953214168, 4.818833100440575) = 0.3529 -->
+    <!-- fir_tree_44: terrain_z(-14.281774439486842, 12.041721639657808) = 0.5569 -->
     <model name="fir_tree_44">
       <static>true</static>
-      <pose>14.641464953214168 4.818833100440575 0.3529 0 0 0</pose>
+      <pose>-14.281774439486842 12.041721639657808 0.5569 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.19918545258813036 0.19918545258813036 0.19918545258813036</scale>
+              <scale>0.19375195203319523 0.19375195203319523 0.19375195203319523</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2334,16 +2334,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_45: terrain_z(-1.0435816985120994, -12.188597938243856) = 0.7804 -->
+    <!-- fir_tree_45: terrain_z(2.576051223965713, -2.4412084421641467) = 0.7961 -->
     <model name="fir_tree_45">
       <static>true</static>
-      <pose>-1.0435816985120994 -12.188597938243856 0.7804 0 0 0</pose>
+      <pose>2.576051223965713 -2.4412084421641467 0.7961 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.1723581915590112 0.1723581915590112 0.1723581915590112</scale>
+              <scale>0.18412025625755377 0.18412025625755377 0.18412025625755377</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2358,16 +2358,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_46: terrain_z(6.410349464060509, 19.53458756083927) = 0.5137 -->
+    <!-- fir_tree_46: terrain_z(-19.055575308718552, -10.873724999229918) = 0.2549 -->
     <model name="fir_tree_46">
       <static>true</static>
-      <pose>6.410349464060509 19.53458756083927 0.5137 0 0 0</pose>
+      <pose>-19.055575308718552 -10.873724999229918 0.2549 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.17616285222808598 0.17616285222808598 0.17616285222808598</scale>
+              <scale>0.18773343914130808 0.18773343914130808 0.18773343914130808</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2382,16 +2382,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_47: terrain_z(-19.625364293335707, -4.7271816296100475) = 0.4510 -->
+    <!-- fir_tree_47: terrain_z(-8.633216710204707, -12.306426405582922) = 0.6627 -->
     <model name="fir_tree_47">
       <static>true</static>
-      <pose>-19.625364293335707 -4.7271816296100475 0.4510 0 0 0</pose>
+      <pose>-8.633216710204707 -12.306426405582922 0.6627 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.18661718462097124 0.18661718462097124 0.18661718462097124</scale>
+              <scale>0.19304272786201576 0.19304272786201576 0.19304272786201576</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2406,16 +2406,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_48: terrain_z(14.57069747652119, -8.098716042736136) = 0.8157 -->
+    <!-- fir_tree_48: terrain_z(15.914007653992435, -1.2384754779217744) = 0.4157 -->
     <model name="fir_tree_48">
       <static>true</static>
-      <pose>14.57069747652119 -8.098716042736136 0.8157 0 0 0</pose>
+      <pose>15.914007653992435 -1.2384754779217744 0.4157 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.18802915385218988 0.18802915385218988 0.18802915385218988</scale>
+              <scale>0.18687692558646726 0.18687692558646726 0.18687692558646726</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2430,16 +2430,16 @@
         </collision>
       </link>
     </model>
-    <!-- fir_tree_49: terrain_z(-11.024325705588822, 15.334702396552238) = 0.6392 -->
+    <!-- fir_tree_49: terrain_z(5.456197030193376, 19.99838657060807) = 0.4627 -->
     <model name="fir_tree_49">
       <static>true</static>
-      <pose>-11.024325705588822 15.334702396552238 0.6392 0 0 0</pose>
+      <pose>5.456197030193376 19.99838657060807 0.4627 0 0 0</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://fir_tree/lhpine.glb</uri>
-              <scale>0.16843486193618987 0.16843486193618987 0.16843486193618987</scale>
+              <scale>0.1965730439228018 0.1965730439228018 0.1965730439228018</scale>
             </mesh>
           </geometry>
         </visual>
@@ -2454,33 +2454,6 @@
         </collision>
       </link>
     </model>
-
-    <!-- ── Tables ───────────────────────────── -->
-
-    <!-- table2: terrain_z(2.4, -5.5) = 0.8392 -->
-    <include>
-      <name>table2</name>
-      <pose>2.4 -5.5 1.0392 0 0 0</pose>
-      <uri>model://cafe_table</uri>
-    </include>
-    <!-- table3: terrain_z(-1.5, -5.5) = 0.5059 -->
-    <include>
-      <name>table3</name>
-      <pose>-1.5 -5.5 0.7059 0 0 0</pose>
-      <uri>model://cafe_table</uri>
-    </include>
-    <!-- table4: terrain_z(2.4, -9.0) = 0.7137 -->
-    <include>
-      <name>table4</name>
-      <pose>2.4 -9.0 0.9137 0 0 0</pose>
-      <uri>model://cafe_table</uri>
-    </include>
-    <!-- table5: terrain_z(-1.5, -9.0) = 0.7373 -->
-    <include>
-      <name>table5</name>
-      <pose>-1.5 -9.0 0.9373 0 0 0</pose>
-      <uri>model://cafe_table</uri>
-    </include>
 
     <!-- ── AprilTags ─────────────────────────── -->
 
