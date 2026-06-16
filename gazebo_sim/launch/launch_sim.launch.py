@@ -29,7 +29,6 @@ def generate_launch_description():
         ("/odom", "odom")
     ]
 
-
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     declare_use_sim_time = DeclareLaunchArgument(
         name='use_sim_time', default_value=use_sim_time, description='Использовать симуляционное время'
