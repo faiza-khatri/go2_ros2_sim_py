@@ -16,9 +16,7 @@ import os
 import random
 import subprocess
 
-# ─────────────────────────────────────────────
-# TERRAIN CONFIG  ← edit these
-# ─────────────────────────────────────────────
+
 # Source paths (used for heightmap sampling only)
 SCRIPT_DIR    = os.path.dirname(os.path.abspath(__file__))
 MATERIALS_DIR = os.path.join(SCRIPT_DIR, 'materials', 'textures')
@@ -85,22 +83,15 @@ for i in range(NUM_TREES_FIR):
 	TREES_FIR.append(entry)
 
 
-TABLES = [
-    # (name,    x,     y,    z_offset)   ← z_offset = table leg height (~0.2)
-    ("table2",  2.4,  -5.5,  0.2),
-    ("table3", -1.5,  -5.5,  0.2),
-    ("table4",  2.4,  -9.0,  0.2),
-    ("table5", -1.5,  -9.0,  0.2),
-]
 
 APRILTAGS = [
     # (name,                    x,     y,    z_offset, roll,   pitch,  yaw)
     ("Apriltag36_11_00000",  -4.96,  1.5,   0.46,    1.5708, 0.0,  1.5708),
 ]
 
-# ─────────────────────────────────────────────
+
 # SDF BUILDERS
-# ─────────────────────────────────────────────
+
 def tree_sdf_spruce(name, x, y, z_offset, scale):
     
     tz = terrain_z(x, y)
@@ -163,16 +154,7 @@ def tree_sdf_fir(name, x, y, z_offset, scale):
       </link>
     </model>"""
     
-def table_sdf(name, x, y, z_offset):
-    tz = terrain_z(x, y)
-    z  = tz + z_offset
-    return f"""
-    <!-- {name}: terrain_z({x}, {y}) = {tz:.4f} -->
-    <include>
-      <name>{name}</name>
-      <pose>{x} {y} {z:.4f} 0 0 0</pose>
-      <uri>model://cafe_table</uri>
-    </include>"""
+
 
 def apriltag_sdf(name, x, y, z_offset, roll, pitch, yaw):
     tz = terrain_z(x, y)
@@ -186,12 +168,12 @@ def apriltag_sdf(name, x, y, z_offset, roll, pitch, yaw):
       <uri>model://{name}</uri>
     </include>"""
 
-# ─────────────────────────────────────────────
+
 # ASSEMBLE WORLD
-# ─────────────────────────────────────────────
+
 tree_xml_spruce     = "".join(tree_sdf_spruce(*t)     for t in TREES_SPRUCE)
 tree_xml_fir     = "".join(tree_sdf_fir(*t)     for t in TREES_FIR)
-table_xml    = "".join(table_sdf(*t)    for t in TABLES)
+
 apriltag_xml = "".join(apriltag_sdf(*t) for t in APRILTAGS)
 
 world = f"""<?xml version="1.0" ?>
@@ -251,9 +233,6 @@ world = f"""<?xml version="1.0" ?>
 {tree_xml_spruce}
 {tree_xml_fir}
 
-    <!-- ── Tables ───────────────────────────── -->
-{table_xml}
-
     <!-- ── AprilTags ─────────────────────────── -->
 {apriltag_xml}
 
@@ -274,9 +253,7 @@ for name, x, y, z_off, scale in TREES_SPRUCE:
 for name, x, y, z_off, scale in TREES_FIR:
     tz = terrain_z(x, y)
     print(f"  {name:20s}  terrain_z={tz:.4f}  pose_z={tz+z_off:.4f}")
-for name, x, y, z_off in TABLES:
-    tz = terrain_z(x, y)
-    print(f"  {name:20s}  terrain_z={tz:.4f}  pose_z={tz+z_off:.4f}")
+
 for name, x, y, z_off, *_ in APRILTAGS:
     tz = terrain_z(x, y)
     print(f"  {name:20s}  terrain_z={tz:.4f}  pose_z={tz+z_off:.4f}")

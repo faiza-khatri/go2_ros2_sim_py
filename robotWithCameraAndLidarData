@@ -10,5 +10,642 @@ ros2 topic pub --once /robot1/robot_mode quadropted_msgs/msg/RobotModeCommand "{
 Teleop:
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/robot1/cmd_vel
 
+Getting 3D lidar data as a topic:
+The Go2 robot has a gpu_lidar sensor defined in go2_description/xacro/gazebo.xacro.
+- configured as a 16-channel LiDAR (VLP-16 equivalent) with a full 360 degree horizontal sweep, 
+- 16 vertical channels spanning +-15 degrees (manually added)
+- a maximum range of 12m. 
+Data is outputted as gz.msgs.PointCloudPacked internally.
 
+At this point, the sensor outputted two topics on the Gazebo transport layer:
+  /robot1/points         - gz.msgs.LaserScan format
+  /robot1/points/points  - gz.msgs.PointCloudPacked format
 
+The packed point cloud on /robot1/points/points is the one bridged to ROS 2.
+
+The bridge is configured by:
+gazebo_multi_nav2_world.launch.py under the per-robot node definitions. The correct bridge argument for the LiDAR is:
+
+  /{namespace}/points/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked
+
+The issues encountered were:
+- Bridge was originally mapped to /robot1/scan instead of /robot1/points/points
+- Bridge argument used @ on both sides causing a loopback condition
+- The actual gpu_lidar packed output is on /robot1/points/points, not
+    /robot1/points as initially assumed
+
+Nav2 costmap layers require sensor_msgs/LaserScan, not PointCloud2. The package ros-jazzy-velodyne-laserscan is installed and velodyne_laserscan_node is added
+to the launch file. It subscribes to /robot1/points/points and publishes a flattened 2D scan to /robot1/scan by extracting a single horizontal ring from
+the point cloud.
+
+ /robot1/points/points  - sensor_msgs/PointCloud2
+                           Published by: ros_gz_bridge
+                           Consumed by:  velodyne_laserscan_node, RViz, SLAM
+
+  /robot1/scan           - sensor_msgs/LaserScan
+                           Published by: velodyne_laserscan_node
+                           Consumed by:  Nav2 local_costmap
+Both topics verified publishing at approximately 7Hz.
+
+ - go2_description/xacro/velodyne.xacro exists in the repo but is not used.
+    It depends on libgazebo_ros_velodyne_laser.so which is a classic Gazebo
+    plugin incompatible with Gazebo Harmonic. All LiDAR functionality is handled
+    through the gpu_lidar sensor in gazebo.xacro and the ros_gz_bridge.
+
+The current ROS architecture is:
+ros2 topic list:
+  /clock
+  /diagnostics
+  /downsampled_costmap
+  /downsampled_costmap_updates
+  /global_costmap/costmap
+  /global_costmap/costmap_updates
+  /global_costmap/voxel_marked_cloud
+  /local_costmap/costmap
+  /local_costmap/costmap_updates
+  /local_costmap/published_footprint
+  /local_costmap/voxel_marked_cloud
+  /local_plan
+  /map
+  /map_updates
+  /parameter_events
+  /plan
+  /robot1/battery_state
+  /robot1/behavior_server/transition_event
+  /robot1/bond
+  /robot1/bt_navigator/transition_event
+  /robot1/clicked_point
+  /robot1/cmd_vel
+  /robot1/cmd_vel_teleop
+  /robot1/color/camera_info
+  /robot1/color/image_raw
+  /robot1/color/image_raw/compressed
+  /robot1/color/image_raw/compressedDepth
+  /robot1/color/image_raw/theora
+  /robot1/color/image_raw/zstd
+  /robot1/color/image_rect
+  /robot1/color/image_rect/compressed
+  /robot1/color/image_rect/compressedDepth
+  /robot1/color/image_rect/theora
+  /robot1/color/image_rect/zstd
+  /robot1/controller_manager/activity
+  /robot1/controller_manager/introspection_data/full
+  /robot1/controller_manager/introspection_data/names
+  /robot1/controller_manager/introspection_data/values
+  /robot1/controller_selector
+  /robot1/controller_server/transition_event
+  /robot1/controller_velocity
+  /robot1/cost_cloud
+  /robot1/dynamic_joint_states
+  /robot1/evaluation
+  /robot1/foot_contact
+  /robot1/foot_markers
+  /robot1/global_costmap/costmap
+  /robot1/global_costmap/costmap_raw
+  /robot1/global_costmap/costmap_raw_updates
+  /robot1/global_costmap/costmap_updates
+  /robot1/global_costmap/footprint
+  /robot1/global_costmap/global_costmap/transition_event
+  /robot1/global_costmap/obstacle_layer
+  /robot1/global_costmap/obstacle_layer_raw
+  /robot1/global_costmap/obstacle_layer_raw_updates
+  /robot1/global_costmap/obstacle_layer_updates
+  /robot1/global_costmap/published_footprint
+  /robot1/global_costmap/static_layer
+  /robot1/global_costmap/static_layer_raw
+  /robot1/global_costmap/static_layer_raw_updates
+  /robot1/global_costmap/static_layer_updates
+  /robot1/goal_checker_selector
+  /robot1/goal_pose
+  /robot1/imu_plugin/out
+  /robot1/initialpose
+  /robot1/joint_group_controller/commands
+  /robot1/joint_group_controller/transition_event
+  /robot1/joint_state_broadcaster/transition_event
+  /robot1/joint_states
+  /robot1/local_costmap/clearing_endpoints
+  /robot1/local_costmap/costmap
+  /robot1/local_costmap/costmap_raw
+  /robot1/local_costmap/costmap_raw_updates
+  /robot1/local_costmap/costmap_updates
+  /robot1/local_costmap/footprint
+  /robot1/local_costmap/local_costmap/transition_event
+  /robot1/local_costmap/published_footprint
+  /robot1/local_costmap/static_layer
+  /robot1/local_costmap/static_layer_raw
+  /robot1/local_costmap/static_layer_raw_updates
+  /robot1/local_costmap/static_layer_updates
+  /robot1/local_costmap/voxel_grid
+  /robot1/local_costmap/voxel_layer
+  /robot1/local_costmap/voxel_layer_raw
+  /robot1/local_costmap/voxel_layer_raw_updates
+  /robot1/local_costmap/voxel_layer_updates
+  /robot1/local_plan
+  /robot1/map
+  /robot1/map_server/transition_event
+  /robot1/marker
+  /robot1/odom
+  /robot1/odometry/filtered
+  /robot1/plan
+  /robot1/plan_smoothed
+  /robot1/planner_selector
+  /robot1/planner_server/transition_event
+  /robot1/points/points
+  /robot1/preempt_teleop
+  /robot1/progress_checker_selector
+  /robot1/received_global_plan
+  /robot1/robot_description
+  /robot1/robot_mode
+  /robot1/robot_velocity
+  /robot1/scan
+  /robot1/set_pose
+  /robot1/smoother_selector
+  /robot1/smoother_server/transition_event
+  /robot1/speed_limit
+  /robot1/tf
+  /robot1/tf_static
+  /robot1/transformed_global_plan
+  /robot1/waypoints
+  /robot_description
+  /rosout
+  /scan
+  /waypoints
+
+ros2 node list
+  /robot1/behavior_server
+  /robot1/bt_navigator
+  /robot1/bt_navigator_navigate_through_poses_rclcpp_node
+  /robot1/bt_navigator_navigate_to_pose_rclcpp_node
+  /robot1/cmd_vel_pub
+  /robot1/controller_manager
+  /robot1/controller_server
+  /robot1/ekf_filter_node
+  /robot1/global_costmap/global_costmap
+  /robot1/gz_ros_control
+  /robot1/joint_group_controller
+  /robot1/joint_state_broadcaster
+  /robot1/lifecycle_manager_localization
+  /robot1/lifecycle_manager_map_server
+  /robot1/lifecycle_manager_navigation
+  /robot1/local_costmap/local_costmap
+  /robot1/map_server
+  /robot1/nav2_rviz_docking_panel_node
+  /robot1/nav2_rviz_selector_node
+  /robot1/odom
+  /robot1/planner_server
+  /robot1/quadruped_controller
+  /robot1/robot_state_publisher
+  /robot1/ros_gz_bridge
+  /robot1/ros_gz_image
+  /robot1/rviz
+  /robot1/rviz_navigation_dialog_action_client
+  /robot1/smoother_server
+  /robot1/transform_listener_impl_61d8d9133d10
+  /robot1/transform_listener_impl_633ae0166420
+  /robot1/transform_listener_impl_633ae02378c0
+  /robot1/transform_listener_impl_7224a4006b70
+  /robot1/transform_listener_impl_76b9d80033e0
+  /robot1/transform_listener_impl_7c2acc006fe0
+  /robot1/transform_listener_impl_7f6470018160
+  /robot1/velodyne_laserscan
+  /ros_gz_bridge
+
+ros2 topic info /robot1/points/points -v
+  Type: sensor_msgs/msg/PointCloud2
+  
+  Publisher count: 1
+  
+  Node name: ros_gz_bridge
+  Node namespace: /robot1
+  Topic type: sensor_msgs/msg/PointCloud2
+  Topic type hash: RIHS01_9198cabf7da3796ae6fe19c4cb3bdd3525492988c70522628af5daa124bae2b5
+  Endpoint type: PUBLISHER
+  GID: 01.10.06.fa.8e.73.3b.0f.65.be.3c.46.00.00.1a.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (10)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Subscription count: 1
+  
+  Node name: velodyne_laserscan
+  Node namespace: /robot1
+  Topic type: sensor_msgs/msg/PointCloud2
+  Topic type hash: RIHS01_9198cabf7da3796ae6fe19c4cb3bdd3525492988c70522628af5daa124bae2b5
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.84.b1.b2.b3.76.8a.e0.79.1f.2f.00.00.18.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (10)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+
+ros2 topic info /robot1/scan -v
+  Type: sensor_msgs/msg/LaserScan
+  
+  Publisher count: 1
+  
+  Node name: velodyne_laserscan
+  Node namespace: /robot1
+  Topic type: sensor_msgs/msg/LaserScan
+  Topic type hash: RIHS01_64c191398013af96509d518dac71d5164f9382553fce5c1f8cca5be7924bd828
+  Endpoint type: PUBLISHER
+  GID: 01.10.84.b1.b2.b3.76.8a.e0.79.1f.2f.00.00.19.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (10)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Subscription count: 1
+  
+  Node name: local_costmap
+  Node namespace: /robot1/local_costmap
+  Topic type: sensor_msgs/msg/LaserScan
+  Topic type hash: RIHS01_64c191398013af96509d518dac71d5164f9382553fce5c1f8cca5be7924bd828
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.8a.c5.8c.54.a8.d1.b3.6a.a4.f6.00.00.78.04
+  QoS profile:
+    Reliability: BEST_EFFORT
+    History (Depth): KEEP_LAST (50)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+
+ros2 topic info /robot1/odom -v
+  Type: nav_msgs/msg/Odometry
+  
+  Publisher count: 1
+  
+  Node name: odom
+  Node namespace: /robot1
+  Topic type: nav_msgs/msg/Odometry
+  Topic type hash: RIHS01_3cc97dc7fb7502f8714462c526d369e35b603cfc34d946e3f2eda2766dfec6e0
+  Endpoint type: PUBLISHER
+  GID: 01.10.10.73.e9.c2.23.7c.9f.e2.70.de.00.00.17.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (10)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Subscription count: 2
+  
+  Node name: ekf_filter_node
+  Node namespace: /robot1
+  Topic type: nav_msgs/msg/Odometry
+  Topic type hash: RIHS01_3cc97dc7fb7502f8714462c526d369e35b603cfc34d946e3f2eda2766dfec6e0
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.0a.32.0e.0a.e3.e6.69.eb.76.06.00.00.2a.04
+  QoS profile:
+    Reliability: BEST_EFFORT
+    History (Depth): KEEP_LAST (2)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: controller_server
+  Node namespace: /robot1
+  Topic type: nav_msgs/msg/Odometry
+  Topic type hash: RIHS01_3cc97dc7fb7502f8714462c526d369e35b603cfc34d946e3f2eda2766dfec6e0
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.8a.c5.8c.54.a8.d1.b3.6a.a4.f6.00.00.6d.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (1)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+
+ros2 topic info /robot1/cmd_vel -v
+  Type: geometry_msgs/msg/Twist
+  
+  Publisher count: 6
+  
+  Node name: controller_server
+  Node namespace: /robot1
+  Topic type: geometry_msgs/msg/Twist
+  Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a
+  Endpoint type: PUBLISHER
+  GID: 01.10.8a.c5.8c.54.a8.d1.b3.6a.a4.f6.00.00.6e.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (1)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: behavior_server
+  Node namespace: /robot1
+  Topic type: geometry_msgs/msg/Twist
+  Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a
+  Endpoint type: PUBLISHER
+  GID: 01.10.d5.6d.02.6e.c9.ae.24.c0.a9.36.00.00.35.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (1)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: behavior_server
+  Node namespace: /robot1
+  Topic type: geometry_msgs/msg/Twist
+  Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a
+  Endpoint type: PUBLISHER
+  GID: 01.10.d5.6d.02.6e.c9.ae.24.c0.a9.36.00.00.3e.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (1)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: behavior_server
+  Node namespace: /robot1
+  Topic type: geometry_msgs/msg/Twist
+  Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a
+  Endpoint type: PUBLISHER
+  GID: 01.10.d5.6d.02.6e.c9.ae.24.c0.a9.36.00.00.47.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (1)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: behavior_server
+  Node namespace: /robot1
+  Topic type: geometry_msgs/msg/Twist
+  Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a
+  Endpoint type: PUBLISHER
+  GID: 01.10.d5.6d.02.6e.c9.ae.24.c0.a9.36.00.00.50.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (1)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: behavior_server
+  Node namespace: /robot1
+  Topic type: geometry_msgs/msg/Twist
+  Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a
+  Endpoint type: PUBLISHER
+  GID: 01.10.d5.6d.02.6e.c9.ae.24.c0.a9.36.00.00.5b.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (1)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Subscription count: 1
+  
+  Node name: cmd_vel_pub
+  Node namespace: /robot1
+  Topic type: geometry_msgs/msg/Twist
+  Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.e7.af.2c.44.d0.94.60.c9.0f.0a.00.00.17.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (10)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+
+ros2 topic info /robot1/tf -v
+  Type: tf2_msgs/msg/TFMessage
+  
+  Publisher count: 4
+  
+  Node name: ros_gz_bridge
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: PUBLISHER
+  GID: 01.10.06.fa.8e.73.3b.0f.65.be.3c.46.00.00.1b.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (10)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: ekf_filter_node
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: PUBLISHER
+  GID: 01.10.0a.32.0e.0a.e3.e6.69.eb.76.06.00.00.20.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: robot_state_publisher
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: PUBLISHER
+  GID: 01.10.10.12.83.0b.4e.f8.6f.a3.ac.ea.00.00.18.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: odom
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: PUBLISHER
+  GID: 01.10.10.73.e9.c2.23.7c.9f.e2.70.de.00.00.1c.03
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Subscription count: 9
+  
+  Node name: ros_gz_bridge
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.06.fa.8e.73.3b.0f.65.be.3c.46.00.00.1c.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (10)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: transform_listener_impl_61d8d9133d10
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.0a.32.0e.0a.e3.e6.69.eb.76.06.00.00.1d.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: transform_listener_impl_76b9d80033e0
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.36.a5.29.ef.da.7c.a9.f1.53.00.00.00.45.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: transform_listener_impl_7c2acc006fe0
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.5f.ba.2e.a7.6c.8f.02.4d.4a.75.00.00.28.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: bt_navigator
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.75.23.1b.9e.0d.ac.46.f2.7c.07.00.00.23.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: transform_listener_impl_633ae0166420
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.76.1b.e1.b9.06.32.88.53.35.66.00.00.51.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: transform_listener_impl_633ae02378c0
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.76.1b.e1.b9.06.32.88.53.35.66.00.00.98.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: transform_listener_impl_7f6470018160
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.8a.c5.8c.54.a8.d1.b3.6a.a4.f6.00.00.45.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
+  
+  Node name: transform_listener_impl_7224a4006b70
+  Node namespace: /robot1
+  Topic type: tf2_msgs/msg/TFMessage
+  Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+  Endpoint type: SUBSCRIPTION
+  GID: 01.10.d5.6d.02.6e.c9.ae.24.c0.a9.36.00.00.28.04
+  QoS profile:
+    Reliability: RELIABLE
+    History (Depth): KEEP_LAST (100)
+    Durability: VOLATILE
+    Lifespan: Infinite
+    Deadline: Infinite
+    Liveliness: AUTOMATIC
+    Liveliness lease duration: Infinite
