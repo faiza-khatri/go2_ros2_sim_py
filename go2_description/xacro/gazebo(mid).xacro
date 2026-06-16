@@ -95,6 +95,7 @@
                 <state_interface name="effort"/>
             </joint>
         </ros2_control>
+
         <gazebo reference="imu_link">
             <!--<material>Gazebo/Black</material>-->
             <gravity>false</gravity>
@@ -106,51 +107,49 @@
                     <plugin filename="libgz-sim-imu-system.so" name="gz::sim::systems::Imu">
                 </plugin>
                 <pose>0 0 0 0 0 0</pose>
-                <gz_frame_id>imu_link</gz_frame_id> <!-- Добавьте этот тег для указания кадра -->
+                <gz_frame_id>imu_link</gz_frame_id>
             </sensor>
         </gazebo>
 
         <gazebo reference="laser_frame">
-            <!--<material>Gazebo/Black</material>-->
+            <sensor name="laser" type="gpu_lidar">
+                <pose>0 0 0 0 0 0</pose>
+                <visualize>false</visualize>
+                <update_rate>10</update_rate>
+                <lidar>
+                    <scan>
+                        <horizontal>
+                            <samples>1000</samples>
+                            <resolution>1</resolution>
+                            <min_angle>-3.14159265</min_angle>
+                            <max_angle>3.14159265</max_angle>
+                        </horizontal>
+                        <vertical>
+                            <samples>40</samples>
+                            <resolution>1</resolution>
+                            <min_angle>-0.12217305</min_angle>
+                            <max_angle>0.90757121</max_angle>
+                        </vertical>
+                    </scan>
+                    <range>
+                        <min>0.1</min>
+                        <max>40.0</max>
+                        <resolution>0.002</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </lidar>
 
-	<sensor name="laser" type="gpu_lidar">
-  <pose>0 0 0 0 0 0</pose>
-  <visualize>false</visualize>
-  <update_rate>10</update_rate>
-  <lidar>
-    <scan>
-      <horizontal>
-        <samples>1000</samples>
-        <resolution>1</resolution>
-        <min_angle>-3.14159</min_angle>
-        <max_angle>3.14159</max_angle>
-      </horizontal>
-      <vertical>
-        <samples>40</samples>
-        <resolution>1</resolution>
-        <min_angle>-0.12217</min_angle>
-        <max_angle>0.90757</max_angle>
-      </vertical>
-    </scan>
-    <range>
-      <min>0.1</min>
-      <max>40.0</max>
-      <resolution>0.01</resolution>
-    </range>
-    <noise>
-      <type>gaussian</type>
-      <mean>0.0</mean>
-      <stddev>0.01</stddev>
-    </noise>
-  </lidar>
-  <topic>/${robot_name}/points</topic>
-  <gz_frame_id>laser_frame</gz_frame_id>
-</sensor>
-</gazebo>
+                <topic>/${robot_name}/points/points</topic>
+                <gz_frame_id>laser_frame</gz_frame_id>
+            </sensor>
+        </gazebo>
 
         <gazebo reference="camera_face">
             <!-- <material>Gazebo/Black</material> -->
-
             <sensor name="camera" type="camera">
                 <pose> 0 0 0 0 0 0 </pose>
                 <visualize>true</visualize>
@@ -181,21 +180,10 @@
             <kd>1.0</kd>
         </gazebo>
 
-        <!-- <gazebo reference="stick_link">
-            <mu1>0.2</mu1>
-            <mu2>0.2</mu2>
-        </gazebo> -->
-
-        <!-- <gazebo reference="imu_link">
-            <mu1>0.2</mu1>
-            <mu2>0.2</mu2>
-        </gazebo> -->
-
         <!-- FL leg -->
         <gazebo reference="lf_hip_link">
             <mu1>0.2</mu1>
             <mu2>0.2</mu2>
-
         </gazebo>
         <gazebo reference="lf_upper_leg_link">
             <mu1>0.2</mu1>
