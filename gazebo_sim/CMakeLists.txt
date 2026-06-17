@@ -34,4 +34,9 @@ install(
   DESTINATION lib/${PROJECT_NAME}
 )
 
+install(PROGRAMS
+  scripts/pointcloud_stamper.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

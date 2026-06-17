@@ -186,6 +186,13 @@ def generate_launch_description():
     )
 
 
+    pointcloud_stamper = Node(
+    package='gazebo_sim',
+    executable='pointcloud_stamper.py',
+    name='pointcloud_stamper',
+    output='screen',
+    )
+
     # Launch them all!
     return LaunchDescription([
         declare_use_sim_time,
@@ -200,5 +207,6 @@ def generate_launch_description():
         cmd_vel_pub,
         odom,
         rviz,
+        pointcloud_stamper
         # bringup_cmd
     ])
