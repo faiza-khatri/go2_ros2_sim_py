@@ -1,5 +1,6 @@
 import os
 from ament_index_python.packages import get_package_share_directory
+from launch.actions import TimerAction
 
 from launch import LaunchDescription
 from launch.actions import (
@@ -145,7 +146,7 @@ def generate_launch_description():
             ],
     remappings=[
                (f'/{namespace}/tf', 'tf'),
-               (f'/{namespace}/tf_static', 'tf_static'),
+               (f'/{namespace}/tf_static', '/tf_static'),
         ]
         )
         velodyne_laserscan = Node(
@@ -332,12 +333,39 @@ def generate_launch_description():
             output='screen',
             remappings=remappings
         )
-
+        slam_toolbox = Node(
+            package='slam_toolbox',
+            executable='async_slam_toolbox_node',
+            name='slam_toolbox',
+            namespace=namespace,
+            parameters=[
+                os.path.join(pkg_path, 'config', 'slam_toolbox_params.yaml'),
+                {
+                    'use_sim_time': True,
+                    'base_frame': 'base_link',
+                    'odom_frame': 'odom',
+                    'map_frame': 'map',
+                    'scan_topic': '/scan',
+                }
+            ],
+            remappings=[
+                ('/scan', f'/{namespace}/scan'),
+            ],
+            output='screen'
+        )
+        tf_republisher = Node(
+            package='gazebo_sim',
+            executable='tf_republisher.py',
+            name='tf_republisher',
+            output='screen',
+        )
         # Группировка всех действий для робота
         robot_group = GroupAction([
             node_robot_state_publisher,
             spawn_entity,
             ros_gz_bridge,
+            tf_republisher,
+            slam_toolbox,
             velodyne_laserscan,
             start_gazebo_ros_image_bridge_cmd,
             robot_control,
