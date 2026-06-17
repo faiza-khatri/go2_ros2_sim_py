@@ -159,7 +159,7 @@ def generate_launch_description():
                 ('scan', f'/{namespace}/scan'),
             ],
             parameters=[{
-                'ring': -1,
+                'ring': 5,
                 'resolution': 0.007,
                 'use_sim_time': True,
             }]
@@ -259,7 +259,7 @@ def generate_launch_description():
                 'autostart': 'true',
                 'use_sim_time': 'true',
                 'log_level': 'warn',
-                'map_server': 'True'
+                'map_server': 'False'
             }.items()
         )
 
@@ -338,6 +338,7 @@ def generate_launch_description():
             executable='async_slam_toolbox_node',
             name='slam_toolbox',
             namespace=namespace,
+            output='screen',
             parameters=[
                 os.path.join(pkg_path, 'config', 'slam_toolbox_params.yaml'),
                 {
@@ -345,13 +346,13 @@ def generate_launch_description():
                     'base_frame': 'base_link',
                     'odom_frame': 'odom',
                     'map_frame': 'map',
-                    'scan_topic': '/scan',
+                    'scan_topic': f'/{namespace}/scan',
                 }
             ],
             remappings=[
-                ('/scan', f'/{namespace}/scan'),
+                ('/map', f'/{namespace}/map'),
+                ('/map_metadata', f'/{namespace}/map_metadata'),
             ],
-            output='screen'
         )
         tf_republisher = Node(
             package='gazebo_sim',
