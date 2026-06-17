@@ -76,7 +76,7 @@ def generate_launch_description():
         arguments=[
             f"{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU",
 	    f"{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
-	    f"{namespace}/points/points@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked",
+	    f"{namespace}/points/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
             f"{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
             f"{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model"
         ]

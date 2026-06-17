@@ -31,6 +31,7 @@ install(PROGRAMS
 
 install(
   PROGRAMS
+  scripts/tf_republisher.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
