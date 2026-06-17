@@ -5,6 +5,16 @@ Repository link: faiza-khatri/go2_ros2_sim_py
 To get Gazebo running:
 ros2 launch gazebo_sim launch_sim.launch.py
 
+To setup:
+cd ~/go_sim
+rosdep install --from-paths src --ignore-src -r -y
+colcon build --symlink-install
+source install/setup.bash
+
+To get Fast-Lio running:
+ros2 launch fast_lio mapping.launch.py config_path:=/home/administrator/go_sim/src/FAST_LIO_ROS2/config
+
+
 Set TROT mode:
 ros2 topic pub --once /robot1/robot_mode quadropted_msgs/msg/RobotModeCommand "{mode: 'TROT', robot_id: 1}"
 Teleop:
