@@ -4,15 +4,38 @@ Repository link: faiza-khatri/go2_ros2_sim_py
 
 To get Gazebo running:
 ros2 launch gazebo_sim launch_sim.launch.py
+(Run generate_world.py when you first pull the repository)
 
-To setup:
-cd ~/go_sim
-rosdep install --from-paths src --ignore-src -r -y
-colcon build --symlink-install
-source install/setup.bash
+To install fast-lio:
+- Go to LivoxSDK2 folder inside main workspace src
+- Run:
+    mkdir build
+    cd build
+    cmake .. && make -j
+    sudo make install
+
+- Go to ws_livox/src/livox_driver_ros2
+- Run:
+    source /opt/ros/jazzy/setup.sh
+    ./build.sh jazzy
+
+- Go to the main src of the workspace
+- Run:
+    rosdep install --from-paths src --ignore-src -r -y
+    colcon build --symlink-install
+    source install/setup.bash
+
+- Pray
+
 
 To get Fast-Lio running:
-ros2 launch fast_lio mapping.launch.py config_path:=/home/administrator/go_sim/src/FAST_LIO_ROS2/config
+- In workspace, go to FAST_LIO_ROS2/config/mid360.yaml
+- Change map_file_path to wherever you want to save pcd files
+- Run:
+    ros2 launch fast_lio mapping.launch.py config_path:=/path/to/workspace/src/FAST_LIO_ROS2/config
+- To save map:
+    ros2 service call /map_save std_srvs/srv/Trigger {}
+
 
 
 Set TROT mode:

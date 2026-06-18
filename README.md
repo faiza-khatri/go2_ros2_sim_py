@@ -50,13 +50,34 @@ cd ..
 colcon build --symlink-install
 ```
 
-### Install Dependencies
+### Install livox driver
 
-```bash
-cd ~/go_sim
-rosdep update
-rosdep install --from-paths src --ignore-src -r -y
-```
+- Go to LivoxSDK2 folder inside main workspace src
+- Run:
+    ```bash
+    mkdir build
+    cd build
+    cmake .. && make -j
+    sudo make install
+    ```
+
+- Go to ws_livox/src/livox_driver_ros2
+- Run:
+    ```bash
+    source /opt/ros/jazzy/setup.sh
+    ./build.sh jazzy
+    ```
+
+- Go to the main src of the workspace
+- Run:
+    ```bash
+    rosdep install --from-paths src --ignore-src -r -y
+    colcon build --symlink-install
+    source install/setup.bash
+    ```
+
+- Pray
+
 
 ## Environment Configuration
 
@@ -106,12 +127,27 @@ cd ~/go_sim
 
 #Source the environment setup:
 
-source install/local_setup.bash
+source install/setup.bash
 
 #Launch the simulation:
 
-ros2 launch gazebo_sim launch.py
+ros2 launch gazebo_sim launch_sim.launch.py
+#Run generate_world.py when you first pull the repository
 ```
+
+## Running FAST-LIO
+
+- In workspace, go to FAST_LIO_ROS2/config/mid360.yaml
+- Change map_file_path to wherever you want to save pcd files
+- Run:
+    ```bash
+    ros2 launch fast_lio mapping.launch.py config_path:=/path/to/workspace/src/FAST_LIO_ROS2/config
+    ```
+- To save map:
+    ```bash
+    ros2 service call /map_save std_srvs/srv/Trigger {}
+    ```
+
 
 ## Controlling the Robot
 
