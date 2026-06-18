@@ -84,11 +84,6 @@ for i in range(NUM_TREES_FIR):
 
 
 
-APRILTAGS = [
-    # (name,                    x,     y,    z_offset, roll,   pitch,  yaw)
-    ("Apriltag36_11_00000",  -4.96,  1.5,   0.46,    1.5708, 0.0,  1.5708),
-]
-
 
 # SDF BUILDERS
 
@@ -156,17 +151,7 @@ def tree_sdf_fir(name, x, y, z_offset, scale):
     
 
 
-def apriltag_sdf(name, x, y, z_offset, roll, pitch, yaw):
-    tz = terrain_z(x, y)
-    z  = tz + z_offset
-    return f"""
-    <!-- {name}: terrain_z({x}, {y}) = {tz:.4f} -->
-    <include>
-      <name>{name}</name>
-      <pose>{x} {y} {z:.4f} {roll} {pitch} {yaw}</pose>
-      <static>true</static>
-      <uri>model://{name}</uri>
-    </include>"""
+
 
 
 # ASSEMBLE WORLD
@@ -174,7 +159,6 @@ def apriltag_sdf(name, x, y, z_offset, roll, pitch, yaw):
 tree_xml_spruce     = "".join(tree_sdf_spruce(*t)     for t in TREES_SPRUCE)
 tree_xml_fir     = "".join(tree_sdf_fir(*t)     for t in TREES_FIR)
 
-apriltag_xml = "".join(apriltag_sdf(*t) for t in APRILTAGS)
 
 world = f"""<?xml version="1.0" ?>
 <sdf version="1.6">
@@ -233,9 +217,6 @@ world = f"""<?xml version="1.0" ?>
 {tree_xml_spruce}
 {tree_xml_fir}
 
-    <!-- ── AprilTags ─────────────────────────── -->
-{apriltag_xml}
-
   </world>
 </sdf>
 """
@@ -254,6 +235,3 @@ for name, x, y, z_off, scale in TREES_FIR:
     tz = terrain_z(x, y)
     print(f"  {name:20s}  terrain_z={tz:.4f}  pose_z={tz+z_off:.4f}")
 
-for name, x, y, z_off, *_ in APRILTAGS:
-    tz = terrain_z(x, y)
-    print(f"  {name:20s}  terrain_z={tz:.4f}  pose_z={tz+z_off:.4f}")

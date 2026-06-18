@@ -101,13 +101,6 @@
       <uri>model://cafe_table</uri>
     </include>
 
-    <!-- apriltag: terrain_z(-4.96, 1.5) + 0.46 = 0.8267 -->
-    <include>
-      <name>Apriltag36_11_00000</name>
-      <pose>-4.96 1.5 0.8267 1.5708 0 1.5708</pose>
-      <static>true</static>
-      <uri>model://Apriltag36_11_00000</uri>
-    </include>
   </world>
 </sdf>
 
