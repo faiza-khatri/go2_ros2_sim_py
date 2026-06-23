@@ -23,8 +23,8 @@ MATERIALS_DIR = os.path.join(SCRIPT_DIR, 'materials', 'textures')
 HEIGHTMAP_PNG = os.path.join(MATERIALS_DIR, 'bc_terrain_heightmap_256.png')
 
 # Installed paths (written into the world SDF for Gazebo to load)
-pkg_share    = subprocess.check_output(['ros2', 'pkg', 'prefix', '--share', 'gazebo_sim']).decode().strip()
-GZ_MATERIALS = os.path.join(pkg_share, 'materials', 'textures')
+# Installed paths — container mounts source at same structure, use SCRIPT_DIR
+GZ_MATERIALS = os.path.join(SCRIPT_DIR, 'materials', 'textures')
 GZ_HEIGHTMAP = os.path.join(GZ_MATERIALS, 'bc_terrain_heightmap_256.png')
 GZ_DIFFUSE   = os.path.join(GZ_MATERIALS, 'bc_moss_rock_diffuse.png')
 GZ_NORMAL    = os.path.join(GZ_MATERIALS, 'bc_moss_rock_normal.png')
@@ -240,6 +240,8 @@ world = f"""<?xml version="1.0" ?>
 </sdf>
 """
 
+# Fix paths for container
+world = world.replace('/home/administrator/go_sim/src', '/root/ws/src')
 with open(OUTPUT_FILE, "w") as f:
     f.write(world)
 
