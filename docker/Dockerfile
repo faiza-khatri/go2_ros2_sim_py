@@ -17,6 +17,7 @@ RUN  --mount=type=cache,target=/var/cache/apt,sharing=locked \
   ros-jazzy-ros2-control \
   ros-jazzy-gz-ros2-control \
   ros-jazzy-controller-manager \
+  ros-jazzy-pcl-ros \
   ros-jazzy-hardware-interface \
   ros-jazzy-pluginlib \
   ros-jazzy-joint-state-publisher \
@@ -41,6 +42,7 @@ RUN  --mount=type=cache,target=/var/cache/apt,sharing=locked \
   ros-jazzy-nav2-simple-commander \
   ros-jazzy-tf2-ros \
   ros-jazzy-tf2 \
+  ros-jazzy-velodyne-laserscan \
   tmux \
   tmuxinator \
   python3-colcon-common-extensions \
@@ -50,6 +52,21 @@ RUN  --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 # Установка colcon-cache
 RUN pip3 install --break-system-packages git+https://github.com/ruffsl/colcon-cache.git
+# Install Livox SDK2
+RUN apt-get update && apt-get install -y \
+  cmake \
+  libpcl-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN git clone --depth 1 https://github.com/Livox-SDK/Livox-SDK2.git /tmp/Livox-SDK2 && \
+  cd /tmp/Livox-SDK2 && \
+  mkdir build && cd build && \
+  cmake .. -DCMAKE_CXX_FLAGS="-include cstdint -Wno-error" \
+           -DCMAKE_C_FLAGS="-Wno-error" && \
+  make -j$(nproc) && \
+  make install && \
+  ldconfig && \
+  rm -rf /tmp/Livox-SDK2
 
 # Копируем исходный код
 COPY ../ /root/ws/src
