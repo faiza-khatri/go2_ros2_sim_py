@@ -234,6 +234,18 @@ def generate_launch_description():
             remappings=remappings
         )
 
+        pointcloud_stamper = Node(
+            package='gazebo_sim',
+            executable='pointcloud_stamper.py',
+            name='pointcloud_stamper',
+            namespace=namespace,
+            output='screen',
+	    remappings=[
+	        ('points/points', f'/{namespace}/points/points'),
+	        ('points/points_timed', f'/{namespace}/points/points_timed'),
+	    ]
+	)
+
         nav2_launch_file = os.path.join(pkg_path, 'launch', 'nav2', 'bringup_launch.py')
         map_yaml_file = os.path.join(pkg_path, 'maps', 'cafe_world_map.yaml')
         params_file = os.path.join(pkg_path, 'config', 'nav2_params.yaml')
@@ -372,6 +384,7 @@ def generate_launch_description():
             robot_control,
             nav2_actions,
             rviz,
+	    pointcloud_stamper,
             # test_action
         ])
 
