@@ -8,6 +8,9 @@
       <render_engine>ogre2</render_engine>
     </plugin>
     <plugin filename="gz-sim-imu-system"              name="gz::sim::systems::Imu"></plugin>
+    <plugin name='rgl::RGLServerPluginManager' filename='RGLServerPluginManager'>
+      <do_ignore_entities_in_lidar_link>true</do_ignore_entities_in_lidar_link>
+    </plugin>
 
     <light type="directional" name="sun">
       <cast_shadows>true</cast_shadows>
