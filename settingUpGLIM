@@ -1,0 +1,41 @@
+I cloned the repository 
+https://github.com/koide3/glim
+
+In config_ros.json:
+    "imu_topic": "/robot1/imu_plugin/out",
+    "points_topic": "/robot1/points/points_timed",
+    
+in config_sensors.json:
+"T_lidar_imu": [-0.011, -0.02329, 0.04412, 0, 0, 0, 1] (taken from fast lio extrinsics)
+
+I created the script to run glim in its own container:
+cat > ~/go_sim/src/gazebo_sim/scripts/run_glim.sh << 'EOF'
+#!/bin/bash
+# Run GLIM in its own container, communicating with the existing Jazzy sim container over host network.
+# Usage: ./run_glim.sh
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_DIR="$(realpath "$SCRIPT_DIR/../glim_config")"
+
+echo "[glim] Using config from: $CONFIG_DIR"
+echo "[glim] Pulling image if not present..."
+docker pull koide3/glim_ros2:jazzy_cuda13.1
+
+docker run \
+  -it --rm \
+  --net=host \
+  --ipc=host \
+  --pid=host \
+  --gpus all \
+  -e DISPLAY \
+  -e ROS_DOMAIN_ID \
+  -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp \
+  -v "$CONFIG_DIR":/glim/config \
+  -v /tmp/glim_dump:/tmp/dump \
+  koide3/glim_ros2:jazzy_cuda13.1 \
+  ros2 run glim_ros glim_rosnode --ros-args -p config_path:=/glim/config
+EOF
+chmod +x ~/go_sim/src/gazebo_sim/scripts/run_glim.sh
+
+I also set RMW implementation to be rmw_cyclonedds_cpp in the main container
+

@@ -110,42 +110,20 @@
             </sensor>
         </gazebo>
 
-        <gazebo reference="laser_frame">
-            <!--<material>Gazebo/Black</material>-->
-
-	<sensor name="laser" type="gpu_lidar">
-  <pose>0 0 0 0 0 0</pose>
-  <visualize>false</visualize>
-  <update_rate>10</update_rate>
-  <lidar>
-    <scan>
-      <horizontal>
-        <samples>1000</samples>
-        <resolution>1</resolution>
-        <min_angle>-3.14159</min_angle>
-        <max_angle>3.14159</max_angle>
-      </horizontal>
-      <vertical>
-        <samples>40</samples>
-        <resolution>1</resolution>
-        <min_angle>-0.12217</min_angle>
-        <max_angle>0.90757</max_angle>
-      </vertical>
-    </scan>
-    <range>
-      <min>0.1</min>
-      <max>40.0</max>
-      <resolution>0.01</resolution>
-    </range>
-    <noise>
-      <type>gaussian</type>
-      <mean>0.0</mean>
-      <stddev>0.01</stddev>
-    </noise>
-  </lidar>
-  <topic>/${robot_name}/points</topic>
-  <gz_frame_id>laser_frame</gz_frame_id>
-</sensor>
+	<gazebo reference="laser_frame">
+    <sensor name="mid360" type="custom">
+        <plugin filename="RGLServerPluginInstance" name="rgl::RGLServerPluginInstance">
+            <range>
+                <min>0.1</min>
+                <max>40.0</max>
+            </range>
+            <update_rate>10</update_rate>
+            <update_on_paused_sim>false</update_on_paused_sim>
+            <topic>/robot1/points/points_timed</topic>
+            <frame>laser_frame</frame>
+            <pattern_preset_path>/rgl_patterns/LivoxMid360.mat3x4f</pattern_preset_path>
+        </plugin>
+    </sensor>
 </gazebo>
 
         <gazebo reference="camera_face">

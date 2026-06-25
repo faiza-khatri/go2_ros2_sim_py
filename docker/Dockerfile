@@ -68,6 +68,15 @@ RUN git clone --depth 1 https://github.com/Livox-SDK/Livox-SDK2.git /tmp/Livox-S
   ldconfig && \
   rm -rf /tmp/Livox-SDK2
 
+# Install RGL Gazebo Plugin
+COPY gazebo_sim/rgl_plugins/RGLServerPlugin/libRobotecGPULidar.so \
+     gazebo_sim/rgl_plugins/RGLServerPlugin/libRGLServerPluginInstance.so \
+     gazebo_sim/rgl_plugins/RGLServerPlugin/libRGLServerPluginManager.so \
+     /opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/
+COPY gazebo_sim/rgl_plugins/RGLVisualize/libRGLVisualize.so \
+     /opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/
+COPY gazebo_sim/rgl_plugins/lidar_patterns/ /rgl_patterns/
+
 # Копируем исходный код
 COPY ../ /root/ws/src
 

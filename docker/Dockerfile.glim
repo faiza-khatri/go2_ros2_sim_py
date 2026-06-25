@@ -1,0 +1,88 @@
+FROM nvidia/cuda:12.2.0-devel-ubuntu24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ROS_DISTRO=jazzy
+
+# ── Base system + ROS2 Jazzy ─────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y \
+    curl gnupg2 lsb-release software-properties-common \
+    && rm -rf /var/lib/apt/lists/*
+
+# ROS2 Jazzy repo
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
+    -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] \
+    http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" \
+    > /etc/apt/sources.list.d/ros2.list
+
+RUN apt-get update && apt-get install -y \
+    ros-jazzy-ros-base \
+    ros-jazzy-rmw-cyclonedds-cpp \
+    ros-jazzy-pcl-ros \
+    ros-dev-tools \
+    python3-colcon-common-extensions \
+    && rm -rf /var/lib/apt/lists/*
+
+# ── GLIM build dependencies ──────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y \
+    cmake build-essential git \
+    libomp-dev libboost-all-dev libmetis-dev \
+    libfmt-dev libspdlog-dev \
+    libeigen3-dev \
+    libglm-dev libglfw3-dev \
+    libpng-dev libjpeg-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# ── GTSAM 4.3a0 ─────────────────────────────────────────────────────────────
+RUN git clone https://github.com/borglab/gtsam /tmp/gtsam && \
+    cd /tmp/gtsam && git checkout 4.3a0 && \
+    cmake -B build \
+      -DGTSAM_BUILD_EXAMPLES_ALWAYS=OFF \
+      -DGTSAM_BUILD_TESTS=OFF \
+      -DGTSAM_WITH_TBB=OFF \
+      -DGTSAM_USE_SYSTEM_EIGEN=ON \
+      -DGTSAM_BUILD_WITH_MARCH_NATIVE=OFF \
+      -DCMAKE_BUILD_TYPE=Release && \
+    cmake --build build -j$(nproc) && \
+    cmake --install build && \
+    rm -rf /tmp/gtsam
+
+# ── Iridescence (visualizer) ─────────────────────────────────────────────────
+RUN git clone --recursive https://github.com/koide3/iridescence /tmp/iridescence && \
+    cmake -B /tmp/iridescence/build /tmp/iridescence -DCMAKE_BUILD_TYPE=Release && \
+    cmake --build /tmp/iridescence/build -j$(nproc) && \
+    cmake --install /tmp/iridescence/build && \
+    rm -rf /tmp/iridescence
+
+# ── gtsam_points (with CUDA 12.2) ────────────────────────────────────────────
+RUN git clone https://github.com/koide3/gtsam_points /tmp/gtsam_points && \
+    cmake -B /tmp/gtsam_points/build /tmp/gtsam_points \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DBUILD_WITH_CUDA=ON \
+      -DCMAKE_CUDA_ARCHITECTURES="61" && \
+    cmake --build /tmp/gtsam_points/build -j$(nproc) && \
+    cmake --install /tmp/gtsam_points/build && \
+    ldconfig && \
+    rm -rf /tmp/gtsam_points
+
+# ── GLIM + glim_ros2 ─────────────────────────────────────────────────────────
+RUN mkdir -p /glim_ws/src && \
+    git clone https://github.com/koide3/glim /glim_ws/src/glim && \
+    git clone https://github.com/koide3/glim_ros2 /glim_ws/src/glim_ros2
+
+RUN bash -c "source /opt/ros/jazzy/setup.bash && \
+    cd /glim_ws && \
+    colcon build --cmake-args \
+      -DBUILD_WITH_CUDA=ON \
+      -DBUILD_WITH_VIEWER=ON \
+      -DBUILD_WITH_MARCH_NATIVE=OFF \
+      -DCMAKE_BUILD_TYPE=Release"
+
+# ── Entrypoint ───────────────────────────────────────────────────────────────
+RUN echo '#!/bin/bash\n\
+source /opt/ros/jazzy/setup.bash\n\
+source /glim_ws/install/setup.bash\n\
+exec "$@"' > /entrypoint.sh && chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["ros2", "run", "glim_ros", "glim_rosnode", "--ros-args", "-p", "config_path:=/glim/config"]

@@ -52,12 +52,13 @@ services:
     command: bash -c "source install/setup.bash && ros2 launch gazebo_sim launch.py use_sim_time:=true" 
     environment:
       <<: *env_gui
-      RMW_IMPLEMENTATION: rmw_cyclonedds_cpp
+      RMW_IMPLEMENTATION: rmw_fastrtps_cpp
       GAZEBO_RESOURCE_PATH: "/usr/share/gazebo-11"
       GZ_SIM_RESOURCE_PATH: "/root/ws/src/gazebo_sim/models/"
       GAZEBO_MODEL_PATH: "/usr/share/gazebo-11/models/:/opt/ros/jazzy/share/turtlebot3_gazebo/models/"
       CYCLONEDDS_URI: file:///cyclonedds.xml
       ROS_DOMAIN_ID: 0
+      RGL_PATTERNS_DIR: "/rgl_patterns"
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -67,3 +68,17 @@ services:
     volumes:
       - ./cyclonedds.xml:/cyclonedds.xml
       - ./../:/root/ws/src/
+
+  glim:
+    <<: *nvidia
+    image: koide3/glim_ros2:jazzy_cuda12.5
+    container_name: glim
+    environment:
+      <<: *env_gui
+      RMW_IMPLEMENTATION: rmw_fastrtps_cpp
+      ROS_DOMAIN_ID: 0
+    volumes:
+      - ./cyclonedds.xml:/cyclonedds.xml
+      - ./../gazebo_sim/glim_config:/glim/config
+      - /tmp/glim_dump:/tmp/dump
+    command: ros2 run glim_ros glim_rosnode --ros-args -p config_path:=/glim/config

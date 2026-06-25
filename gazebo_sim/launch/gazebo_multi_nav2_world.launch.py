@@ -136,7 +136,7 @@ def generate_launch_description():
             output='screen',
             arguments=[
                 f'/{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU',
-                f'/{namespace}/points/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+		f'/{namespace}/points/points_timed@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
                 f'/{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
                 f'/{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model',
                 f'/{namespace}/color/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo',
@@ -233,18 +233,6 @@ def generate_launch_description():
             }],
             remappings=remappings
         )
-
-        pointcloud_stamper = Node(
-            package='gazebo_sim',
-            executable='pointcloud_stamper.py',
-            name='pointcloud_stamper',
-            namespace=namespace,
-            output='screen',
-	    remappings=[
-	        ('points/points', f'/{namespace}/points/points'),
-	        ('points/points_timed', f'/{namespace}/points/points_timed'),
-	    ]
-	)
 
         nav2_launch_file = os.path.join(pkg_path, 'launch', 'nav2', 'bringup_launch.py')
         map_yaml_file = os.path.join(pkg_path, 'maps', 'cafe_world_map.yaml')
@@ -384,7 +372,6 @@ def generate_launch_description():
             robot_control,
             nav2_actions,
             rviz,
-	    pointcloud_stamper,
             # test_action
         ])
 
