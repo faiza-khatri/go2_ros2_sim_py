@@ -121,10 +121,11 @@
             <update_on_paused_sim>false</update_on_paused_sim>
             <topic>/robot1/points/points_timed</topic>
             <frame>laser_frame</frame>
-            <pattern_preset_path>/rgl_patterns/LivoxMid360.mat3x4f</pattern_preset_path>
+            <pattern_preset>Livox Mid360</pattern_preset>
         </plugin>
     </sensor>
 </gazebo>
+
 
         <gazebo reference="camera_face">
             <!-- <material>Gazebo/Black</material> -->

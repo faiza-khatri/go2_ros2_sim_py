@@ -30,6 +30,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')),
         launch_arguments={'gz_args': ['-r -v4 ', world_file], 'on_exit_shutdown': 'true'}.items()
+        #launch_arguments={'world_sdf_file': world_file, 'verbosity_level': '4'}.items()
     )
     ld.add_action(gazebo)
 

@@ -50,6 +50,7 @@ services:
     container_name: simulator
     #command: bash
     command: bash -c "source install/setup.bash && ros2 launch gazebo_sim launch.py use_sim_time:=true" 
+    #command: bash -c "source install/setup.bash && ros2 launch gazebo_sim launch.py use_sim_time:=true enable_rviz:=false"
     environment:
       <<: *env_gui
       RMW_IMPLEMENTATION: rmw_fastrtps_cpp
@@ -81,4 +82,4 @@ services:
       - ./cyclonedds.xml:/cyclonedds.xml
       - ./../gazebo_sim/glim_config:/glim/config
       - /tmp/glim_dump:/tmp/dump
-    command: ros2 run glim_ros glim_rosnode --ros-args -p config_path:=/glim/config
+    command: ros2 run glim_ros glim_rosnode --ros-args -p config_path:=/glim/config -p use_sim_time:=true

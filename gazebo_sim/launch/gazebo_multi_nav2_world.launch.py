@@ -128,27 +128,27 @@ def generate_launch_description():
             output='screen'
         )
 
-        ros_gz_bridge = Node(
+
+        
+        ros_gz_bridge_pointcloud = Node(
             package='ros_gz_bridge',
             executable='parameter_bridge',
             namespace=namespace,
-            name='ros_gz_bridge',
+            name='ros_gz_bridge_pointcloud',
             output='screen',
             arguments=[
-                f'/{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU',
-		f'/{namespace}/points/points_timed@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+                f'/{namespace}/points/points_timed@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
                 f'/{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
                 f'/{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model',
-                f'/{namespace}/color/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo',
-                f'/{namespace}/color/image_raw@sensor_msgs/msg/Image@gz.msgs.Image',
-                f'/{namespace}/color/image_rect@sensor_msgs/msg/Image@gz.msgs.Image',
-                # f'/{namespace}/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock'
+                f'/{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU',
             ],
-    remappings=[
-               (f'/{namespace}/tf', 'tf'),
-               (f'/{namespace}/tf_static', '/tf_static'),
-        ]
-        )
+            remappings=[
+                (f'/{namespace}/tf', 'tf'),
+                (f'/{namespace}/tf_static', '/tf_static'),
+            ]
+         )
+    
+
         velodyne_laserscan = Node(
             package='velodyne_laserscan',
             executable='velodyne_laserscan_node',
@@ -164,13 +164,13 @@ def generate_launch_description():
                 'use_sim_time': True,
             }]
         )
-        start_gazebo_ros_image_bridge_cmd = Node(
-            package='ros_gz_image',
-            executable='image_bridge',
-            namespace=namespace,
-            arguments=['color/image_raw', 'color/image_rect'],
-            output='screen',
-        )
+        #start_gazebo_ros_image_bridge_cmd = Node(
+            #package='ros_gz_image',
+            #executable='image_bridge',
+            #namespace=namespace,
+            #arguments=['color/image_raw', 'color/image_rect'],
+            #output='screen',
+        #)
 
 
         joint_state_broadcaster = Node(
@@ -364,11 +364,11 @@ def generate_launch_description():
         robot_group = GroupAction([
             node_robot_state_publisher,
             spawn_entity,
-            ros_gz_bridge,
+            ros_gz_bridge_pointcloud,
             tf_republisher,
             slam_toolbox,
             velodyne_laserscan,
-            start_gazebo_ros_image_bridge_cmd,
+            # start_gazebo_ros_image_bridge_cmd,
             robot_control,
             nav2_actions,
             rviz,
