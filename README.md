@@ -23,6 +23,7 @@ This repository allows you to run dog robots in the GAZEBO simulator. The robot 
 
 ```bash
 mkdir -p ~/go_sim/src
+cd ~/go_sim/src
 git clone https://github.com/quadruped-agb/go2_ros2_sim_py.git .
 cd ~/go_sim/src/docker
 docker compose -f compose.yml build simulator
