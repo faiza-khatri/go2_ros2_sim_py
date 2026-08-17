@@ -68,6 +68,30 @@ RUN git clone --depth 1 https://github.com/Livox-SDK/Livox-SDK2.git /tmp/Livox-S
   ldconfig && \
   rm -rf /tmp/Livox-SDK2
 
+
+# Install RGL Gazebo Plugin (Harmonic-tagged release, ubuntu24 build)
+RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /tmp/rgl_release && cd /tmp/rgl_release && \
+    curl -L -o rgl_release.zip \
+      "https://github.com/RobotecAI/RGLGazeboPlugin/releases/download/v0.2.0-harmonic/RGLGazeboPlugin_ubuntu24.zip" && \
+    unzip rgl_release.zip && \
+    find . -name "libRobotecGPULidar.so" -exec cp {} /opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/ \; && \
+    find . -name "libRGLServerPluginInstance.so" -exec cp {} /opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/ \; && \
+    find . -name "libRGLServerPluginManager.so" -exec cp {} /opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/ \; && \
+    mkdir -p /opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui && \
+    find . -name "libRGLVisualize.so" -exec cp {} /opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/ \; && \
+    find . -type d -name "lidar_patterns" -exec cp -r {} /rgl_patterns \; && \
+    cd / && rm -rf /tmp/rgl_release
+    
+RUN git clone --depth 1 --branch v0.2.0-harmonic https://github.com/RobotecAI/RGLGazeboPlugin.git /tmp/rgl_repo && \
+    cp -r /tmp/rgl_repo/lidar_patterns /rgl_patterns && \
+    rm -rf /tmp/rgl_repo
+
+ENV RGL_PATTERNS_DIR=/rgl_patterns
+
+
+
 # Копируем исходный код
 COPY ../ /root/ws/src
 

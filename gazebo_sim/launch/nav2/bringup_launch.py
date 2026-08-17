@@ -39,6 +39,8 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     params_file = LaunchConfiguration("params_file")
     autostart = LaunchConfiguration("autostart")
+    # add near the other LaunchConfiguration declarations
+    use_localization = LaunchConfiguration("use_localization")
 
     stdout_linebuf_envvar = SetEnvironmentVariable("RCUTILS_LOGGING_BUFFERED_STREAM", "1")
 
@@ -57,6 +59,12 @@ def generate_launch_description():
     )
 
     declare_autostart_cmd = DeclareLaunchArgument("autostart", default_value="true", description="Automatically startup the nav2 stack")
+    
+    # add near the other declare_*_cmd definitions
+    declare_use_localization_cmd = DeclareLaunchArgument(
+        "use_localization", default_value="True",
+        description="Whether to enable localization (AMCL) or not"
+    )
 
     # Specify the actions
     bringup_cmd_group = GroupAction(
@@ -69,7 +77,7 @@ def generate_launch_description():
             ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(robot_launch_dir, "localization_launch.py")),
-                condition=IfCondition(PythonExpression(["not ", slam])),
+                condition=IfCondition(PythonExpression(["not ", slam, " and ", use_localization])),
                 launch_arguments={"namespace": namespace, "map": map_yaml_file, "use_sim_time": use_sim_time, "autostart": autostart, "params_file": params_file, "use_lifecycle_mgr": "false"}.items(),
             ),
             IncludeLaunchDescription(
@@ -100,6 +108,7 @@ def generate_launch_description():
     ld.add_action(declare_use_sim_time_cmd)
     ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_autostart_cmd)
+    ld.add_action(declare_use_localization_cmd)
 
     # Add the actions to launch all of the navigation nodes
     ld.add_action(bringup_cmd_group)

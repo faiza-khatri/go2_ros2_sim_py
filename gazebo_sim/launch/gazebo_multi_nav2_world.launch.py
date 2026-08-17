@@ -54,21 +54,21 @@ def generate_launch_description():
         ("/odom", "odometry/filtered")
     ]
     
-    map_server = Node(package='nav2_map_server',
-                      executable='map_server',
-                      name='map_server',
-                      output='screen',
-                      parameters=[{'yaml_filename': os.path.join(pkg_path, 'maps', 'cambridge.yaml'),
-                                   }, ],
-                      remappings=remappings_initial)
+    #map_server = Node(package='nav2_map_server',
+    #                  executable='map_server',
+    #                  name='map_server',
+    #                  output='screen',
+    #                  parameters=[{'yaml_filename': os.path.join(pkg_path, 'maps', 'cambridge.yaml'),
+    #                               }, ],
+    #                  remappings=remappings_initial)
 
-    map_server_lifecycle = Node(package='nav2_lifecycle_manager',
-                                executable='lifecycle_manager',
-                                name='lifecycle_manager_map_server',
-                                output='screen',
-                                parameters=[{'use_sim_time': use_sim_time},
-                                            {'autostart': True},
-                                            {'node_names': ['map_server']}])
+    #map_server_lifecycle = Node(package='nav2_lifecycle_manager',
+    #                            executable='lifecycle_manager',
+    #                            name='lifecycle_manager_map_server',
+    #                            output='screen',
+    #                            parameters=[{'use_sim_time': use_sim_time},
+    #                                        {'autostart': True},
+    #                                        {'node_names': ['map_server']}])
 
     # ld.add_action(map_server)
     # ld.add_action(map_server_lifecycle)
@@ -128,49 +128,49 @@ def generate_launch_description():
             output='screen'
         )
 
-        ros_gz_bridge = Node(
+
+        
+        ros_gz_bridge_pointcloud = Node(
             package='ros_gz_bridge',
             executable='parameter_bridge',
             namespace=namespace,
-            name='ros_gz_bridge',
+            name='ros_gz_bridge_pointcloud',
             output='screen',
             arguments=[
-                f'/{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU',
-                f'/{namespace}/points/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+                f'/{namespace}/points/points_timed@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
                 f'/{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
                 f'/{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model',
-                f'/{namespace}/color/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo',
-                f'/{namespace}/color/image_raw@sensor_msgs/msg/Image@gz.msgs.Image',
-                f'/{namespace}/color/image_rect@sensor_msgs/msg/Image@gz.msgs.Image',
-                # f'/{namespace}/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock'
+                f'/{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU',
             ],
-    remappings=[
-               (f'/{namespace}/tf', 'tf'),
-               (f'/{namespace}/tf_static', '/tf_static'),
-        ]
-        )
-        velodyne_laserscan = Node(
-            package='velodyne_laserscan',
-            executable='velodyne_laserscan_node',
-            name='velodyne_laserscan',
-            namespace=namespace,
             remappings=[
-                ('velodyne_points', f'/{namespace}/points/points'),
-                ('scan', f'/{namespace}/scan'),
-            ],
-            parameters=[{
-                'ring': 5,
-                'resolution': 0.007,
-                'use_sim_time': True,
-            }]
-        )
-        start_gazebo_ros_image_bridge_cmd = Node(
-            package='ros_gz_image',
-            executable='image_bridge',
-            namespace=namespace,
-            arguments=['color/image_raw', 'color/image_rect'],
-            output='screen',
-        )
+                (f'/{namespace}/tf', 'tf'),
+                (f'/{namespace}/tf_static', '/tf_static'),
+            ]
+         )
+    
+
+        #velodyne_laserscan = Node(
+            #package='velodyne_laserscan',
+            #executable='velodyne_laserscan_node',
+            #name='velodyne_laserscan',
+            #namespace=namespace,
+            #remappings=[
+            #    ('velodyne_points', f'/{namespace}/points/points'),
+            #   ('scan', f'/{namespace}/scan'),
+            #],
+            #parameters=[{
+            #    'ring': 5,
+            #    'resolution': 0.007,
+            #    'use_sim_time': True,
+            #}]
+        #)
+        #start_gazebo_ros_image_bridge_cmd = Node(
+            #package='ros_gz_image',
+            #executable='image_bridge',
+            #namespace=namespace,
+            #arguments=['color/image_raw', 'color/image_rect'],
+            #output='screen',
+        #)
 
 
         joint_state_broadcaster = Node(
@@ -264,22 +264,25 @@ def generate_launch_description():
         bringup_cmd = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(nav2_launch_file),
             launch_arguments={
-                'map': map_yaml_file,
-                'use_namespace': 'True',
+                #'map': map_yaml_file,
+                'map': '',
+                'use_namespace': 'False',
                 'namespace': namespace,
                 'params_file': params_file,  
                 'autostart': 'true',
                 'use_sim_time': 'true',
                 'log_level': 'warn',
-                'map_server': 'False'
+                'slam': 'False',
+                'use_localization': 'False',
+                #'map_server': 'False'
             }.items()
         )
 
         nav2_actions = GroupAction([
-            SetRemap(src="/tf", dst="tf"),
-            SetRemap(src="/tf_static", dst="tf_static"),
+            #SetRemap(src="/tf", dst="tf"),
+            #SetRemap(src="/tf_static", dst="tf_static"),
             bringup_cmd,
-            initial_pose_cmd,
+            #initial_pose_cmd,
         ])
 
         rviz_launch_file = os.path.join(pkg_path, 'launch', 'rviz_launch.py')
@@ -289,7 +292,7 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(rviz_launch_file),
             launch_arguments={
                 "namespace": namespace,
-                "use_namespace": 'true',
+                "use_namespace": 'false',
                 "rviz_config": rviz_config_file,
             }.items(),
             condition=IfCondition(enable_rviz)
@@ -314,15 +317,15 @@ def generate_launch_description():
         )
         robot_localization_file_path = os.path.join(pkg_path, 'config', 'ekf.yaml')
         # Start robot localization using an Extended Kalman filter
-        start_robot_localization_cmd = Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_filter_node',
-            namespace=namespace,
-            output='screen',
-            parameters=[robot_localization_file_path, 
-            {'use_sim_time': use_sim_time}],
-            remappings=remappings)
+        #start_robot_localization_cmd = Node(
+            #package='robot_localization',
+            #executable='ekf_node',
+            #name='ekf_filter_node',
+            #namespace=namespace,
+            #output='screen',
+            #parameters=[robot_localization_file_path, 
+            #{'use_sim_time': use_sim_time}],
+            #remappings=remappings)
 
 
         robot_control = GroupAction([
@@ -333,7 +336,7 @@ def generate_launch_description():
             controller,
             cmd_vel_pub,
             odom,
-            start_robot_localization_cmd,
+            #start_robot_localization_cmd,
             # aprilTag,
             fake_bms,
         ])
@@ -345,46 +348,38 @@ def generate_launch_description():
             output='screen',
             remappings=remappings
         )
-        slam_toolbox = Node(
-            package='slam_toolbox',
-            executable='async_slam_toolbox_node',
-            name='slam_toolbox',
-            namespace=namespace,
-            output='screen',
-            parameters=[
-                os.path.join(pkg_path, 'config', 'slam_toolbox_params.yaml'),
-                {
-                    'use_sim_time': True,
-                    'base_frame': 'base_link',
-                    'odom_frame': 'odom',
-                    'map_frame': 'map',
-                    'scan_topic': f'/{namespace}/scan',
-                }
-            ],
-            remappings=[
-                ('/map', f'/{namespace}/map'),
-                ('/map_metadata', f'/{namespace}/map_metadata'),
-            ],
-        )
+        
         tf_republisher = Node(
             package='gazebo_sim',
             executable='tf_republisher.py',
             name='tf_republisher',
             output='screen',
         )
+        
+        ground_filter = Node(
+            package='gazebo_sim',
+            executable='ground_filter.py',
+            namespace=namespace,
+            name='ground_filter',
+            output='screen',
+            parameters=[{
+                'input_topic': f'/{namespace}/points/points_timed',
+                'output_topic': '/livox/points_filtered',
+                'ground_z_thresh': 0.15,
+            }],
+        )
         # Группировка всех действий для робота
         robot_group = GroupAction([
             node_robot_state_publisher,
             spawn_entity,
-            ros_gz_bridge,
+            ros_gz_bridge_pointcloud,
             tf_republisher,
-            slam_toolbox,
-            velodyne_laserscan,
-            start_gazebo_ros_image_bridge_cmd,
+            #velodyne_laserscan,
+            # start_gazebo_ros_image_bridge_cmd,
+            ground_filter,        # <-- added
             robot_control,
             nav2_actions,
             rviz,
-	    pointcloud_stamper,
             # test_action
         ])
 

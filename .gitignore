@@ -4,3 +4,4 @@ gazebo_sim/world/cafe.world
 build/
 install/
 log/
+*.mcap

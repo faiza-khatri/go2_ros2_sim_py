@@ -39,7 +39,7 @@ def generate_launch_description():
     # Include the Gazebo launch file, provided by the ros_gz_sim package
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
+                    get_package_share_directory('ros_gz_sim'), 'launch', 'gz_server.launch.py')]),
                     launch_arguments={'gz_args': ['-r -v4 ', world], 'on_exit_shutdown': 'true'}.items()
              )
 
@@ -76,7 +76,7 @@ def generate_launch_description():
         arguments=[
             f"{namespace}/imu_plugin/out@sensor_msgs/msg/Imu@gz.msgs.IMU",
 	    f"{namespace}/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
-	    f"{namespace}/points/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
+	    f"{namespace}/points/points_timed@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
             f"{namespace}/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
             f"{namespace}/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model"
         ]
@@ -185,13 +185,6 @@ def generate_launch_description():
         ]
     )
 
-
-    pointcloud_stamper = Node(
-    package='gazebo_sim',
-    executable='pointcloud_stamper.py',
-    name='pointcloud_stamper',
-    output='screen',
-    )
 
     # Launch them all!
     return LaunchDescription([
