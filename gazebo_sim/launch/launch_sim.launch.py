@@ -200,5 +200,6 @@ def generate_launch_description():
         cmd_vel_pub,
         odom,
         rviz,
+        pointcloud_stamper
         # bringup_cmd
     ])
