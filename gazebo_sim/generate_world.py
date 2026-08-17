@@ -313,8 +313,7 @@ world = f"""<?xml version="1.0" ?>
         </visual>
       </link>
     </model>
-    
-{terrain_collision_xml}
+
 
 {tree_xml_spruce}
 {tree_xml_fir}

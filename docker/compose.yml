@@ -79,6 +79,7 @@ services:
       RMW_IMPLEMENTATION: rmw_fastrtps_cpp
       ROS_DOMAIN_ID: 0
     volumes:
+      - /home/administrator/ros_bags:/root/ros2_ws/bags:ro
       - ./cyclonedds.xml:/cyclonedds.xml
       - ./../gazebo_sim/glim_config:/glim/config
       - /tmp/glim_dump:/tmp/dump

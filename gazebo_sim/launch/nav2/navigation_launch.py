@@ -51,7 +51,7 @@ def generate_launch_description():
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {"use_sim_time": use_sim_time, "autostart": autostart, "scan_topic": f'{namespace}/scan'}
 
-    configured_params = RewrittenYaml(source_file=params_file, root_key=namespace, param_rewrites=param_substitutions, convert_types=True)
+    configured_params = RewrittenYaml(source_file=params_file, root_key='', param_rewrites=param_substitutions, convert_types=True)
 
     return LaunchDescription(
         [

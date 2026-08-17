@@ -3,13 +3,18 @@ docker exec -it simulator bash
 source /opt/ros/jazzy/setup.bash
 source /root/ws/install/setup.bash
 
-os2 bag record --use-sim-time   -o /root/ws/src/bags/$(date +%Y%m%d_%H%M%S)   --topics   /clock   /tf   /tf_static   /robot1/points/points_timed   /robot1/imu_plugin/out   /robot1/odom   /robot1/color/image_raw   /robot1/cmd_vel 
+ros2 bag record --use-sim-time   -o /root/ws/src/bags/$(date +%Y%m%d_%H%M%S)   --topics   /clock   /tf   /tf_static   /robot1/points/points_timed   /robot1/imu_plugin/out   /robot1/odom   /robot1/color/image_raw   /robot1/cmd_vel 
 
 then after recording, do CTRL-C
 then to play, run:
 docker compose -f compose.yml run --rm --name playback_shell simulator bash
 ros2 bag play /root/ws/src/bags/20260709_114018 (rosbag name)
 
+
+Runnning rosbag in glim offline viewer:
+docker compose -f compose.yml run --rm --name shell glim bash
+source /root/ros2_ws/install/setup.bash
+ros2 run glim_ros glim_rosbag /root/ros2_ws/bags/forest_dataset_49 --ros-args -p config_path:=/glim/config
 
 reducing CPU overload:
         ros_gz_bridge = Node(
