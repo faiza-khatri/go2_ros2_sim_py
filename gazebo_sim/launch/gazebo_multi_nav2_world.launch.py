@@ -229,7 +229,7 @@ def generate_launch_description():
                 'base_frame_id': "base_link",
                 'odom_frame_id': "odom",
                 'clock_topic': f'/clock',
-                'enable_odom_tf': True,
+                'enable_odom_tf': False,
             }],
             remappings=remappings
         )

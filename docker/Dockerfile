@@ -72,6 +72,12 @@ RUN git clone --depth 1 https://github.com/Livox-SDK/Livox-SDK2.git /tmp/Livox-S
 # Install RGL Gazebo Plugin (Harmonic-tagged release, ubuntu24 build)
 RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y \
+    ros-jazzy-octomap-server \
+    ros-jazzy-octomap-msgs \
+    ros-jazzy-octomap-ros \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN mkdir -p /tmp/rgl_release && cd /tmp/rgl_release && \
     curl -L -o rgl_release.zip \
       "https://github.com/RobotecAI/RGLGazeboPlugin/releases/download/v0.2.0-harmonic/RGLGazeboPlugin_ubuntu24.zip" && \
