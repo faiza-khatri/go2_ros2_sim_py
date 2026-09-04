@@ -56,7 +56,7 @@
     // TF config
     "imu_frame_id": "", // Auto-detect if blank
     "lidar_frame_id": "", // Auto-detect if blank
-    "base_frame_id": "", // If blank, IMU frame ID is used
+    "base_frame_id": "base_link", // If blank, IMU frame ID is used
     "odom_frame_id": "odom",
     "map_frame_id": "map",
     "publish_imu2lidar": true,
@@ -69,12 +69,12 @@
       // "libimu_validator.so"
     ],
     // Topics
-    //"imu_topic": "/robot1/imu_plugin/out",
-    //"points_topic": "/robot1/points/points_timed",
-    //"image_topic": "/image",
-    "imu_topic": "/unitree_go2/imu",
-    "points_topic": "/unitree_go2/lidar/point_cloud",
-    "image_topic": "/unitree_go2/front_cam/color_image",
+    "imu_topic": "/robot1/imu_plugin/out",
+    "points_topic": "/robot1/points/points_timed",
+    "image_topic": "/image",
+    //"imu_topic": "/unitree_go2/imu",
+    //"points_topic": "/unitree_go2/lidar/point_cloud",
+    //"image_topic": "/unitree_go2/front_cam/color_image",
     // QoS options
     "imu_qos": {
       "profile": "sensor_data",
